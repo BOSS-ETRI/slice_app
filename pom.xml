@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ~ Copyright 2021 Open Networking Foundation ~ ~ Licensed under the Apache 
+	License, Version 2.0 (the "License"); ~ you may not use this file except 
+	in compliance with the License. ~ You may obtain a copy of the License at 
+	~ ~ http://www.apache.org/licenses/LICENSE-2.0 ~ ~ Unless required by applicable 
+	law or agreed to in writing, software ~ distributed under the License is 
+	distributed on an "AS IS" BASIS, ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY 
+	KIND, either express or implied. ~ See the License for the specific language 
+	governing permissions and ~ limitations under the License. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.onosproject</groupId>
+		<artifactId>onos-dependencies</artifactId>
+		<version>2.2.7</version>
+	</parent>
+
+	<groupId>org.etri</groupId>
+	<artifactId>slice_app</artifactId>
+	<version>1.0.0</version>
+	<packaging>pom</packaging>
+
+	<description>ONOS OSGi bundle archetype</description>
+	<url>http://onosproject.org</url>
+
+	<properties>
+		<!-- Uncomment to generate ONOS app from this module. <onos.app.name>org.foo.app</onos.app.name> 
+			<onos.app.title>Foo App</onos.app.title> <onos.app.origin>Foo, Inc.</onos.app.origin> 
+			<onos.app.category>default</onos.app.category> <onos.app.url>http://onosproject.org</onos.app.url> 
+			<onos.app.readme>ONOS OSGi bundle archetype.</onos.app.readme> -->
+		<onos.app.name>org.etri.slice</onos.app.name>
+		<onos.app.title>ETRI Slice management</onos.app.title>
+		<onos.app.origin>ETRI</onos.app.origin>
+		<onos.app.category>default</onos.app.category>
+		<onos.app.url>http://opencord.org</onos.app.url>
+		<onos.app.readme>
+			ETRI Slice management application
+		</onos.app.readme>
+		<sis.api.version>1.0.0</sis.api.version>
+		<slice.api.version>1.0.0</slice.api.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<!-- main proj -->
+			<groupId>org.onosproject</groupId>
+			<artifactId>onos-api</artifactId>
+			<version>${onos.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.onosproject</groupId>
+			<artifactId>onlab-misc</artifactId>
+			<version>${onos.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- main proj -->
+		<!-- api proj -->
+		<dependency>
+			<groupId>org.etri</groupId>
+			<artifactId>sis-api</artifactId>
+			<version>${sis.api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- api proj -->
+		<!-- impl proj -->
+		<dependency>
+			<groupId>org.etri</groupId>
+			<artifactId>slice-api</artifactId>
+			<version>${slice.api.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.etri</groupId>
+			<artifactId>sis-api</artifactId>
+			<version>${sis.api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.onosproject</groupId>
+			<artifactId>onlab-osgi</artifactId>
+			<version>${onos.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.onosproject</groupId>
+			<artifactId>onos-api</artifactId>
+			<version>${onos.version}</version>
+			<scope>test</scope>
+			<classifier>tests</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>org.onosproject</groupId>
+			<artifactId>onos-cli</artifactId>
+			<version>${onos.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.karaf.shell</groupId>
+			<artifactId>org.apache.karaf.shell.console</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- impl proj -->
+
+		
+	</dependencies>
+
+	<build>
+
+		<plugins>
+			<!-- main proj -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<configuration>
+					<sourceDirectories>${project.build.sourceDirectory}</sourceDirectories>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<!-- SpotBugs Static Analysis -->
+			<plugin>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<version>4.0.4</version>
+				<configuration>
+					<effort>Max</effort>
+					<threshold>Low</threshold>
+					<failOnError>false</failOnError>
+					<includeFilterFile>${session.executionRootDirectory}/spotbugs-security-include.xml</includeFilterFile>
+					<excludeFilterFile>${session.executionRootDirectory}/spotbugs-security-exclude.xml</excludeFilterFile>
+					<plugins>
+						<plugin>
+							<groupId>com.h3xstream.findsecbugs</groupId>
+							<artifactId>findsecbugs-plugin</artifactId>
+							<version>1.10.1</version>
+						</plugin>
+					</plugins>
+				</configuration>
+			</plugin>
+			<!-- main proj -->
+			<!-- api proj -->
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-checkstyle-plugin</artifactId> 
+				</plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+			<!-- api proj -->
+			<!-- app proj -->
+			<plugin>
+				<groupId>org.onosproject</groupId>
+				<artifactId>onos-maven-plugin</artifactId>
+			</plugin>
+			<!-- app proj -->
+
+			<!-- impl proj -->
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<configuration>
+					<instructions>
+						<Karaf-Commands>org.etri.slice.cli</Karaf-Commands>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+
+	</build>
+
+	<repositories>
+
+		<repository>
+
+			<id>central</id>
+
+			<name>Central Repository</name>
+
+			<url>https://repo.maven.apache.org/maven2</url>
+
+			<layout>default</layout>
+
+			<snapshots>
+
+				<enabled>false</enabled>
+
+			</snapshots>
+
+			<releases>
+
+				<enabled>true</enabled>
+
+				<updatePolicy>always</updatePolicy>
+
+				<checksumPolicy>fail</checksumPolicy>
+
+			</releases>
+
+		</repository>
+
+		<repository>
+
+			<id>snapshots</id>
+
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+
+			<snapshots>
+
+				<enabled>true</enabled>
+
+				<updatePolicy>always</updatePolicy>
+
+				<checksumPolicy>fail</checksumPolicy>
+
+			</snapshots>
+
+		</repository>
+
+	</repositories>
+
+	<pluginRepositories>
+
+		<pluginRepository>
+
+			<id>sonatype-snapshots</id>
+
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+
+			<snapshots>
+
+				<enabled>true</enabled>
+
+				<updatePolicy>always</updatePolicy>
+
+				<checksumPolicy>fail</checksumPolicy>
+
+			</snapshots>
+
+		</pluginRepository>
+
+	</pluginRepositories>
+
+	<distributionManagement>
+
+		<snapshotRepository>
+
+			<id>ossrh</id>
+
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+
+		</snapshotRepository>
+
+	</distributionManagement>
+
+
+</project>
