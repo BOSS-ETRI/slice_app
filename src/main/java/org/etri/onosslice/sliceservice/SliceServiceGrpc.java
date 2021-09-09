@@ -24,7 +24,7 @@ public final class SliceServiceGrpc {
 
   private SliceServiceGrpc() {}
 
-  public static final String SERVICE_NAME = "SliceService";
+  public static final String SERVICE_NAME = "onossliceservice.SliceService";
 
   // Static method descriptors that strictly reflect the proto.
   private static volatile io.grpc.MethodDescriptor<org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest,
@@ -45,7 +45,7 @@ public final class SliceServiceGrpc {
               io.grpc.MethodDescriptor.<org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest, org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "SliceService", "AddSlice"))
+                  "onossliceservice.SliceService", "AddSlice"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest.getDefaultInstance()))

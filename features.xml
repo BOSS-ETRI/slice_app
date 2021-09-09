@@ -18,8 +18,9 @@
     <feature name="${project.artifactId}" version="${project.version}"
              description="${project.description}">
         <feature>onos-api</feature>
-        <bundle>mvn:${project.groupId}/slice-api/${slice.api.version}</bundle>
-        <bundle>mvn:${project.groupId}/slice-impl/${project.version}</bundle>
+        <!-- <bundle>mvn:${project.groupId}/slice-api/${slice.api.version}</bundle> -->
+        <!-- <bundle>mvn:${project.groupId}/slice-impl/${project.version}</bundle> -->
         <bundle>mvn:org.etri/sis-api/${sis.api.version}</bundle>
+        <bundle>mvn:${project.groupId}/${project.artifactId}/${project.version}</bundle>
     </feature>
 </features>

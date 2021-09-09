@@ -19,6 +19,8 @@ import org.apache.karaf.shell.api.action.Argument;
 import org.apache.karaf.shell.api.action.Command;
 import org.apache.karaf.shell.api.action.lifecycle.Service;
 import org.onosproject.cli.AbstractShellCommand;
+import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest;
+import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse;
 import org.etri.sis.SliceProfileInformation;
 
 import org.etri.slice.api.SliceCtrlService;
@@ -37,12 +39,40 @@ public class SliceAddCommand extends AbstractShellCommand {
                 SliceCtrlService service = AbstractShellCommand.get(SliceCtrlService.class);
 
                 SliceProfileInformation info = service.provisionSlice(sliceName);
-		if (info != null) {
-                    System.out.println("             PROVISIONED SLICE ENTRY             ");
+                if (info != null) {
+                	System.out.println("                            2021-09-09          ");
+                    System.out.println("             PROVISIONED SLICE ENTRY            ");
                     System.out.println("-------------------------------------------------");
                     System.out.println("  ID\t|  Service Type\t|  DBA Type\t|  TP ID");
                     System.out.println("-------------------------------------------------");
-                     System.out.printf(" %s\t|  %s\t|  %s\t|  %d\n", info.id(), info.serviceType(), info.dbaType(), info.technologyProfileId());
+                    System.out.printf(" %s\t|  %s\t|  %s\t|  %d\n", info.id(), info.serviceType(), info.dbaType(), info.technologyProfileId());
+                    int dbaType;
+                    int serviceType;
+                    if(info.serviceType().equals("Residential")) {
+                    	serviceType =1;
+                    }else if(info.serviceType().equals("Mobile")) {
+                    	serviceType = 2;
+                    }else {
+                    	serviceType = 0;
+                    }
+                    
+                    if(info.dbaType().equals("SR-DBA")) {
+                    	dbaType = 0;
+                    }else if(info.dbaType().equals("CO-DBA")) {
+                    	dbaType=2;
+                    }else {
+                    	dbaType=1;
+                    }
+                    
+                    AddSliceRequest request =null;
+                    request.newBuilder()
+                    		.setTechnologyProfileId(info.technologyProfileId()).setSliceName(info.id())
+                    		.setSliceTypeValue(serviceType).setDbaTypeValue(dbaType).build();
+                    
+                    AddSliceResponse response = service.AddSlice(request);
+                    
+                    System.out.printf("%s", response.getResult());
+                    
                 } else {
                     System.out.println("!SLICE ENTRY NOT FOUND!");
                 }

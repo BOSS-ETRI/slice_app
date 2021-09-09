@@ -16,7 +16,10 @@
 package org.etri.slice.impl;
 
 import org.onosproject.cfg.ComponentConfigService;
+import org.onosproject.event.AbstractListenerManager;
 import org.onosproject.net.ConnectPoint;
+import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest;
+import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse;
 import org.etri.sis.BaseInformationService;
 import org.etri.sis.SliceProfileInformation;
 import org.etri.sis.SadisService;
@@ -31,27 +34,51 @@ import org.osgi.service.component.annotations.ReferencePolicy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.etri.slice.api.SliceCtrlEvent;
+import org.etri.slice.api.SliceCtrlListener;
 import org.etri.slice.api.SliceCtrlService;
 
 import java.util.Dictionary;
 import java.util.Properties;
 
+import static org.etri.slice.impl.OsgiPropertyConstants.DEFAULT_BP_ID_DEFAULT;
+import static org.etri.slice.impl.OsgiPropertyConstants.DEFAULT_MCAST_SERVICE_NAME_DEFAULT;
+import static org.etri.slice.impl.OsgiPropertyConstants.EAPOL_DELETE_RETRY_MAX_ATTEMPS_DEFAULT;
+import static org.etri.slice.impl.OsgiPropertyConstants.PROVISION_DELAY_DEFAULT;
+import static org.etri.slice.impl.OsgiPropertyConstants.DEFAULT_BP_ID;
+import static org.etri.slice.impl.OsgiPropertyConstants.DEFAULT_BP_ID_DEFAULT;
+import static org.etri.slice.impl.OsgiPropertyConstants.DEFAULT_MCAST_SERVICE_NAME;
+import static org.etri.slice.impl.OsgiPropertyConstants.DEFAULT_MCAST_SERVICE_NAME_DEFAULT;
+import static org.etri.slice.impl.OsgiPropertyConstants.EAPOL_DELETE_RETRY_MAX_ATTEMPS;
+import static org.etri.slice.impl.OsgiPropertyConstants.EAPOL_DELETE_RETRY_MAX_ATTEMPS_DEFAULT;
+import static org.etri.slice.impl.OsgiPropertyConstants.PROVISION_DELAY;
+import static org.etri.slice.impl.OsgiPropertyConstants.PROVISION_DELAY_DEFAULT;
 import static org.onlab.util.Tools.get;
 
 /**
  * Skeletal ONOS application component.
  */
+/*
+ * @Component(immediate = true, service = {SliceCtrlService.class}, property = {
+ * "someProperty=Some Default String Value", })
+ */
 @Component(immediate = true,
-           service = {SliceCtrlService.class},
-           property = {
-               "someProperty=Some Default String Value",
-           })
-public class Slice implements SliceCtrlService {
+service = {SliceCtrlService.class},
+property = {
+        DEFAULT_BP_ID + ":String=" + DEFAULT_BP_ID_DEFAULT,
+        DEFAULT_MCAST_SERVICE_NAME + ":String=" + DEFAULT_MCAST_SERVICE_NAME_DEFAULT,
+        EAPOL_DELETE_RETRY_MAX_ATTEMPS + ":Integer=" +
+                EAPOL_DELETE_RETRY_MAX_ATTEMPS_DEFAULT,
+        PROVISION_DELAY + ":Integer=" + PROVISION_DELAY_DEFAULT,
+})
+public class Slice extends AbstractListenerManager<SliceCtrlEvent, SliceCtrlListener> implements SliceCtrlService {
     private static final String SADIS_NOT_RUNNING = "Sadis is not running.";
 
     private final Logger log = LoggerFactory.getLogger(getClass());
-
+    protected String defaultBpId = DEFAULT_BP_ID_DEFAULT;
+    protected String multicastServiceName = DEFAULT_MCAST_SERVICE_NAME_DEFAULT;
+    protected int eapolDeleteRetryMaxAttempts = EAPOL_DELETE_RETRY_MAX_ATTEMPS_DEFAULT;
+    protected int provisionDelay = PROVISION_DELAY_DEFAULT;
     /** Some configurable property. */
     private String someProperty;
 
@@ -65,7 +92,7 @@ public class Slice implements SliceCtrlService {
     protected volatile SadisService sadisService;    
 
     protected BaseInformationService<SliceProfileInformation> sliceService;
-
+    protected volthaMgmtGrpcClient client;
     @Activate
     protected void activate() {
         cfgService.registerProperties(getClass());
@@ -75,7 +102,7 @@ public class Slice implements SliceCtrlService {
         } else {
             log.warn(SADIS_NOT_RUNNING);
         }
-
+        client = new volthaMgmtGrpcClient(log);
         log.info("Started");
     }
 
@@ -115,5 +142,11 @@ public class Slice implements SliceCtrlService {
 
         SliceProfileInformation info = sliceService.get(sliceName);
 	return info;
+    }
+    @Override
+    public AddSliceResponse AddSlice(AddSliceRequest request) {
+    	
+    	AddSliceResponse response = client.AddSlice(request);
+    	return response;
     }
 }

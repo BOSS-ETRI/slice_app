@@ -15,7 +15,7 @@ public final class ONOSSliceService {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   public interface AddSliceRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:AddSliceRequest)
+      // @@protoc_insertion_point(interface_extends:onossliceservice.AddSliceRequest)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -37,33 +37,33 @@ public final class ONOSSliceService {
         getSliceNameBytes();
 
     /**
-     * <code>.AddSliceRequest.SliceType slice_type = 3;</code>
+     * <code>.onossliceservice.AddSliceRequest.SliceType slice_type = 3;</code>
      * @return The enum numeric value on the wire for sliceType.
      */
     int getSliceTypeValue();
     /**
-     * <code>.AddSliceRequest.SliceType slice_type = 3;</code>
+     * <code>.onossliceservice.AddSliceRequest.SliceType slice_type = 3;</code>
      * @return The sliceType.
      */
     org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest.SliceType getSliceType();
 
     /**
-     * <code>.AddSliceRequest.DbaType dba_type = 4;</code>
+     * <code>.onossliceservice.AddSliceRequest.DbaType dba_type = 4;</code>
      * @return The enum numeric value on the wire for dbaType.
      */
     int getDbaTypeValue();
     /**
-     * <code>.AddSliceRequest.DbaType dba_type = 4;</code>
+     * <code>.onossliceservice.AddSliceRequest.DbaType dba_type = 4;</code>
      * @return The dbaType.
      */
     org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest.DbaType getDbaType();
   }
   /**
-   * Protobuf type {@code AddSliceRequest}
+   * Protobuf type {@code onossliceservice.AddSliceRequest}
    */
   public static final class AddSliceRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:AddSliceRequest)
+      // @@protoc_insertion_point(message_implements:onossliceservice.AddSliceRequest)
       AddSliceRequestOrBuilder {
   private static final long serialVersionUID = 0L;
     // Use AddSliceRequest.newBuilder() to construct.
@@ -150,19 +150,19 @@ public final class ONOSSliceService {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_AddSliceRequest_descriptor;
+      return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_onossliceservice_AddSliceRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_AddSliceRequest_fieldAccessorTable
+      return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_onossliceservice_AddSliceRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest.class, org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest.Builder.class);
     }
 
     /**
-     * Protobuf enum {@code AddSliceRequest.SliceType}
+     * Protobuf enum {@code onossliceservice.AddSliceRequest.SliceType}
      */
     public enum SliceType
         implements com.google.protobuf.ProtocolMessageEnum {
@@ -275,11 +275,11 @@ public final class ONOSSliceService {
         this.value = value;
       }
 
-      // @@protoc_insertion_point(enum_scope:AddSliceRequest.SliceType)
+      // @@protoc_insertion_point(enum_scope:onossliceservice.AddSliceRequest.SliceType)
     }
 
     /**
-     * Protobuf enum {@code AddSliceRequest.DbaType}
+     * Protobuf enum {@code onossliceservice.AddSliceRequest.DbaType}
      */
     public enum DbaType
         implements com.google.protobuf.ProtocolMessageEnum {
@@ -392,7 +392,7 @@ public final class ONOSSliceService {
         this.value = value;
       }
 
-      // @@protoc_insertion_point(enum_scope:AddSliceRequest.DbaType)
+      // @@protoc_insertion_point(enum_scope:onossliceservice.AddSliceRequest.DbaType)
     }
 
     public static final int TECHNOLOGY_PROFILE_ID_FIELD_NUMBER = 1;
@@ -447,14 +447,14 @@ public final class ONOSSliceService {
     public static final int SLICE_TYPE_FIELD_NUMBER = 3;
     private int sliceType_;
     /**
-     * <code>.AddSliceRequest.SliceType slice_type = 3;</code>
+     * <code>.onossliceservice.AddSliceRequest.SliceType slice_type = 3;</code>
      * @return The enum numeric value on the wire for sliceType.
      */
     @java.lang.Override public int getSliceTypeValue() {
       return sliceType_;
     }
     /**
-     * <code>.AddSliceRequest.SliceType slice_type = 3;</code>
+     * <code>.onossliceservice.AddSliceRequest.SliceType slice_type = 3;</code>
      * @return The sliceType.
      */
     @java.lang.Override public org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest.SliceType getSliceType() {
@@ -466,14 +466,14 @@ public final class ONOSSliceService {
     public static final int DBA_TYPE_FIELD_NUMBER = 4;
     private int dbaType_;
     /**
-     * <code>.AddSliceRequest.DbaType dba_type = 4;</code>
+     * <code>.onossliceservice.AddSliceRequest.DbaType dba_type = 4;</code>
      * @return The enum numeric value on the wire for dbaType.
      */
     @java.lang.Override public int getDbaTypeValue() {
       return dbaType_;
     }
     /**
-     * <code>.AddSliceRequest.DbaType dba_type = 4;</code>
+     * <code>.onossliceservice.AddSliceRequest.DbaType dba_type = 4;</code>
      * @return The dbaType.
      */
     @java.lang.Override public org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest.DbaType getDbaType() {
@@ -668,21 +668,21 @@ public final class ONOSSliceService {
       return builder;
     }
     /**
-     * Protobuf type {@code AddSliceRequest}
+     * Protobuf type {@code onossliceservice.AddSliceRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:AddSliceRequest)
+        // @@protoc_insertion_point(builder_implements:onossliceservice.AddSliceRequest)
         org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_AddSliceRequest_descriptor;
+        return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_onossliceservice_AddSliceRequest_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_AddSliceRequest_fieldAccessorTable
+        return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_onossliceservice_AddSliceRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest.class, org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest.Builder.class);
       }
@@ -719,7 +719,7 @@ public final class ONOSSliceService {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_AddSliceRequest_descriptor;
+        return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_onossliceservice_AddSliceRequest_descriptor;
       }
 
       @java.lang.Override
@@ -942,14 +942,14 @@ public final class ONOSSliceService {
 
       private int sliceType_ = 0;
       /**
-       * <code>.AddSliceRequest.SliceType slice_type = 3;</code>
+       * <code>.onossliceservice.AddSliceRequest.SliceType slice_type = 3;</code>
        * @return The enum numeric value on the wire for sliceType.
        */
       @java.lang.Override public int getSliceTypeValue() {
         return sliceType_;
       }
       /**
-       * <code>.AddSliceRequest.SliceType slice_type = 3;</code>
+       * <code>.onossliceservice.AddSliceRequest.SliceType slice_type = 3;</code>
        * @param value The enum numeric value on the wire for sliceType to set.
        * @return This builder for chaining.
        */
@@ -960,7 +960,7 @@ public final class ONOSSliceService {
         return this;
       }
       /**
-       * <code>.AddSliceRequest.SliceType slice_type = 3;</code>
+       * <code>.onossliceservice.AddSliceRequest.SliceType slice_type = 3;</code>
        * @return The sliceType.
        */
       @java.lang.Override
@@ -970,7 +970,7 @@ public final class ONOSSliceService {
         return result == null ? org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest.SliceType.UNRECOGNIZED : result;
       }
       /**
-       * <code>.AddSliceRequest.SliceType slice_type = 3;</code>
+       * <code>.onossliceservice.AddSliceRequest.SliceType slice_type = 3;</code>
        * @param value The sliceType to set.
        * @return This builder for chaining.
        */
@@ -984,7 +984,7 @@ public final class ONOSSliceService {
         return this;
       }
       /**
-       * <code>.AddSliceRequest.SliceType slice_type = 3;</code>
+       * <code>.onossliceservice.AddSliceRequest.SliceType slice_type = 3;</code>
        * @return This builder for chaining.
        */
       public Builder clearSliceType() {
@@ -996,14 +996,14 @@ public final class ONOSSliceService {
 
       private int dbaType_ = 0;
       /**
-       * <code>.AddSliceRequest.DbaType dba_type = 4;</code>
+       * <code>.onossliceservice.AddSliceRequest.DbaType dba_type = 4;</code>
        * @return The enum numeric value on the wire for dbaType.
        */
       @java.lang.Override public int getDbaTypeValue() {
         return dbaType_;
       }
       /**
-       * <code>.AddSliceRequest.DbaType dba_type = 4;</code>
+       * <code>.onossliceservice.AddSliceRequest.DbaType dba_type = 4;</code>
        * @param value The enum numeric value on the wire for dbaType to set.
        * @return This builder for chaining.
        */
@@ -1014,7 +1014,7 @@ public final class ONOSSliceService {
         return this;
       }
       /**
-       * <code>.AddSliceRequest.DbaType dba_type = 4;</code>
+       * <code>.onossliceservice.AddSliceRequest.DbaType dba_type = 4;</code>
        * @return The dbaType.
        */
       @java.lang.Override
@@ -1024,7 +1024,7 @@ public final class ONOSSliceService {
         return result == null ? org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest.DbaType.UNRECOGNIZED : result;
       }
       /**
-       * <code>.AddSliceRequest.DbaType dba_type = 4;</code>
+       * <code>.onossliceservice.AddSliceRequest.DbaType dba_type = 4;</code>
        * @param value The dbaType to set.
        * @return This builder for chaining.
        */
@@ -1038,7 +1038,7 @@ public final class ONOSSliceService {
         return this;
       }
       /**
-       * <code>.AddSliceRequest.DbaType dba_type = 4;</code>
+       * <code>.onossliceservice.AddSliceRequest.DbaType dba_type = 4;</code>
        * @return This builder for chaining.
        */
       public Builder clearDbaType() {
@@ -1060,10 +1060,10 @@ public final class ONOSSliceService {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:AddSliceRequest)
+      // @@protoc_insertion_point(builder_scope:onossliceservice.AddSliceRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:AddSliceRequest)
+    // @@protoc_insertion_point(class_scope:onossliceservice.AddSliceRequest)
     private static final org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest DEFAULT_INSTANCE;
     static {
       DEFAULT_INSTANCE = new org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest();
@@ -1101,7 +1101,7 @@ public final class ONOSSliceService {
   }
 
   public interface AddSliceResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:AddSliceResponse)
+      // @@protoc_insertion_point(interface_extends:onossliceservice.AddSliceResponse)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -1117,11 +1117,11 @@ public final class ONOSSliceService {
         getResultBytes();
   }
   /**
-   * Protobuf type {@code AddSliceResponse}
+   * Protobuf type {@code onossliceservice.AddSliceResponse}
    */
   public static final class AddSliceResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:AddSliceResponse)
+      // @@protoc_insertion_point(message_implements:onossliceservice.AddSliceResponse)
       AddSliceResponseOrBuilder {
   private static final long serialVersionUID = 0L;
     // Use AddSliceResponse.newBuilder() to construct.
@@ -1189,13 +1189,13 @@ public final class ONOSSliceService {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_AddSliceResponse_descriptor;
+      return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_onossliceservice_AddSliceResponse_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_AddSliceResponse_fieldAccessorTable
+      return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_onossliceservice_AddSliceResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse.class, org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse.Builder.class);
     }
@@ -1393,21 +1393,21 @@ public final class ONOSSliceService {
       return builder;
     }
     /**
-     * Protobuf type {@code AddSliceResponse}
+     * Protobuf type {@code onossliceservice.AddSliceResponse}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:AddSliceResponse)
+        // @@protoc_insertion_point(builder_implements:onossliceservice.AddSliceResponse)
         org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_AddSliceResponse_descriptor;
+        return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_onossliceservice_AddSliceResponse_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_AddSliceResponse_fieldAccessorTable
+        return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_onossliceservice_AddSliceResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse.class, org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse.Builder.class);
       }
@@ -1438,7 +1438,7 @@ public final class ONOSSliceService {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_AddSliceResponse_descriptor;
+        return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_onossliceservice_AddSliceResponse_descriptor;
       }
 
       @java.lang.Override
@@ -1628,10 +1628,10 @@ public final class ONOSSliceService {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:AddSliceResponse)
+      // @@protoc_insertion_point(builder_scope:onossliceservice.AddSliceResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:AddSliceResponse)
+    // @@protoc_insertion_point(class_scope:onossliceservice.AddSliceResponse)
     private static final org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse DEFAULT_INSTANCE;
     static {
       DEFAULT_INSTANCE = new org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse();
@@ -1669,7 +1669,7 @@ public final class ONOSSliceService {
   }
 
   /**
-   * Protobuf service {@code SliceService}
+   * Protobuf service {@code onossliceservice.SliceService}
    */
   public static abstract class SliceService
       implements com.google.protobuf.Service {
@@ -1677,7 +1677,7 @@ public final class ONOSSliceService {
 
     public interface Interface {
       /**
-       * <code>rpc AddSlice(.AddSliceRequest) returns (.AddSliceResponse);</code>
+       * <code>rpc AddSlice(.onossliceservice.AddSliceRequest) returns (.onossliceservice.AddSliceResponse);</code>
        */
       public abstract void addSlice(
           com.google.protobuf.RpcController controller,
@@ -1762,7 +1762,7 @@ public final class ONOSSliceService {
     }
 
     /**
-     * <code>rpc AddSlice(.AddSliceRequest) returns (.AddSliceResponse);</code>
+     * <code>rpc AddSlice(.onossliceservice.AddSliceRequest) returns (.onossliceservice.AddSliceResponse);</code>
      */
     public abstract void addSlice(
         com.google.protobuf.RpcController controller,
@@ -1897,19 +1897,19 @@ public final class ONOSSliceService {
 
     }
 
-    // @@protoc_insertion_point(class_scope:SliceService)
+    // @@protoc_insertion_point(class_scope:onossliceservice.SliceService)
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_AddSliceRequest_descriptor;
+    internal_static_onossliceservice_AddSliceRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_AddSliceRequest_fieldAccessorTable;
+      internal_static_onossliceservice_AddSliceRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_AddSliceResponse_descriptor;
+    internal_static_onossliceservice_AddSliceResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_AddSliceResponse_fieldAccessorTable;
+      internal_static_onossliceservice_AddSliceResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1919,35 +1919,39 @@ public final class ONOSSliceService {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\023slice_service.proto\"\303\002\n\017AddSliceReques" +
-      "t\022\035\n\025technology_profile_id\030\001 \001(\005\022\022\n\nslic" +
-      "e_name\030\002 \001(\t\022.\n\nslice_type\030\003 \001(\0162\032.AddSl" +
-      "iceRequest.SliceType\022*\n\010dba_type\030\004 \001(\0162\030" +
-      ".AddSliceRequest.DbaType\"W\n\tSliceType\022\027\n" +
-      "\023SLICE_TYPE_BUSINESS\020\000\022\032\n\026SLICE_TYPE_RES" +
-      "IDENTIAL\020\001\022\025\n\021SLICE_TYPE_MOBILE\020\002\"H\n\007Dba" +
-      "Type\022\023\n\017DBA_TYPE_SR_DBA\020\000\022\023\n\017DBA_TYPE_LL" +
-      "_DBA\020\001\022\023\n\017DBA_TYPE_CO_DBA\020\002\"\"\n\020AddSliceR" +
-      "esponse\022\016\n\006result\030\001 \001(\t2A\n\014SliceService\022" +
-      "1\n\010AddSlice\022\020.AddSliceRequest\032\021.AddSlice" +
-      "Response\"\000B6\n\037org.etri.onosslice.slicese" +
-      "rviceB\020ONOSSliceService\210\001\001b\006proto3"
+      "\n\023slice_service.proto\022\020onossliceservice\"" +
+      "\345\002\n\017AddSliceRequest\022\035\n\025technology_profil" +
+      "e_id\030\001 \001(\005\022\022\n\nslice_name\030\002 \001(\t\022?\n\nslice_" +
+      "type\030\003 \001(\0162+.onossliceservice.AddSliceRe" +
+      "quest.SliceType\022;\n\010dba_type\030\004 \001(\0162).onos" +
+      "sliceservice.AddSliceRequest.DbaType\"W\n\t" +
+      "SliceType\022\027\n\023SLICE_TYPE_BUSINESS\020\000\022\032\n\026SL" +
+      "ICE_TYPE_RESIDENTIAL\020\001\022\025\n\021SLICE_TYPE_MOB" +
+      "ILE\020\002\"H\n\007DbaType\022\023\n\017DBA_TYPE_SR_DBA\020\000\022\023\n" +
+      "\017DBA_TYPE_LL_DBA\020\001\022\023\n\017DBA_TYPE_CO_DBA\020\002\"" +
+      "\"\n\020AddSliceResponse\022\016\n\006result\030\001 \001(\t2c\n\014S" +
+      "liceService\022S\n\010AddSlice\022!.onossliceservi" +
+      "ce.AddSliceRequest\032\".onossliceservice.Ad" +
+      "dSliceResponse\"\000Bp\n\037org.etri.onosslice.s" +
+      "liceserviceB\020ONOSSliceServiceZ8github.co" +
+      "m/opencord/voltha-protos/v4/go/onosslice" +
+      "service\210\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         });
-    internal_static_AddSliceRequest_descriptor =
+    internal_static_onossliceservice_AddSliceRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_AddSliceRequest_fieldAccessorTable = new
+    internal_static_onossliceservice_AddSliceRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_AddSliceRequest_descriptor,
+        internal_static_onossliceservice_AddSliceRequest_descriptor,
         new java.lang.String[] { "TechnologyProfileId", "SliceName", "SliceType", "DbaType", });
-    internal_static_AddSliceResponse_descriptor =
+    internal_static_onossliceservice_AddSliceResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
-    internal_static_AddSliceResponse_fieldAccessorTable = new
+    internal_static_onossliceservice_AddSliceResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_AddSliceResponse_descriptor,
+        internal_static_onossliceservice_AddSliceResponse_descriptor,
         new java.lang.String[] { "Result", });
   }
 

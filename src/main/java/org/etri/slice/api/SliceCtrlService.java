@@ -15,11 +15,15 @@
  */
 package org.etri.slice.api;
 
+import org.onosproject.event.ListenerService;
+import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest;
+import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse;
 import org.etri.sis.SliceProfileInformation;
 
 /**
  * Skeletal ONOS application API.
  */
-public interface SliceCtrlService {
+public interface SliceCtrlService extends ListenerService<SliceCtrlEvent, SliceCtrlListener> {
     SliceProfileInformation provisionSlice(String sliceName);
+    AddSliceResponse AddSlice(AddSliceRequest request);
 }
