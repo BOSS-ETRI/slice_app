@@ -45,14 +45,71 @@
 
 	<dependencies>
 		<dependency>
-            <groupId>org.onosproject</groupId>
-            <artifactId>onos-cli</artifactId>
-            <version>${onos.version}</version>
-            <scope>provided</scope>
-        </dependency>
+			<!-- main proj -->
+			<groupId>org.onosproject</groupId>
+			<artifactId>onos-api</artifactId>
+			<version>${onos.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
 		<dependency>
-    		<groupId>org.onosproject</groupId>
-    		<artifactId>com_google_protobuf_protobuf_java</artifactId>
+			<groupId>org.onosproject</groupId>
+			<artifactId>onlab-misc</artifactId>
+			<version>${onos.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- main proj -->
+		<!-- api proj -->
+		<dependency>
+			<groupId>org.etri</groupId>
+			<artifactId>sis-api</artifactId>
+			<version>${sis.api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- api proj -->
+		<!-- impl proj -->
+		<!-- <dependency> <groupId>org.etri</groupId> <artifactId>slice-api</artifactId> 
+			<version>${slice.api.version}</version> <scope>compile</scope> </dependency> -->
+
+		<dependency>
+			<groupId>org.etri</groupId>
+			<artifactId>sis-api</artifactId>
+			<version>${sis.api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.onosproject</groupId>
+			<artifactId>onlab-osgi</artifactId>
+			<version>${onos.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.onosproject</groupId>
+			<artifactId>onos-api</artifactId>
+			<version>${onos.version}</version>
+			<scope>test</scope>
+			<classifier>tests</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>org.onosproject</groupId>
+			<artifactId>onos-cli</artifactId>
+			<version>${onos.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.karaf.shell</groupId>
+			<artifactId>org.apache.karaf.shell.console</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- impl proj -->
+		<!-- delta add proj -->
+		<dependency>
+			<groupId>org.onosproject</groupId>
+			<artifactId>com_google_protobuf_protobuf_java</artifactId>
 			<version>2.2.7</version>
 			<exclusions>
 				<exclusion>
@@ -61,40 +118,8 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-    	<dependency>
-    		<groupId>org.onosproject</groupId>
-    		<artifactId>onos-maven-plugin</artifactId>
-    		<version>2.2</version>
-		</dependency>
-        <dependency>
-            <groupId>org.onosproject</groupId>
-            <artifactId>onos-api</artifactId>
-            <version>${onos.version}</version>
-            <scope>provided</scope>
-        </dependency>
 
-        <dependency>
-            <groupId>org.onosproject</groupId>
-            <artifactId>onlab-osgi</artifactId>
-            <version>${onos.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.onosproject</groupId>
-            <artifactId>onlab-misc</artifactId>
-            <version>${onos.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.onosproject</groupId>
-            <artifactId>onos-api</artifactId>
-            <version>${onos.version}</version>
-            <scope>test</scope>
-            <classifier>tests</classifier>
-        </dependency>
-        <dependency>
+		<dependency>
 			<groupId>io.grpc</groupId>
 			<artifactId>grpc-core</artifactId>
 			<version>1.22.1</version>
@@ -117,12 +142,6 @@
 			<artifactId>grpc-netty</artifactId>
 			<version>1.22.1</version>
 		</dependency>
-		<dependency>
-            <groupId>org.etri</groupId>
-            <artifactId>sis-api</artifactId>
-            <version>${sis.api.version}</version>
-            <scope>provided</scope>
-        </dependency>  
 		<!-- delta add proj -->
 	</dependencies>
 
@@ -130,7 +149,7 @@
 
 		<plugins>
 			<!-- main proj -->
-			<!-- <plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<configuration>
@@ -138,7 +157,7 @@
 					<skip>true</skip>
 				</configuration>
 			</plugin>
-			SpotBugs Static Analysis
+			<!-- SpotBugs Static Analysis -->
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
@@ -158,14 +177,14 @@
 					</plugins>
 				</configuration>
 			</plugin>
-			main proj
-			api proj
-			<plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-checkstyle-plugin</artifactId> 
-				</plugin>
+			<!-- main proj -->
+			<!-- api proj -->
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-checkstyle-plugin</artifactId> 
+				</plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-			</plugin> -->
+			</plugin>
 			<!-- api proj -->
 			<!-- app proj -->
 			<plugin>

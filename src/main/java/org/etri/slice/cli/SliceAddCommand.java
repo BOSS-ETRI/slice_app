@@ -63,15 +63,15 @@ public class SliceAddCommand extends AbstractShellCommand {
                     }else {
                     	dbaType=1;
                     }
-                    
-                    AddSliceRequest request =null;
-                    request.newBuilder()
+                    //System.out.printf("DBA::::%d",dbaType);
+                    AddSliceRequest request = AddSliceRequest.newBuilder()
                     		.setTechnologyProfileId(info.technologyProfileId()).setSliceName(info.id())
                     		.setSliceTypeValue(serviceType).setDbaTypeValue(dbaType).build();
-                    
+                    //System.out.printf("DBA::::%s",request.getDbaType());
                     AddSliceResponse response = service.AddSlice(request);
                     
                     System.out.printf("%s", response.getResult());
+                    System.out.println();
                     
                 } else {
                     System.out.println("!SLICE ENTRY NOT FOUND!");

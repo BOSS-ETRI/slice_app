@@ -109,6 +109,7 @@ public class Slice extends AbstractListenerManager<SliceCtrlEvent, SliceCtrlList
     @Deactivate
     protected void deactivate() {
         cfgService.unregisterProperties(getClass(), false);
+        client.shutdown();
         log.info("Stopped");
     }
 

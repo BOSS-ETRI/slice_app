@@ -2,3 +2,5 @@
 .project
 /.setting/
 .classpath
+/bin/
+/pom.xml.*

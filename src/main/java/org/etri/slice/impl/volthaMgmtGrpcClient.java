@@ -24,4 +24,8 @@ public class volthaMgmtGrpcClient {
 		AddSliceResponse response = core.addSlice(request);
 		return response;
 	}
+	public void shutdown() {
+		chan.shutdownNow();
+		System.out.println("Shutdown Channel");
+	}
 }
