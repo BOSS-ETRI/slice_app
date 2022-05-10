@@ -23,6 +23,7 @@ import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse;
 import org.etri.sis.BaseInformationService;
 import org.etri.sis.SliceProfileInformation;
 import org.etri.sis.SadisService;
+import org.onosproject.net.DeviceId;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -40,6 +41,7 @@ import org.etri.slice.api.SliceCtrlService;
 
 import java.util.Dictionary;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.etri.slice.impl.OsgiPropertyConstants.DEFAULT_BP_ID_DEFAULT;
 import static org.etri.slice.impl.OsgiPropertyConstants.DEFAULT_MCAST_SERVICE_NAME_DEFAULT;
@@ -93,6 +95,10 @@ public class Slice extends AbstractListenerManager<SliceCtrlEvent, SliceCtrlList
 
     protected BaseInformationService<SliceProfileInformation> sliceService;
     protected volthaMgmtGrpcClient client;
+
+    /**   ETRI  **/
+    private ConcurrentHashMap<DeviceId, DeviceManager> deviceMap;
+
     @Activate
     protected void activate() {
         cfgService.registerProperties(getClass());
