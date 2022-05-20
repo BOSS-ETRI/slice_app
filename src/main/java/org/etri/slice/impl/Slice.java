@@ -17,7 +17,6 @@ package org.etri.slice.impl;
 
 import org.onosproject.cfg.ComponentConfigService;
 import org.onosproject.event.AbstractListenerManager;
-import org.onosproject.net.ConnectPoint;
 import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest;
 import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse;
 import org.etri.sis.BaseInformationService;
@@ -39,6 +38,7 @@ import org.etri.slice.api.SliceCtrlEvent;
 import org.etri.slice.api.SliceCtrlListener;
 import org.etri.slice.api.SliceCtrlService;
 
+import java.net.InetSocketAddress;
 import java.util.Dictionary;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
@@ -48,13 +48,9 @@ import static org.etri.slice.impl.OsgiPropertyConstants.DEFAULT_MCAST_SERVICE_NA
 import static org.etri.slice.impl.OsgiPropertyConstants.EAPOL_DELETE_RETRY_MAX_ATTEMPS_DEFAULT;
 import static org.etri.slice.impl.OsgiPropertyConstants.PROVISION_DELAY_DEFAULT;
 import static org.etri.slice.impl.OsgiPropertyConstants.DEFAULT_BP_ID;
-import static org.etri.slice.impl.OsgiPropertyConstants.DEFAULT_BP_ID_DEFAULT;
 import static org.etri.slice.impl.OsgiPropertyConstants.DEFAULT_MCAST_SERVICE_NAME;
-import static org.etri.slice.impl.OsgiPropertyConstants.DEFAULT_MCAST_SERVICE_NAME_DEFAULT;
 import static org.etri.slice.impl.OsgiPropertyConstants.EAPOL_DELETE_RETRY_MAX_ATTEMPS;
-import static org.etri.slice.impl.OsgiPropertyConstants.EAPOL_DELETE_RETRY_MAX_ATTEMPS_DEFAULT;
 import static org.etri.slice.impl.OsgiPropertyConstants.PROVISION_DELAY;
-import static org.etri.slice.impl.OsgiPropertyConstants.PROVISION_DELAY_DEFAULT;
 import static org.onlab.util.Tools.get;
 
 /**
@@ -97,7 +93,7 @@ public class Slice extends AbstractListenerManager<SliceCtrlEvent, SliceCtrlList
     protected volthaMgmtGrpcClient client;
 
     /**   ETRI  **/
-    private ConcurrentHashMap<DeviceId, DeviceManager> deviceMap;
+    private ConcurrentHashMap<DeviceId, OLTDevice> deviceMap;
 
     @Activate
     protected void activate() {

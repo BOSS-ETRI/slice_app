@@ -31,6 +31,7 @@
 			<onos.app.title>Foo App</onos.app.title> <onos.app.origin>Foo, Inc.</onos.app.origin> 
 			<onos.app.category>default</onos.app.category> <onos.app.url>http://onosproject.org</onos.app.url> 
 			<onos.app.readme>ONOS OSGi bundle archetype.</onos.app.readme> -->
+		<web.context>/onos/boss</web.context>
 		<onos.app.name>org.etri.slice</onos.app.name>
 		<onos.app.title>ETRI Slice management</onos.app.title>
 		<onos.app.origin>ETRI</onos.app.origin>
@@ -142,13 +143,32 @@
 			<artifactId>grpc-netty</artifactId>
 			<version>1.22.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.24</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
 		<!-- delta add proj -->
 	</dependencies>
 
 	<build>
-
 		<plugins>
-			<!-- main proj -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
@@ -200,10 +220,16 @@
 				<version>5.1.1</version>
 				<configuration>
 					<instructions>
+						<_wab>src/main/webapp/</_wab>
+						<Include-Resource>
+							WEB-INF/classes/apidoc/swagger.json=target/swagger.json,
+							{maven-resources}
+						</Include-Resource>
 						<Import-Package>
 							*,org.glassfish.jersey.servlet
 						</Import-Package>
 						<Karaf-Commands>org.etri.slice.cli</Karaf-Commands>
+						<Web-ContextPath>${web.context}</Web-ContextPath>
 					</instructions>
 				</configuration>
 			</plugin>
