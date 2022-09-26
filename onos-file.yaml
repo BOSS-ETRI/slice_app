@@ -1,0 +1,115 @@
+onos-classic:
+  enabled: true
+  replicas: 1
+  image:
+    pullPolicy: Always
+    repository: voltha/voltha-onos
+    tag: 5.1.1
+  apps:
+    - org.onosproject.protocols.grpc
+    - org.onosproject.lldpprovider
+    - org.onosproject.openflow-base
+    - org.onosproject.gui2
+    - org.onosproject.drivers
+    - org.onosproject.mcast
+    - org.onosproject.segmentrouting
+    - org.opencord.kafka
+    - org.opencord.sadis
+    - org.opencord.dhcpl2relay
+    - org.opencord.igmpproxy
+    - org.opencord.mcast
+    - org.opencord.olt
+    - org.opencord.aaa
+  java_opts: >
+    -XX:+UseG1GC
+    -XX:MaxGCPauseMillis=200
+    -XX:-UseContainerSupport
+    -Dkaraf.log.console=INFO
+    -Dds.lock.timeout.milliseconds=10000
+    -Dlog4j2.formatMsgNoLookups=true
+  atomix:
+    replicas: 0
+    persistence:
+      enabled: false
+    java_opts: >
+      -Xmx2G
+      -XX:-UseContainerSupport
+  config:
+    enabled: true
+    reconcile_mode: false
+    netcfg: >
+      {
+        "apps" : {
+          "org.opencord.dhcpl2relay" : {
+            "dhcpl2relay" : {
+              "useOltUplinkForServerPktInOut" : true
+            }
+          },
+          "org.opencord.kafka": {
+            "kafka" : {
+              "bootstrapServers" : "{{ .Release.Name }}-kafka.{{ .Release.Namespace }}.svc:9092"
+            }
+          },
+          "org.opencord.aaa" : {
+            "AAA": {
+              "radiusConnectionType" : "socket",
+              "radiusHost": "{{ .Release.Name }}-freeradius.{{ .Release.Namespace }}.svc",
+              "radiusServerPort": "1812",
+              "radiusSecret": "SECRET"
+            }
+          },
+          "org.opencord.sadis": {
+            "sadis": {
+              "integration": {
+                "url": "http://bbsim-sadis-server.{{ .Release.Namespace }}.svc:58080/subscribers/%s",
+                "cache": {
+                  "enabled": true,
+                  "maxsize": 50,
+                  "ttl": "PT1m"
+                }
+              }
+            },
+            "bandwidthprofile": {
+              "integration": {
+                "url": "http://bbsim-sadis-server.{{ .Release.Namespace }}.svc:58080/profiles/%s",
+                "cache": {
+                  "enabled": true,
+                  "maxsize": 50,
+                  "ttl": "PT1m"
+                }
+              }
+            }
+          }
+        }
+      }
+    componentConfig:
+      "org.opencord.olt.impl.OltFlowService": >
+        {
+          "enableDhcpOnNni": "true",
+          "defaultTechProfileId": "64",
+          "enableIgmpOnNni": "false",
+          "enableEapol": "true",
+          "enableDhcpV6": "false",
+          "enableDhcpV4": "true"
+        }
+      "org.onosproject.provider.lldp.impl.LldpLinkProvider": >
+        {
+          "enabled": "false"
+        }
+      "org.onosproject.net.flow.impl.FlowRuleManager": >
+        {
+          "purgeOnDisconnection": "false"
+        }
+      "org.onosproject.net.meter.impl.MeterManager": >
+        {
+          "purgeOnDisconnection": "false"
+        }
+      "org.onosproject.net.group.impl.GroupManager": >
+        {
+          "purgeOnDisconnection": "false"
+        }
+      "org.onosproject.net.device.impl.DeviceManager": >
+        {
+          "roleTimeoutSeconds": "120"
+        }
+
