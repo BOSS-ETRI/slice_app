@@ -19,7 +19,7 @@
 	</parent>
 
 	<groupId>org.etri</groupId>
-	<artifactId>slice_app</artifactId>
+	<artifactId>slice-app</artifactId>
 	<version>1.0.0</version>
 	<packaging>bundle</packaging>
 
@@ -42,6 +42,8 @@
 		</onos.app.readme>
 		<sis.api.version>1.0.0</sis.api.version>
 		<slice.api.version>1.0.0</slice.api.version>
+		<sadis.api.version>5.5.1</sadis.api.version>
+		<olt.api.version>5.1.2</olt.api.version>
 	</properties>
 
 	<dependencies>
@@ -73,11 +75,12 @@
 			<version>${slice.api.version}</version> <scope>compile</scope> </dependency> -->
 
 		<dependency>
-			<groupId>org.etri</groupId>
-			<artifactId>sis-api</artifactId>
-			<version>${sis.api.version}</version>
+			<groupId>org.opencord</groupId>
+			<artifactId>sadis-api</artifactId>
+			<version>${sadis.api.version}</version>
 			<scope>provided</scope>
 		</dependency>
+
 
 		<dependency>
 			<groupId>org.onosproject</groupId>
@@ -90,8 +93,6 @@
 			<groupId>org.onosproject</groupId>
 			<artifactId>onos-api</artifactId>
 			<version>${onos.version}</version>
-			<scope>test</scope>
-			<classifier>tests</classifier>
 		</dependency>
 
 		<dependency>
@@ -149,21 +150,28 @@
 			<version>1.9.5</version>
 		</dependency>
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.18.24</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.0</version>
-		</dependency>
-		<dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.opencord</groupId>
+			<artifactId>olt-app</artifactId>
+			<version>5.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.opencord</groupId>
+			<artifactId>olt-api</artifactId>
+			<version>5.1.2</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.opencord</groupId>
+			<artifactId>aaa-api</artifactId>
+			<version>2.6.0</version>
+			<scope>provided</scope>
+		</dependency>
+
 		<!-- delta add proj -->
 	</dependencies>
 
@@ -178,25 +186,25 @@
 				</configuration>
 			</plugin>
 			<!-- SpotBugs Static Analysis -->
-			<plugin>
-				<groupId>com.github.spotbugs</groupId>
-				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>4.0.4</version>
-				<configuration>
-					<effort>Max</effort>
-					<threshold>Low</threshold>
-					<failOnError>false</failOnError>
-					<includeFilterFile>${session.executionRootDirectory}/spotbugs-security-include.xml</includeFilterFile>
-					<excludeFilterFile>${session.executionRootDirectory}/spotbugs-security-exclude.xml</excludeFilterFile>
-					<plugins>
-						<plugin>
-							<groupId>com.h3xstream.findsecbugs</groupId>
-							<artifactId>findsecbugs-plugin</artifactId>
-							<version>1.10.1</version>
-						</plugin>
-					</plugins>
-				</configuration>
-			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>com.github.spotbugs</groupId>-->
+<!--				<artifactId>spotbugs-maven-plugin</artifactId>-->
+<!--				<version>4.0.4</version>-->
+<!--				<configuration>-->
+<!--					<effort>Max</effort>-->
+<!--					<threshold>Low</threshold>-->
+<!--					<failOnError>false</failOnError>-->
+<!--					<includeFilterFile>${session.executionRootDirectory}/spotbugs-security-include.xml</includeFilterFile>-->
+<!--					<excludeFilterFile>${session.executionRootDirectory}/spotbugs-security-exclude.xml</excludeFilterFile>-->
+<!--					<plugins>-->
+<!--						<plugin>-->
+<!--							<groupId>com.h3xstream.findsecbugs</groupId>-->
+<!--							<artifactId>findsecbugs-plugin</artifactId>-->
+<!--							<version>1.10.1</version>-->
+<!--						</plugin>-->
+<!--					</plugins>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
 			<!-- main proj -->
 			<!-- api proj -->
 			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-checkstyle-plugin</artifactId> 

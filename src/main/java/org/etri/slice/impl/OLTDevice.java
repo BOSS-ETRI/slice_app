@@ -4,6 +4,8 @@ import org.onosproject.net.DeviceId;
 import org.slf4j.Logger;
 
 import java.util.concurrent.ConcurrentHashMap;
+
+import static org.etri.slice.impl.C.PORT_TYPE.*;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class OLTDevice {
@@ -18,31 +20,29 @@ public class OLTDevice {
         this.ports = new ConcurrentHashMap<>();
     }
 
-    public void addPort(String portNumber, C.PORT_TYPE portType,
-                        C.MAX_TCONT maxTcont, int tcontIdStart, int tcontIdEnd) {
-        if(portType == null) {
-            switch (wbType) {
-                case OLT_1G:
-                    portType = C.PORT_TYPE.PORT_1G;
-                    break;
+    public void addPonPort(String portName) {
+        C.PORT_TYPE portType = null;
 
-                case OLT_10G:
-                    portType = C.PORT_TYPE.PORT_10G;
-                    break;
+        switch (wbType) {
+            case OLT_1G:
+                portType = PORT_1G;
+                break;
 
-                case OLT_25G:
-                    portType = C.PORT_TYPE.PORT_25G;
-                    break;
+            case OLT_10G:
+                portType = PORT_10G;
+                break;
 
-                case OLT_50G:
-                    portType = C.PORT_TYPE.PORT_50G;
-                    break;
-            }
+            case OLT_25G:
+                portType = PORT_25G;
+                break;
+
+            case OLT_50G:
+                portType = PORT_50G;
+                break;
         }
 
-        PonPort ponPort = new PonPort(deviceId, portType, portNumber,
-                                      maxTcont, tcontIdStart, tcontIdEnd);
-        ports.putIfAbsent(portNumber, ponPort);
+        PonPort ponPort = new PonPort(this.deviceId, portType, portName);
+        ports.putIfAbsent(portName, ponPort);
     }
 
     public PonPort getPonPort(String portName) {

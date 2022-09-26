@@ -3,11 +3,11 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
-      <profile name="Annotation profile for slice_app" enabled="true">
+      <profile name="Annotation profile for slice-app" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <processorPath>
+        <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/com/google/errorprone/error_prone_core/2.3.4/error_prone_core-2.3.4.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/google/errorprone/error_prone_annotation/2.3.4/error_prone_annotation-2.3.4.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/google/guava/guava/27.0.1-jre/guava-27.0.1-jre.jar" />

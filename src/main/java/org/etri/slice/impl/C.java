@@ -2,11 +2,16 @@ package org.etri.slice.impl;
 
 public class C {
     public static int MINIMUM_BANDWIDTH = 0;
-    public static int MAX_BW_1G = (1 * 1024 * 1024); // kBps for 1G WB-OLT
-    public static int MAX_BW_10G = (10 * 1024 * 1024); // kBps for 10G WB-OLT
-    public static int MAX_BW_25G = (25 * 1024 * 1024); // kBps for 25G WB-OLT
-    public static int MAX_BW_50G = (50 * 1024 * 1024); // kBps for 50G WB-OLT
+    public static int MAX_BW_1G = BandwidthUtil.getKilobytesFrom(1, BW_UNIT.GB);
+    public static int MAX_BW_10G = BandwidthUtil.getKilobytesFrom(10, BW_UNIT.GB);
+    public static int MAX_BW_25G = BandwidthUtil.getKilobytesFrom(25, BW_UNIT.GB);
+    public static int MAX_BW_50G = BandwidthUtil.getKilobytesFrom(50, BW_UNIT.GB);
     public static String DEFAULT_SLICE_NAME = "default";
+
+    public enum BW_UNIT {
+        MB,
+        GB
+    }
 
     public enum DBA_ALG {
         S_DBA,
@@ -43,7 +48,9 @@ public class C {
         SUBSCRIBER_NOT_EXIST,
         INSUFFICIENT_BANDWIDTH,
         OVERFLOW_BANDWIDTH,
-        INSUFFICIENT_TCONT,
-        WRONG_INPUT
+        WRONG_INPUT,
+
+        DUPLICATE,
+        ENTRY_NOT_FOUND,
     }
 }

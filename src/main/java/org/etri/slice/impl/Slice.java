@@ -15,14 +15,21 @@
  */
 package org.etri.slice.impl;
 
+import org.etri.onosslice.sliceservice.ONOSSliceService;
+import org.etri.sis.*;
+import org.onlab.packet.VlanId;
 import org.onosproject.cfg.ComponentConfigService;
-import org.onosproject.event.AbstractListenerManager;
+import org.onosproject.core.CoreService;
 import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest;
 import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse;
-import org.etri.sis.BaseInformationService;
-import org.etri.sis.SliceProfileInformation;
-import org.etri.sis.SadisService;
-import org.onosproject.net.DeviceId;
+import org.onosproject.net.*;
+import java.util.Comparator;
+import org.onosproject.utils.Comparators;
+import org.opencord.aaa.AuthenticationService;
+import org.opencord.aaa.AuthenticationRecord;
+import org.opencord.olt.AccessDeviceService;
+import org.opencord.olt.AccessDevicePort;
+import org.opencord.olt.ServiceKey;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -34,43 +41,34 @@ import org.osgi.service.component.annotations.ReferencePolicy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.etri.slice.api.SliceCtrlEvent;
-import org.etri.slice.api.SliceCtrlListener;
 import org.etri.slice.api.SliceCtrlService;
+import org.onosproject.net.device.DeviceService;
 
-import java.net.InetSocketAddress;
 import java.util.Dictionary;
+import java.util.List;
 import java.util.Properties;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
+import static org.etri.slice.impl.C.RESULTS.SUCCESS;
 import static org.etri.slice.impl.OsgiPropertyConstants.DEFAULT_BP_ID_DEFAULT;
 import static org.etri.slice.impl.OsgiPropertyConstants.DEFAULT_MCAST_SERVICE_NAME_DEFAULT;
 import static org.etri.slice.impl.OsgiPropertyConstants.EAPOL_DELETE_RETRY_MAX_ATTEMPS_DEFAULT;
 import static org.etri.slice.impl.OsgiPropertyConstants.PROVISION_DELAY_DEFAULT;
-import static org.etri.slice.impl.OsgiPropertyConstants.DEFAULT_BP_ID;
-import static org.etri.slice.impl.OsgiPropertyConstants.DEFAULT_MCAST_SERVICE_NAME;
-import static org.etri.slice.impl.OsgiPropertyConstants.EAPOL_DELETE_RETRY_MAX_ATTEMPS;
-import static org.etri.slice.impl.OsgiPropertyConstants.PROVISION_DELAY;
 import static org.onlab.util.Tools.get;
 
+import static com.google.common.collect.Lists.newArrayList;
 /**
  * Skeletal ONOS application component.
  */
-/*
- * @Component(immediate = true, service = {SliceCtrlService.class}, property = {
- * "someProperty=Some Default String Value", })
- */
-@Component(immediate = true,
-service = {SliceCtrlService.class},
-property = {
-        DEFAULT_BP_ID + ":String=" + DEFAULT_BP_ID_DEFAULT,
-        DEFAULT_MCAST_SERVICE_NAME + ":String=" + DEFAULT_MCAST_SERVICE_NAME_DEFAULT,
-        EAPOL_DELETE_RETRY_MAX_ATTEMPS + ":Integer=" +
-                EAPOL_DELETE_RETRY_MAX_ATTEMPS_DEFAULT,
-        PROVISION_DELAY + ":Integer=" + PROVISION_DELAY_DEFAULT,
-})
-public class Slice extends AbstractListenerManager<SliceCtrlEvent, SliceCtrlListener> implements SliceCtrlService {
-    private static final String SADIS_NOT_RUNNING = "Sadis is not running.";
+@Component(immediate = true)
+public class Slice implements SliceCtrlService {
+    private static final String SADIS_NOT_RUNNING = "Sadis is not running";
+
+    private static final String SLICE_APP = "org.etri.slice";
+
+    @Reference(cardinality = ReferenceCardinality.MANDATORY)
+    protected CoreService coreService;
 
     private final Logger log = LoggerFactory.getLogger(getClass());
     protected String defaultBpId = DEFAULT_BP_ID_DEFAULT;
@@ -87,23 +85,42 @@ public class Slice extends AbstractListenerManager<SliceCtrlEvent, SliceCtrlList
             bind = "bindSadisService",
             unbind = "unbindSadisService",
             policy = ReferencePolicy.DYNAMIC)
-    protected volatile SadisService sadisService;    
+    protected volatile SadisService sadisService;
+
+    @Reference(cardinality = ReferenceCardinality.OPTIONAL,
+            bind = "bindAccessDeviceService",
+            unbind = "unbindAccessDeviceService",
+            policy = ReferencePolicy.DYNAMIC)
+    protected volatile AccessDeviceService accessDeviceService;
+
+    @Reference(cardinality = ReferenceCardinality.OPTIONAL,
+            bind = "bindAuthenticationService",
+            unbind = "unbindAuthenticationService",
+            policy = ReferencePolicy.DYNAMIC)
+    protected volatile AuthenticationService authenticationService;
+
+    @Reference(cardinality = ReferenceCardinality.OPTIONAL,
+            bind = "bindDeviceService",
+            unbind = "unbindDeviceService",
+            policy = ReferencePolicy.DYNAMIC)
+    protected volatile DeviceService deviceService;
+
 
     protected BaseInformationService<SliceProfileInformation> sliceService;
+    protected BaseInformationService<SubscriberAndDeviceInformation> subsService;
+    protected BaseInformationService<BandwidthProfileInformation> bpService;
     protected volthaMgmtGrpcClient client;
 
     /**   ETRI  **/
-    private ConcurrentHashMap<DeviceId, OLTDevice> deviceMap;
+//    @Reference(cardinality = ReferenceCardinality.MANDATORY)
+    protected Manager manager;
 
     @Activate
     protected void activate() {
-        cfgService.registerProperties(getClass());
+        this.coreService.registerApplication(SLICE_APP);
+//        cfgService.registerProperties(getClass());
 
-        if (sadisService != null) {
-            sliceService = sadisService.getSliceProfileService();
-        } else {
-            log.warn(SADIS_NOT_RUNNING);
-        }
+        manager = new Manager();
         client = new volthaMgmtGrpcClient(log);
         log.info("Started");
     }
@@ -127,14 +144,51 @@ public class Slice extends AbstractListenerManager<SliceCtrlEvent, SliceCtrlList
     protected void bindSadisService(SadisService service) {
         sadisService = service;
         sliceService = sadisService.getSliceProfileService();
-        log.info("Sadis-service binds to onos.");
+        subsService = sadisService.getSubscriberInfoService();
+        bpService = sadisService.getBandwidthProfileService();
+        if( bpService == null ) {
+            log.info("bp service is null");
+        }
+        log.info("Sadis-service binds to slice app.");
     }
 
     protected void unbindSadisService(SadisService service) {
         sadisService = null;
         sliceService = null;
-        log.info("Sadis-service unbinds from onos.");
-    }    
+        subsService = null;
+        bpService = null;
+        log.info("Sadis-service unbinds from slice app.");
+    }
+
+    protected void bindAccessDeviceService(AccessDeviceService service) {
+        accessDeviceService = service;
+        log.info("accessDeviceService binds to slice app.");
+    }
+
+    protected void unbindAccessDeviceService(AccessDeviceService service) {
+        accessDeviceService = null;
+        log.info("accessDeviceService unbinds from slice app.");
+    }
+
+    protected void bindAuthenticationService(AuthenticationService service) {
+        authenticationService = service;
+        log.info("authenticationService binds to slice app.");
+    }
+
+    protected void unbindAuthenticationService(AuthenticationService service) {
+        authenticationService = null;
+        log.info("authenticationService binds to slice app.");
+    }
+
+    protected void bindDeviceService(DeviceService service) {
+        deviceService = service;
+        log.info("deviceService binds to slice app.");
+    }
+
+    protected void unbindDeviceService(DeviceService service) {
+        deviceService = null;
+        log.info("deviceService binds to slice app.");
+    }
 
     @Override
     public SliceProfileInformation provisionSlice(String sliceName) {
@@ -144,12 +198,157 @@ public class Slice extends AbstractListenerManager<SliceCtrlEvent, SliceCtrlList
         }
 
         SliceProfileInformation info = sliceService.get(sliceName);
-	return info;
+	    return info;
     }
     @Override
-    public AddSliceResponse AddSlice(AddSliceRequest request) {
-    	
+    public AddSliceResponse addSlice(AddSliceRequest request) {
+
     	AddSliceResponse response = client.AddSlice(request);
     	return response;
+    }
+
+    public SliceInstance getSliceInstance(String sliceName) {
+        return null;
+    }
+
+    @Override
+    public List<SliceInstance> getAllSliceInstances() {
+        return null;
+    }
+
+    @Override
+    public C.RESULTS addOLTDevice(DeviceId deviceId, C.WB_TYPE wbType) {
+        return manager.addOLTDevice(deviceId, wbType);
+    }
+
+    @Override
+    public C.RESULTS addPonPort(DeviceId deviceId, String portName) {
+        return manager.addPonPort(deviceId, portName);
+    }
+
+    @Override
+    public C.RESULTS addSliceInstance(
+            String sliceName, DeviceId deviceId,
+            String ponPortName, String uniPortName,
+            int reqBandwidth, C.DBA_ALG dba) {
+        C.RESULTS result =
+                manager.addSliceInstance(
+                        sliceName, deviceId,
+                        ponPortName, uniPortName,
+                        reqBandwidth, dba
+                );
+
+        if( result == SUCCESS ) {
+            // send request to VOLTHA
+            AddSliceRequest request = AddSliceRequest.newBuilder()
+                    .setPortName(ponPortName)
+                    .setSliceName(sliceName)
+                    .setTags(ONOSSliceService.UniTags.newBuilder()
+                            .setUniPortName(uniPortName)
+                            .setDbaType(dba.toString())
+                            .build())
+                    .build();
+
+            AddSliceResponse response = client.AddSlice(request);
+        }
+
+        return result;
+    }
+
+    @Override
+    public C.RESULTS updateBWOfSliceInstance(
+            String sliceName, DeviceId deviceId,
+            String ponPortName, int reqBandwidth) {
+        C.RESULTS result = manager.updateAllocatedBandwidth(
+                sliceName, deviceId, ponPortName, reqBandwidth
+        );
+
+        return result;
+    }
+
+
+    @Override
+    public C.RESULTS provisionSubscriber(ConnectPoint cp) {
+        final Comparator<AuthenticationRecord> authenticationRecordComparator =
+                (a1, a2) -> Comparators.CONNECT_POINT_COMPARATOR.
+                        compare(a1.supplicantConnectPoint(), a2.supplicantConnectPoint());
+
+        List<AuthenticationRecord> authentications =
+                newArrayList(authenticationService.getAuthenticationRecords());
+        authentications.sort(authenticationRecordComparator);
+
+        authentications = authentications.stream()
+                .filter(a -> a.supplicantConnectPoint().deviceId().equals(cp.deviceId()))
+                .filter(a -> a.supplicantConnectPoint().port().equals(cp.port()))
+                .collect(Collectors.toList());
+
+        AuthenticationRecord targetAuth = authentications.get(0);
+
+        if (targetAuth == null) {
+            log.info("There is no (%s) Connect Point found", cp);
+            return C.RESULTS.ENTRY_NOT_FOUND;
+        }
+
+        String portName = deviceService.getPort(targetAuth.supplicantConnectPoint()).
+                annotations().value(AnnotationKeys.PORT_NAME);
+        SubscriberAndDeviceInformation subscriber = subsService.get(portName);
+
+        if (subscriber == null) {
+            log.error("Subscriber information not found in sis for port {%s}", portName);
+            return C.RESULTS.ENTRY_NOT_FOUND;
+        }
+
+        log.info(portName);
+
+        String upSliceProfile = null;
+        String upBandwidthProfile = null;
+
+        log.info("UNI Tag List Size: " + subscriber.uniTagList().size());
+        UniTagInformation uti = subscriber.uniTagList().get(0);
+        log.info("UNI Tag List:");
+        log.info(uti.toString());
+        upSliceProfile = uti.getUpstreamSliceProfile();
+        upBandwidthProfile = uti.getUpstreamBandwidthProfile();
+
+        if( upSliceProfile == null || upBandwidthProfile == null) {
+            return C.RESULTS.ENTRY_NOT_FOUND;
+        }
+
+        log.info(upSliceProfile);
+        log.info(upBandwidthProfile);
+
+        BandwidthProfileInformation bpi = bpService.get(upBandwidthProfile);
+        SliceProfileInformation spi = sliceService.get(upSliceProfile);
+
+        if( bpi == null || spi == null ) {
+            return C.RESULTS.ENTRY_NOT_FOUND;
+        }
+
+        log.info(bpi.toString());
+        log.info(spi.toString());
+
+        long reqCir = bpi.committedInformationRate();
+        SliceInstance sliceInstance = manager.getSliceInstance(upSliceProfile);
+
+        if (sliceInstance == null) {
+            log.info("Slice instance(" + upSliceProfile + ") has not been created yet");
+            return C.RESULTS.ENTRY_NOT_FOUND;
+        }
+
+        C.RESULTS result = sliceInstance.updateRemainedBandwidth(C.BW_UPDATE_OP.ADD, (int)reqCir);
+        if (result == C.RESULTS.INSUFFICIENT_BANDWIDTH) {
+            log.info("Bandwidth is insufficient in the slice instance (" + upSliceProfile + ")");
+            return C.RESULTS.INSUFFICIENT_BANDWIDTH;
+        }
+
+//        if( response.getResult() == "")
+
+        accessDeviceService.provisionSubscriber(cp);
+        return null;
+    }
+
+    @Override
+    public C.RESULTS provisionSubscriber(ConnectPoint cp, VlanId cTag, VlanId sTag, Integer tpId) {
+        return null;
     }
 }

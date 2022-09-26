@@ -15,15 +15,33 @@
  */
 package org.etri.slice.api;
 
+import org.etri.slice.impl.C;
+import org.etri.slice.impl.SliceInstance;
+import org.onlab.packet.VlanId;
 import org.onosproject.event.ListenerService;
 import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest;
 import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse;
 import org.etri.sis.SliceProfileInformation;
+import org.onosproject.net.ConnectPoint;
+import org.onosproject.net.DeviceId;
+
+import java.util.List;
 
 /**
  * Skeletal ONOS application API.
  */
-public interface SliceCtrlService extends ListenerService<SliceCtrlEvent, SliceCtrlListener> {
+public interface SliceCtrlService {
     SliceProfileInformation provisionSlice(String sliceName);
-    AddSliceResponse AddSlice(AddSliceRequest request);
+    AddSliceResponse addSlice(AddSliceRequest request);
+
+    SliceInstance getSliceInstance(String sliceName);
+    List<SliceInstance> getAllSliceInstances();
+
+    C.RESULTS addOLTDevice(DeviceId deviceId, C.WB_TYPE wbType);
+    C.RESULTS addPonPort(DeviceId deviceId, String portName);
+    C.RESULTS addSliceInstance(String sliceName, DeviceId deviceId, String ponPortName, String uniPortName, int reqBandwidth, C.DBA_ALG dba);
+    C.RESULTS updateBWOfSliceInstance(String sliceName, DeviceId deviceId, String ponPortName, int reqBandwidth);
+
+    C.RESULTS provisionSubscriber(ConnectPoint cp);
+    C.RESULTS provisionSubscriber(ConnectPoint cp, VlanId cTag, VlanId sTag, Integer tpId);
 }

@@ -1,5 +1,7 @@
 package org.etri.rest;
 
+import org.etri.slice.api.SliceCtrlService;
+import org.onosproject.cli.AbstractShellCommand;
 import org.onosproject.rest.AbstractWebResource;
 import org.slf4j.Logger;
 
@@ -31,6 +33,10 @@ public class SliceWebResource extends AbstractWebResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("status")
     public Response status() {
+        log.info("Request through RestAPI from GUI application");
+
+        SliceCtrlService service = get(SliceCtrlService.class);
+
         return Response.ok("hello world!").
                 header("Access-Control-Allow-Origin", "*").
                 build();
