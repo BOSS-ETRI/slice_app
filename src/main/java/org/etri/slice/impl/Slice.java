@@ -341,7 +341,7 @@ public class Slice implements SliceCtrlService {
             return C.RESULTS.INSUFFICIENT_BANDWIDTH;
         }
 
-//        if( response.getResult() == "")
+        sliceInstance.addSubscriber(portName, (int)reqCir);
 
         accessDeviceService.provisionSubscriber(cp);
         return null;
