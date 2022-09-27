@@ -4,6 +4,7 @@ import org.apache.karaf.shell.api.action.Argument;
 import org.apache.karaf.shell.api.action.Command;
 import org.apache.karaf.shell.api.action.Completion;
 import org.apache.karaf.shell.api.action.lifecycle.Service;
+import org.etri.slice.api.SliceCtrlService;
 import org.onosproject.cli.AbstractShellCommand;
 import org.onosproject.cli.net.DeviceIdCompleter;
 import org.onosproject.net.ConnectPoint;
@@ -22,17 +23,18 @@ public class SubscriberAddAllCommand extends AbstractShellCommand {
 
     @Override
     protected void doExecute() {
-//        AccessDeviceService service = AbstractShellCommand.get(AccessDeviceService.class);
-//        DeviceService deviceService = AbstractShellCommand.get(DeviceService.class);
-//        DeviceId deviceId = DeviceId.deviceId(strDeviceId);
-//
-//        deviceService.getPorts(deviceId).forEach(p -> {
-//            if (p.isEnabled()) {
-//                PortNumber port = p.number();
-//                ConnectPoint connectPoint = new ConnectPoint(deviceId, port);
-//                service.provisionSubscriber(connectPoint);
-//            }
-//        });
+        SliceCtrlService service = get(SliceCtrlService.class);
+
+        DeviceId deviceId = DeviceId.deviceId(strDeviceId);
+        DeviceService deviceService = AbstractShellCommand.get(DeviceService.class);
+
+        deviceService.getPorts(deviceId).forEach(p -> {
+            if (p.isEnabled()) {
+                PortNumber port = p.number();
+                ConnectPoint connectPoint = new ConnectPoint(deviceId, port);
+                service.provisionSubscriber(connectPoint);
+            }
+        });
     }
 }
 
