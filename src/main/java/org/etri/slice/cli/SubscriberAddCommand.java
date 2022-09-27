@@ -33,12 +33,5 @@ public class SubscriberAddCommand extends AbstractShellCommand {
         ConnectPoint connectPoint = new ConnectPoint(deviceId, port);
 
         service.provisionSubscriber(connectPoint);
-
-//        AccessDeviceService service = AbstractShellCommand.get(AccessDeviceService.class);
-//        DeviceId deviceId = DeviceId.deviceId(strDeviceId);
-//        PortNumber port = PortNumber.portNumber(strPort);
-//        ConnectPoint connectPoint = new ConnectPoint(deviceId, port);
-//
-//        service.provisionSubscriber(connectPoint);
     }
 }
