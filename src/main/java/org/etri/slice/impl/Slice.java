@@ -15,7 +15,8 @@
  */
 package org.etri.slice.impl;
 
-import org.etri.onosslice.sliceservice.ONOSSliceService;
+import org.etri.onosslice.sliceservice.ONOSSliceService.UniTags;
+import org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos;
 import org.etri.sis.*;
 import org.onlab.packet.VlanId;
 import org.onosproject.cfg.ComponentConfigService;
@@ -231,12 +232,12 @@ public class Slice implements SliceCtrlService {
     public C.RESULTS addSliceInstance(
             String sliceName, DeviceId deviceId,
             String ponPortName, String uniPortName,
-            int reqBandwidth, C.DBA_ALG dba) {
+            int fixedBandwidth, int assuredBandwidth, int surplusBandwidth, C.DBA_ALG dba) {
         C.RESULTS result =
                 manager.addSliceInstance(
                         sliceName, deviceId,
                         ponPortName, uniPortName,
-                        reqBandwidth, dba
+                        fixedBandwidth+assuredBandwidth, dba
                 );
 
         if( result == SUCCESS ) {
@@ -244,9 +245,14 @@ public class Slice implements SliceCtrlService {
             AddSliceRequest request = AddSliceRequest.newBuilder()
                     .setPortName(ponPortName)
                     .setSliceName(sliceName)
-                    .setTags(ONOSSliceService.UniTags.newBuilder()
+                    .setTags(UniTags.newBuilder()
                             .setUniPortName(uniPortName)
                             .setDbaType(dba.toString())
+                            .build())
+                    .setBwInfos(BandwidthInfos.newBuilder()
+                            .setRf(fixedBandwidth)
+                            .setRa(assuredBandwidth)
+                            .setRs(surplusBandwidth)
                             .build())
                     .build();
 

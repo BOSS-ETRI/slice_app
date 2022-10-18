@@ -39,7 +39,7 @@ public interface SliceCtrlService {
 
     C.RESULTS addOLTDevice(DeviceId deviceId, C.WB_TYPE wbType);
     C.RESULTS addPonPort(DeviceId deviceId, String portName);
-    C.RESULTS addSliceInstance(String sliceName, DeviceId deviceId, String ponPortName, String uniPortName, int reqBandwidth, C.DBA_ALG dba);
+    C.RESULTS addSliceInstance(String sliceName, DeviceId deviceId, String ponPortName, String uniPortName, int fixedBandwidth, int assuredBandwidth, int surplusBandwidth, C.DBA_ALG dba);
     C.RESULTS updateBWOfSliceInstance(String sliceName, DeviceId deviceId, String ponPortName, int reqBandwidth);
 
     C.RESULTS provisionSubscriber(ConnectPoint cp);

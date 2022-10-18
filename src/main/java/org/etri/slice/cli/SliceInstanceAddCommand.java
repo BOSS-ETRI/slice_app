@@ -23,8 +23,14 @@ public class SliceInstanceAddCommand extends AbstractShellCommand {
 	@Argument(index = 3, name = "uniPortName", required = true, multiValued = false)
 	private String uniPortName = null;
 
-	@Argument(index = 4, name = "bandwidth", required = true, multiValued = false)
-	private int bandwidth = 0;
+	@Argument(index = 4, name = "fixed-bw", required = true, multiValued = false)
+	private int fixedBW = 0;
+
+	@Argument(index = 5, name = "assured-bw", required = true, multiValued = false)
+	private int assuredBW = 0;
+
+	@Argument(index = 6, name = "surplus-bw", required = true, multiValued = false)
+	private int surplusBW = 0;
 
 	@Argument(index = 5, name = "dba", required = true, multiValued = false)
 	private C.DBA_ALG dba = null;
@@ -35,7 +41,7 @@ public class SliceInstanceAddCommand extends AbstractShellCommand {
 
 		DeviceId device = DeviceId.deviceId(deviceId);
 		C.RESULTS result = service.addSliceInstance(
-				sliceName, device, ponPortName, uniPortName, bandwidth, dba
+				sliceName, device, ponPortName, uniPortName, fixedBW, assuredBW, surplusBW, dba
 		);
 
 		switch (result) {

@@ -1233,6 +1233,694 @@ public final class ONOSSliceService {
 
   }
 
+  public interface BandwidthInfosOrBuilder extends
+          // @@protoc_insertion_point(interface_extends:onossliceservice.BandwidthInfos)
+          com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * fixed bandwidth(Mb/s)
+     * </pre>
+     *
+     * <code>uint32 rf = 1;</code>
+     * @return The rf.
+     */
+    int getRf();
+
+    /**
+     * <pre>
+     * assured bandwidth(Mb/s)
+     * </pre>
+     *
+     * <code>uint32 ra = 2;</code>
+     * @return The ra.
+     */
+    int getRa();
+
+    /**
+     * <pre>
+     * surplus bandwidth(Mb/s)
+     * </pre>
+     *
+     * <code>uint32 rs = 3;</code>
+     * @return The rs.
+     */
+    int getRs();
+  }
+  /**
+   * Protobuf type {@code onossliceservice.BandwidthInfos}
+   */
+  public static final class BandwidthInfos extends
+          com.google.protobuf.GeneratedMessageV3 implements
+          // @@protoc_insertion_point(message_implements:onossliceservice.BandwidthInfos)
+          BandwidthInfosOrBuilder {
+    private static final long serialVersionUID = 0L;
+    // Use BandwidthInfos.newBuilder() to construct.
+    private BandwidthInfos(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private BandwidthInfos() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+            UnusedPrivateParameter unused) {
+      return new BandwidthInfos();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private BandwidthInfos(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+              com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              rf_ = input.readUInt32();
+              break;
+            }
+            case 16: {
+
+              ra_ = input.readUInt32();
+              break;
+            }
+            case 24: {
+
+              rs_ = input.readUInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                      input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+                e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+    getDescriptor() {
+      return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_onossliceservice_BandwidthInfos_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    internalGetFieldAccessorTable() {
+      return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_onossliceservice_BandwidthInfos_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                      org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos.class, org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos.Builder.class);
+    }
+
+    public static final int RF_FIELD_NUMBER = 1;
+    private int rf_;
+    /**
+     * <pre>
+     * fixed bandwidth(Mb/s)
+     * </pre>
+     *
+     * <code>uint32 rf = 1;</code>
+     * @return The rf.
+     */
+    @java.lang.Override
+    public int getRf() {
+      return rf_;
+    }
+
+    public static final int RA_FIELD_NUMBER = 2;
+    private int ra_;
+    /**
+     * <pre>
+     * assured bandwidth(Mb/s)
+     * </pre>
+     *
+     * <code>uint32 ra = 2;</code>
+     * @return The ra.
+     */
+    @java.lang.Override
+    public int getRa() {
+      return ra_;
+    }
+
+    public static final int RS_FIELD_NUMBER = 3;
+    private int rs_;
+    /**
+     * <pre>
+     * surplus bandwidth(Mb/s)
+     * </pre>
+     *
+     * <code>uint32 rs = 3;</code>
+     * @return The rs.
+     */
+    @java.lang.Override
+    public int getRs() {
+      return rs_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+            throws java.io.IOException {
+      if (rf_ != 0) {
+        output.writeUInt32(1, rf_);
+      }
+      if (ra_ != 0) {
+        output.writeUInt32(2, ra_);
+      }
+      if (rs_ != 0) {
+        output.writeUInt32(3, rs_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (rf_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+                .computeUInt32Size(1, rf_);
+      }
+      if (ra_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+                .computeUInt32Size(2, ra_);
+      }
+      if (rs_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+                .computeUInt32Size(3, rs_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+        return true;
+      }
+      if (!(obj instanceof org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos)) {
+        return super.equals(obj);
+      }
+      org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos other = (org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos) obj;
+
+      if (getRf()
+              != other.getRf()) return false;
+      if (getRa()
+              != other.getRa()) return false;
+      if (getRs()
+              != other.getRs()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + RF_FIELD_NUMBER;
+      hash = (53 * hash) + getRf();
+      hash = (37 * hash) + RA_FIELD_NUMBER;
+      hash = (53 * hash) + getRa();
+      hash = (37 * hash) + RS_FIELD_NUMBER;
+      hash = (53 * hash) + getRs();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos parseFrom(
+            java.nio.ByteBuffer data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos parseFrom(
+            java.nio.ByteBuffer data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos parseFrom(
+            com.google.protobuf.ByteString data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos parseFrom(
+            com.google.protobuf.ByteString data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos parseFrom(byte[] data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos parseFrom(
+            byte[] data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos parseFrom(java.io.InputStream input)
+            throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+              .parseWithIOException(PARSER, input);
+    }
+    public static org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos parseFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+              .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos parseDelimitedFrom(java.io.InputStream input)
+            throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+              .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos parseDelimitedFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos parseFrom(
+            com.google.protobuf.CodedInputStream input)
+            throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+              .parseWithIOException(PARSER, input);
+    }
+    public static org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos parseFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+              .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+              ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code onossliceservice.BandwidthInfos}
+     */
+    public static final class Builder extends
+            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+            // @@protoc_insertion_point(builder_implements:onossliceservice.BandwidthInfos)
+            org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfosOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+      getDescriptor() {
+        return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_onossliceservice_BandwidthInfos_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internalGetFieldAccessorTable() {
+        return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_onossliceservice_BandwidthInfos_fieldAccessorTable
+                .ensureFieldAccessorsInitialized(
+                        org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos.class, org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos.Builder.class);
+      }
+
+      // Construct using org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+              com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        rf_ = 0;
+
+        ra_ = 0;
+
+        rs_ = 0;
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+      getDescriptorForType() {
+        return org.etri.onosslice.sliceservice.ONOSSliceService.internal_static_onossliceservice_BandwidthInfos_descriptor;
+      }
+
+      @java.lang.Override
+      public org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos getDefaultInstanceForType() {
+        return org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos build() {
+        org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos buildPartial() {
+        org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos result = new org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos(this);
+        result.rf_ = rf_;
+        result.ra_ = ra_;
+        result.rs_ = rs_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+              com.google.protobuf.Descriptors.FieldDescriptor field,
+              java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+              com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+              com.google.protobuf.Descriptors.FieldDescriptor field,
+              int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+              com.google.protobuf.Descriptors.FieldDescriptor field,
+              java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos) {
+          return mergeFrom((org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos other) {
+        if (other == org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos.getDefaultInstance()) return this;
+        if (other.getRf() != 0) {
+          setRf(other.getRf());
+        }
+        if (other.getRa() != 0) {
+          setRa(other.getRa());
+        }
+        if (other.getRs() != 0) {
+          setRs(other.getRs());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws java.io.IOException {
+        org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int rf_ ;
+      /**
+       * <pre>
+       * fixed bandwidth(Mb/s)
+       * </pre>
+       *
+       * <code>uint32 rf = 1;</code>
+       * @return The rf.
+       */
+      @java.lang.Override
+      public int getRf() {
+        return rf_;
+      }
+      /**
+       * <pre>
+       * fixed bandwidth(Mb/s)
+       * </pre>
+       *
+       * <code>uint32 rf = 1;</code>
+       * @param value The rf to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRf(int value) {
+
+        rf_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * fixed bandwidth(Mb/s)
+       * </pre>
+       *
+       * <code>uint32 rf = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRf() {
+
+        rf_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int ra_ ;
+      /**
+       * <pre>
+       * assured bandwidth(Mb/s)
+       * </pre>
+       *
+       * <code>uint32 ra = 2;</code>
+       * @return The ra.
+       */
+      @java.lang.Override
+      public int getRa() {
+        return ra_;
+      }
+      /**
+       * <pre>
+       * assured bandwidth(Mb/s)
+       * </pre>
+       *
+       * <code>uint32 ra = 2;</code>
+       * @param value The ra to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRa(int value) {
+
+        ra_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * assured bandwidth(Mb/s)
+       * </pre>
+       *
+       * <code>uint32 ra = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRa() {
+
+        ra_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int rs_ ;
+      /**
+       * <pre>
+       * surplus bandwidth(Mb/s)
+       * </pre>
+       *
+       * <code>uint32 rs = 3;</code>
+       * @return The rs.
+       */
+      @java.lang.Override
+      public int getRs() {
+        return rs_;
+      }
+      /**
+       * <pre>
+       * surplus bandwidth(Mb/s)
+       * </pre>
+       *
+       * <code>uint32 rs = 3;</code>
+       * @param value The rs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRs(int value) {
+
+        rs_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * surplus bandwidth(Mb/s)
+       * </pre>
+       *
+       * <code>uint32 rs = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRs() {
+
+        rs_ = 0;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+              final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+              final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:onossliceservice.BandwidthInfos)
+    }
+
+    // @@protoc_insertion_point(class_scope:onossliceservice.BandwidthInfos)
+    private static final org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos();
+    }
+
+    public static org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<BandwidthInfos>
+            PARSER = new com.google.protobuf.AbstractParser<BandwidthInfos>() {
+      @java.lang.Override
+      public BandwidthInfos parsePartialFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+        return new BandwidthInfos(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<BandwidthInfos> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BandwidthInfos> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface AddSliceRequestOrBuilder extends
           // @@protoc_insertion_point(interface_extends:onossliceservice.AddSliceRequest)
           com.google.protobuf.MessageOrBuilder {
@@ -1275,6 +1963,21 @@ public final class ONOSSliceService {
      * <code>.onossliceservice.UniTags tags = 3;</code>
      */
     org.etri.onosslice.sliceservice.ONOSSliceService.UniTagsOrBuilder getTagsOrBuilder();
+
+    /**
+     * <code>.onossliceservice.BandwidthInfos bwInfos = 4;</code>
+     * @return Whether the bwInfos field is set.
+     */
+    boolean hasBwInfos();
+    /**
+     * <code>.onossliceservice.BandwidthInfos bwInfos = 4;</code>
+     * @return The bwInfos.
+     */
+    org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos getBwInfos();
+    /**
+     * <code>.onossliceservice.BandwidthInfos bwInfos = 4;</code>
+     */
+    org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfosOrBuilder getBwInfosOrBuilder();
   }
   /**
    * Protobuf type {@code onossliceservice.AddSliceRequest}
@@ -1344,6 +2047,19 @@ public final class ONOSSliceService {
               if (subBuilder != null) {
                 subBuilder.mergeFrom(tags_);
                 tags_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 34: {
+              org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos.Builder subBuilder = null;
+              if (bwInfos_ != null) {
+                subBuilder = bwInfos_.toBuilder();
+              }
+              bwInfos_ = input.readMessage(org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(bwInfos_);
+                bwInfos_ = subBuilder.buildPartial();
               }
 
               break;
@@ -1482,6 +2198,32 @@ public final class ONOSSliceService {
       return getTags();
     }
 
+    public static final int BWINFOS_FIELD_NUMBER = 4;
+    private org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos bwInfos_;
+    /**
+     * <code>.onossliceservice.BandwidthInfos bwInfos = 4;</code>
+     * @return Whether the bwInfos field is set.
+     */
+    @java.lang.Override
+    public boolean hasBwInfos() {
+      return bwInfos_ != null;
+    }
+    /**
+     * <code>.onossliceservice.BandwidthInfos bwInfos = 4;</code>
+     * @return The bwInfos.
+     */
+    @java.lang.Override
+    public org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos getBwInfos() {
+      return bwInfos_ == null ? org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos.getDefaultInstance() : bwInfos_;
+    }
+    /**
+     * <code>.onossliceservice.BandwidthInfos bwInfos = 4;</code>
+     */
+    @java.lang.Override
+    public org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfosOrBuilder getBwInfosOrBuilder() {
+      return getBwInfos();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1505,6 +2247,9 @@ public final class ONOSSliceService {
       if (tags_ != null) {
         output.writeMessage(3, getTags());
       }
+      if (bwInfos_ != null) {
+        output.writeMessage(4, getBwInfos());
+      }
       unknownFields.writeTo(output);
     }
 
@@ -1523,6 +2268,10 @@ public final class ONOSSliceService {
       if (tags_ != null) {
         size += com.google.protobuf.CodedOutputStream
                 .computeMessageSize(3, getTags());
+      }
+      if (bwInfos_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+                .computeMessageSize(4, getBwInfos());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1548,6 +2297,11 @@ public final class ONOSSliceService {
         if (!getTags()
                 .equals(other.getTags())) return false;
       }
+      if (hasBwInfos() != other.hasBwInfos()) return false;
+      if (hasBwInfos()) {
+        if (!getBwInfos()
+                .equals(other.getBwInfos())) return false;
+      }
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -1566,6 +2320,10 @@ public final class ONOSSliceService {
       if (hasTags()) {
         hash = (37 * hash) + TAGS_FIELD_NUMBER;
         hash = (53 * hash) + getTags().hashCode();
+      }
+      if (hasBwInfos()) {
+        hash = (37 * hash) + BWINFOS_FIELD_NUMBER;
+        hash = (53 * hash) + getBwInfos().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -1710,6 +2468,12 @@ public final class ONOSSliceService {
           tags_ = null;
           tagsBuilder_ = null;
         }
+        if (bwInfosBuilder_ == null) {
+          bwInfos_ = null;
+        } else {
+          bwInfos_ = null;
+          bwInfosBuilder_ = null;
+        }
         return this;
       }
 
@@ -1742,6 +2506,11 @@ public final class ONOSSliceService {
           result.tags_ = tags_;
         } else {
           result.tags_ = tagsBuilder_.build();
+        }
+        if (bwInfosBuilder_ == null) {
+          result.bwInfos_ = bwInfos_;
+        } else {
+          result.bwInfos_ = bwInfosBuilder_.build();
         }
         onBuilt();
         return result;
@@ -1801,6 +2570,9 @@ public final class ONOSSliceService {
         }
         if (other.hasTags()) {
           mergeTags(other.getTags());
+        }
+        if (other.hasBwInfos()) {
+          mergeBwInfos(other.getBwInfos());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2100,6 +2872,125 @@ public final class ONOSSliceService {
           tags_ = null;
         }
         return tagsBuilder_;
+      }
+
+      private org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos bwInfos_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+              org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos, org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos.Builder, org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfosOrBuilder> bwInfosBuilder_;
+      /**
+       * <code>.onossliceservice.BandwidthInfos bwInfos = 4;</code>
+       * @return Whether the bwInfos field is set.
+       */
+      public boolean hasBwInfos() {
+        return bwInfosBuilder_ != null || bwInfos_ != null;
+      }
+      /**
+       * <code>.onossliceservice.BandwidthInfos bwInfos = 4;</code>
+       * @return The bwInfos.
+       */
+      public org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos getBwInfos() {
+        if (bwInfosBuilder_ == null) {
+          return bwInfos_ == null ? org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos.getDefaultInstance() : bwInfos_;
+        } else {
+          return bwInfosBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.onossliceservice.BandwidthInfos bwInfos = 4;</code>
+       */
+      public Builder setBwInfos(org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos value) {
+        if (bwInfosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          bwInfos_ = value;
+          onChanged();
+        } else {
+          bwInfosBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.onossliceservice.BandwidthInfos bwInfos = 4;</code>
+       */
+      public Builder setBwInfos(
+              org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos.Builder builderForValue) {
+        if (bwInfosBuilder_ == null) {
+          bwInfos_ = builderForValue.build();
+          onChanged();
+        } else {
+          bwInfosBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.onossliceservice.BandwidthInfos bwInfos = 4;</code>
+       */
+      public Builder mergeBwInfos(org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos value) {
+        if (bwInfosBuilder_ == null) {
+          if (bwInfos_ != null) {
+            bwInfos_ =
+                    org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos.newBuilder(bwInfos_).mergeFrom(value).buildPartial();
+          } else {
+            bwInfos_ = value;
+          }
+          onChanged();
+        } else {
+          bwInfosBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.onossliceservice.BandwidthInfos bwInfos = 4;</code>
+       */
+      public Builder clearBwInfos() {
+        if (bwInfosBuilder_ == null) {
+          bwInfos_ = null;
+          onChanged();
+        } else {
+          bwInfos_ = null;
+          bwInfosBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.onossliceservice.BandwidthInfos bwInfos = 4;</code>
+       */
+      public org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos.Builder getBwInfosBuilder() {
+
+        onChanged();
+        return getBwInfosFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.onossliceservice.BandwidthInfos bwInfos = 4;</code>
+       */
+      public org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfosOrBuilder getBwInfosOrBuilder() {
+        if (bwInfosBuilder_ != null) {
+          return bwInfosBuilder_.getMessageOrBuilder();
+        } else {
+          return bwInfos_ == null ?
+                  org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos.getDefaultInstance() : bwInfos_;
+        }
+      }
+      /**
+       * <code>.onossliceservice.BandwidthInfos bwInfos = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+              org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos, org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos.Builder, org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfosOrBuilder>
+      getBwInfosFieldBuilder() {
+        if (bwInfosBuilder_ == null) {
+          bwInfosBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+                  org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos, org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos.Builder, org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfosOrBuilder>(
+                  getBwInfos(),
+                  getParentForChildren(),
+                  isClean());
+          bwInfos_ = null;
+        }
+        return bwInfosBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -5281,6 +6172,11 @@ public final class ONOSSliceService {
   com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internal_static_onossliceservice_UniTags_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+          internal_static_onossliceservice_BandwidthInfos_descriptor;
+  private static final
+  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internal_static_onossliceservice_BandwidthInfos_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
           internal_static_onossliceservice_AddSliceRequest_descriptor;
   private static final
   com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -5316,31 +6212,33 @@ public final class ONOSSliceService {
     java.lang.String[] descriptorData = {
             "\n\023slice_service.proto\022\020onossliceservice\"" +
                     "E\n\007UniTags\022\021\n\tpon_c_tag\030\001 \001(\t\022\025\n\runi_por" +
-                    "t_name\030\002 \001(\t\022\020\n\010dba_type\030\003 \001(\t\"a\n\017AddSli" +
-                    "ceRequest\022\022\n\nslice_name\030\001 \001(\t\022\021\n\tport_na" +
-                    "me\030\002 \001(\t\022\'\n\004tags\030\003 \001(\0132\031.onossliceservic" +
-                    "e.UniTags\"\025\n\023DeviceStatusRequest\"P\n\nPort" +
-                    "Status\022\022\n\nidentifier\030\001 \001(\t\022.\n\006status\030\002 \001" +
-                    "(\0162\036.onossliceservice.DeviceStatus\"\270\001\n\024D" +
-                    "eviceStatusResponse\022\022\n\nidentifier\030\001 \001(\t\022" +
-                    "*\n\004type\030\002 \001(\0162\034.onossliceservice.DeviceT" +
-                    "ype\022.\n\006status\030\003 \001(\0162\036.onossliceservice.D" +
-                    "eviceStatus\0220\n\nportStatus\030\004 \003(\0132\034.onossl" +
-                    "iceservice.PortStatus\"\"\n\020AddSliceRespons" +
-                    "e\022\016\n\006result\030\001 \001(\t*H\n\007DbaType\022\023\n\017DBA_TYPE" +
-                    "_SR_DBA\020\000\022\023\n\017DBA_TYPE_LL_DBA\020\001\022\023\n\017DBA_TY" +
-                    "PE_CO_DBA\020\002* \n\014DeviceStatus\022\006\n\002UP\020\000\022\010\n\004D" +
-                    "OWN\020\001*K\n\nDeviceType\022\r\n\tWB_OLT_1G\020\000\022\016\n\nWB" +
-                    "_OLT_10G\020\001\022\016\n\nWB_OLT_25G\020\002\022\016\n\nWB_OLT_50G" +
-                    "\020\0032\304\001\n\014SliceService\022S\n\010AddSlice\022!.onossl" +
-                    "iceservice.AddSliceRequest\032\".onosslicese" +
-                    "rvice.AddSliceResponse\"\000\022_\n\014DeviceReport" +
-                    "\022%.onossliceservice.DeviceStatusRequest\032" +
-                    "&.onossliceservice.DeviceStatusResponse0" +
-                    "\001Bp\n\037org.etri.onosslice.sliceserviceB\020ON" +
-                    "OSSliceServiceZ8github.com/opencord/volt" +
-                    "ha-protos/v4/go/onossliceservice\210\001\001b\006pro" +
-                    "to3"
+                    "t_name\030\002 \001(\t\022\020\n\010dba_type\030\003 \001(\t\"4\n\016Bandwi" +
+                    "dthInfos\022\n\n\002rf\030\001 \001(\r\022\n\n\002ra\030\002 \001(\r\022\n\n\002rs\030\003" +
+                    " \001(\r\"\224\001\n\017AddSliceRequest\022\022\n\nslice_name\030\001" +
+                    " \001(\t\022\021\n\tport_name\030\002 \001(\t\022\'\n\004tags\030\003 \001(\0132\031." +
+                    "onossliceservice.UniTags\0221\n\007bwInfos\030\004 \001(" +
+                    "\0132 .onossliceservice.BandwidthInfos\"\025\n\023D" +
+                    "eviceStatusRequest\"P\n\nPortStatus\022\022\n\niden" +
+                    "tifier\030\001 \001(\t\022.\n\006status\030\002 \001(\0162\036.onosslice" +
+                    "service.DeviceStatus\"\270\001\n\024DeviceStatusRes" +
+                    "ponse\022\022\n\nidentifier\030\001 \001(\t\022*\n\004type\030\002 \001(\0162" +
+                    "\034.onossliceservice.DeviceType\022.\n\006status\030" +
+                    "\003 \001(\0162\036.onossliceservice.DeviceStatus\0220\n" +
+                    "\nportStatus\030\004 \003(\0132\034.onossliceservice.Por" +
+                    "tStatus\"\"\n\020AddSliceResponse\022\016\n\006result\030\001 " +
+                    "\001(\t*H\n\007DbaType\022\023\n\017DBA_TYPE_SR_DBA\020\000\022\023\n\017D" +
+                    "BA_TYPE_LL_DBA\020\001\022\023\n\017DBA_TYPE_CO_DBA\020\002* \n" +
+                    "\014DeviceStatus\022\006\n\002UP\020\000\022\010\n\004DOWN\020\001*K\n\nDevic" +
+                    "eType\022\r\n\tWB_OLT_1G\020\000\022\016\n\nWB_OLT_10G\020\001\022\016\n\n" +
+                    "WB_OLT_25G\020\002\022\016\n\nWB_OLT_50G\020\0032\304\001\n\014SliceSe" +
+                    "rvice\022S\n\010AddSlice\022!.onossliceservice.Add" +
+                    "SliceRequest\032\".onossliceservice.AddSlice" +
+                    "Response\"\000\022_\n\014DeviceReport\022%.onosslicese" +
+                    "rvice.DeviceStatusRequest\032&.onossliceser" +
+                    "vice.DeviceStatusResponse0\001Bp\n\037org.etri." +
+                    "onosslice.sliceserviceB\020ONOSSliceService" +
+                    "Z8github.com/opencord/voltha-protos/v4/g" +
+                    "o/onossliceservice\210\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
             .internalBuildGeneratedFileFrom(descriptorData,
@@ -5352,32 +6250,38 @@ public final class ONOSSliceService {
             com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
             internal_static_onossliceservice_UniTags_descriptor,
             new java.lang.String[] { "PonCTag", "UniPortName", "DbaType", });
-    internal_static_onossliceservice_AddSliceRequest_descriptor =
+    internal_static_onossliceservice_BandwidthInfos_descriptor =
             getDescriptor().getMessageTypes().get(1);
+    internal_static_onossliceservice_BandwidthInfos_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+            internal_static_onossliceservice_BandwidthInfos_descriptor,
+            new java.lang.String[] { "Rf", "Ra", "Rs", });
+    internal_static_onossliceservice_AddSliceRequest_descriptor =
+            getDescriptor().getMessageTypes().get(2);
     internal_static_onossliceservice_AddSliceRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
             internal_static_onossliceservice_AddSliceRequest_descriptor,
-            new java.lang.String[] { "SliceName", "PortName", "Tags", });
+            new java.lang.String[] { "SliceName", "PortName", "Tags", "BwInfos", });
     internal_static_onossliceservice_DeviceStatusRequest_descriptor =
-            getDescriptor().getMessageTypes().get(2);
+            getDescriptor().getMessageTypes().get(3);
     internal_static_onossliceservice_DeviceStatusRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
             internal_static_onossliceservice_DeviceStatusRequest_descriptor,
             new java.lang.String[] { });
     internal_static_onossliceservice_PortStatus_descriptor =
-            getDescriptor().getMessageTypes().get(3);
+            getDescriptor().getMessageTypes().get(4);
     internal_static_onossliceservice_PortStatus_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
             internal_static_onossliceservice_PortStatus_descriptor,
             new java.lang.String[] { "Identifier", "Status", });
     internal_static_onossliceservice_DeviceStatusResponse_descriptor =
-            getDescriptor().getMessageTypes().get(4);
+            getDescriptor().getMessageTypes().get(5);
     internal_static_onossliceservice_DeviceStatusResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
             internal_static_onossliceservice_DeviceStatusResponse_descriptor,
             new java.lang.String[] { "Identifier", "Type", "Status", "PortStatus", });
     internal_static_onossliceservice_AddSliceResponse_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(6);
     internal_static_onossliceservice_AddSliceResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
             internal_static_onossliceservice_AddSliceResponse_descriptor,
