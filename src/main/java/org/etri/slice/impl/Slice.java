@@ -122,6 +122,7 @@ public class Slice implements SliceCtrlService {
 
         manager = new Manager();
         client = new volthaMgmtGrpcClient(log);
+        client.RequestDeviceStatus(manager);
         log.info("Started");
     }
 
