@@ -22,7 +22,7 @@ public class ManagerTest {
 
     @Test
     public void testDeviceAdd() {
-        Manager manager = new Manager();
+        Manager manager = new Manager(7);
 
         DeviceId devId = DeviceId.deviceId("test-device");
         C.RESULTS result = manager.addOLTDevice(devId, OLT_10G);
@@ -34,7 +34,7 @@ public class ManagerTest {
 
     @Test
     public void testPonPortAdd() {
-        Manager manager = new Manager();
+        Manager manager = new Manager(7);
 
         DeviceId devId = DeviceId.deviceId("test-device");
         C.RESULTS result = manager.addOLTDevice(devId, OLT_10G);
@@ -53,7 +53,7 @@ public class ManagerTest {
 
     @Test
     public void testSliceInstanceAdd() {
-        Manager manager = new Manager();
+        Manager manager = new Manager(7);
 
         DeviceId devId = DeviceId.deviceId("test-device");
         String ponPortName = "pon-port1";
@@ -71,5 +71,23 @@ public class ManagerTest {
 
         result = manager.addSliceInstance("R1", devId, ponPortName, "uni-port1", getKilobytesFrom(1, GB), CO_DBA);
         Assert.assertEquals(result, DUPLICATE);
+    }
+
+    @Test
+    public void testSliceIdMax() {
+        Manager manager = new Manager(1);
+
+        DeviceId devId = DeviceId.deviceId("test-device");
+        String ponPortName = "pon-port1";
+
+        manager.addOLTDevice(devId, OLT_10G);
+        manager.addPonPort(devId, ponPortName);
+
+        C.RESULTS result = manager.addSliceInstance("R1", devId, ponPortName, "uni-port1", getKilobytesFrom(1, GB), CO_DBA);
+        Assert.assertEquals(result, SUCCESS);
+
+        manager.addPonPort(devId, ponPortName);
+        result = manager.addSliceInstance("R2", devId, ponPortName, "uni-port1", getKilobytesFrom(1, GB), CO_DBA);
+        Assert.assertEquals(result, FULL_ENTRY);
     }
 }

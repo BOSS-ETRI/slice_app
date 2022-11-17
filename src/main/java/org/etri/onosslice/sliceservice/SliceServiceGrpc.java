@@ -91,6 +91,38 @@ public final class SliceServiceGrpc {
     return getDeviceReportMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDRequest,
+          org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDResponse> getGetETCDMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+          fullMethodName = SERVICE_NAME + '/' + "GetETCD",
+          requestType = org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDRequest.class,
+          responseType = org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDResponse.class,
+          methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDRequest,
+          org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDResponse> getGetETCDMethod() {
+    io.grpc.MethodDescriptor<org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDRequest, org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDResponse> getGetETCDMethod;
+    if ((getGetETCDMethod = SliceServiceGrpc.getGetETCDMethod) == null) {
+      synchronized (SliceServiceGrpc.class) {
+        if ((getGetETCDMethod = SliceServiceGrpc.getGetETCDMethod) == null) {
+          SliceServiceGrpc.getGetETCDMethod = getGetETCDMethod =
+                  io.grpc.MethodDescriptor.<org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDRequest, org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDResponse>newBuilder()
+                          .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+                          .setFullMethodName(generateFullMethodName(
+                                  "onossliceservice.SliceService", "GetETCD"))
+                          .setSampledToLocalTracing(true)
+                          .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                                  org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDRequest.getDefaultInstance()))
+                          .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                                  org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDResponse.getDefaultInstance()))
+                          .setSchemaDescriptor(new SliceServiceMethodDescriptorSupplier("GetETCD"))
+                          .build();
+        }
+      }
+    }
+    return getGetETCDMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -132,6 +164,13 @@ public final class SliceServiceGrpc {
       asyncUnimplementedUnaryCall(getDeviceReportMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void getETCD(org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDRequest request,
+                        io.grpc.stub.StreamObserver<org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetETCDMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
               .addMethod(
@@ -148,6 +187,13 @@ public final class SliceServiceGrpc {
                                       org.etri.onosslice.sliceservice.ONOSSliceService.DeviceStatusRequest,
                                       org.etri.onosslice.sliceservice.ONOSSliceService.DeviceStatusResponse>(
                                       this, METHODID_DEVICE_REPORT)))
+              .addMethod(
+                      getGetETCDMethod(),
+                      asyncUnaryCall(
+                              new MethodHandlers<
+                                      org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDRequest,
+                                      org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDResponse>(
+                                      this, METHODID_GET_ETCD)))
               .build();
     }
   }
@@ -185,6 +231,14 @@ public final class SliceServiceGrpc {
       asyncServerStreamingCall(
               getChannel().newCall(getDeviceReportMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void getETCD(org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDRequest request,
+                        io.grpc.stub.StreamObserver<org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDResponse> responseObserver) {
+      asyncUnaryCall(
+              getChannel().newCall(getGetETCDMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -219,6 +273,13 @@ public final class SliceServiceGrpc {
       return blockingServerStreamingCall(
               getChannel(), getDeviceReportMethod(), getCallOptions(), request);
     }
+
+    /**
+     */
+    public org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDResponse getETCD(org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDRequest request) {
+      return blockingUnaryCall(
+              getChannel(), getGetETCDMethod(), getCallOptions(), request);
+    }
   }
 
   /**
@@ -246,10 +307,19 @@ public final class SliceServiceGrpc {
       return futureUnaryCall(
               getChannel().newCall(getAddSliceMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDResponse> getETCD(
+            org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDRequest request) {
+      return futureUnaryCall(
+              getChannel().newCall(getGetETCDMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_ADD_SLICE = 0;
   private static final int METHODID_DEVICE_REPORT = 1;
+  private static final int METHODID_GET_ETCD = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
           io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -275,6 +345,10 @@ public final class SliceServiceGrpc {
         case METHODID_DEVICE_REPORT:
           serviceImpl.deviceReport((org.etri.onosslice.sliceservice.ONOSSliceService.DeviceStatusRequest) request,
                   (io.grpc.stub.StreamObserver<org.etri.onosslice.sliceservice.ONOSSliceService.DeviceStatusResponse>) responseObserver);
+          break;
+        case METHODID_GET_ETCD:
+          serviceImpl.getETCD((org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDRequest) request,
+                  (io.grpc.stub.StreamObserver<org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -339,6 +413,7 @@ public final class SliceServiceGrpc {
                   .setSchemaDescriptor(new SliceServiceFileDescriptorSupplier())
                   .addMethod(getAddSliceMethod())
                   .addMethod(getDeviceReportMethod())
+                  .addMethod(getGetETCDMethod())
                   .build();
         }
       }

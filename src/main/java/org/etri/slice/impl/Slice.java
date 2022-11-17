@@ -15,6 +15,7 @@
  */
 package org.etri.slice.impl;
 
+import org.etri.onosslice.sliceservice.ONOSSliceService;
 import org.etri.onosslice.sliceservice.ONOSSliceService.UniTags;
 import org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos;
 import org.etri.sis.*;
@@ -24,7 +25,9 @@ import org.onosproject.core.CoreService;
 import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest;
 import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse;
 import org.onosproject.net.*;
-import java.util.Comparator;
+
+import java.util.*;
+
 import org.onosproject.utils.Comparators;
 import org.opencord.aaa.AuthenticationService;
 import org.opencord.aaa.AuthenticationRecord;
@@ -45,9 +48,6 @@ import org.slf4j.LoggerFactory;
 import org.etri.slice.api.SliceCtrlService;
 import org.onosproject.net.device.DeviceService;
 
-import java.util.Dictionary;
-import java.util.List;
-import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -121,7 +121,7 @@ public class Slice implements SliceCtrlService {
         this.coreService.registerApplication(SLICE_APP);
 //        cfgService.registerProperties(getClass());
 
-        manager = new Manager();
+        manager = new Manager(7);
         client = new volthaMgmtGrpcClient(log);
         client.RequestDeviceStatus(manager);
         log.info("Started");
@@ -210,12 +210,29 @@ public class Slice implements SliceCtrlService {
     }
 
     public SliceInstance getSliceInstance(String sliceName) {
-        return null;
+        return manager.getSliceInstance(sliceName);
     }
 
-    @Override
-    public List<SliceInstance> getAllSliceInstances() {
-        return null;
+    public List<SliceInstance> getSliceInstances() {
+        List<String> instanceNames = manager.getSliceInstances();
+        List<SliceInstance> sliceInstances = new LinkedList<>();
+
+        for( String instanceName : instanceNames ) {
+            sliceInstances.add(manager.getSliceInstance(instanceName));
+        }
+
+        return sliceInstances;
+    }
+
+    public List<OLTDevice> getOLTDevices() {
+        List<DeviceId> deviceIds = manager.getOLTDeviceIds();
+        List<OLTDevice> oltDevices = new LinkedList<>();
+
+        for( DeviceId deviceId : deviceIds ) {
+            oltDevices.add(manager.getOLTDevice(deviceId));
+        }
+
+        return oltDevices;
     }
 
     @Override
@@ -240,11 +257,15 @@ public class Slice implements SliceCtrlService {
                         fixedBandwidth+assuredBandwidth, dba
                 );
 
+        SliceProfileInformation spi = sliceService.get(sliceName);
+
         if( result == SUCCESS ) {
             // send request to VOLTHA
-            AddSliceRequest request = AddSliceRequest.newBuilder()
-                    .setPortName(ponPortName)
+            AddSliceRequest.Builder reqBuilder = AddSliceRequest.newBuilder()
                     .setSliceName(sliceName)
+                    .setDeviceId(deviceId.toString())
+                    .setSliceId(manager.getSliceInstance(sliceName).getSliceId())
+                    .setPortName(ponPortName)
                     .setTags(UniTags.newBuilder()
                             .setUniPortName(uniPortName)
                             .setDbaType(dba.toString())
@@ -253,9 +274,17 @@ public class Slice implements SliceCtrlService {
                             .setRf(fixedBandwidth)
                             .setRa(assuredBandwidth)
                             .setRs(surplusBandwidth)
-                            .build())
-                    .build();
+                            .build());
 
+            String tConts = spi.trafficContainers();
+            ListIterator<String> it = Arrays.asList(tConts.split(",", -1)).listIterator();
+            while( it.hasNext() ) {
+                reqBuilder.setTrafficContainers(
+                        it.nextIndex(), Integer.parseInt(it.next())
+                );
+            }
+
+            AddSliceRequest request = reqBuilder.build();
             AddSliceResponse response = client.AddSlice(request);
         }
 

@@ -17,7 +17,7 @@ import static org.etri.slice.impl.C.RESULTS.*;
 public class SliceInstance extends BandwidthModifier{
 
     private String sliceName;
-
+    private int sliceId;
     private C.DBA_ALG dbaAlg;
 
     private OLTDevice deviceId;
@@ -26,10 +26,11 @@ public class SliceInstance extends BandwidthModifier{
     private List<String> subscriberIds;
     private ConcurrentMap<String, Integer> bandwidthBySubscribers;
 
-    public SliceInstance(String sliceName,
+    public SliceInstance(String sliceName, int sliceId,
                          OLTDevice deviceId, PonPort ponPort, String uniPort,
                          int allocBandwidth, C.DBA_ALG dbaAlg) {
         this.sliceName = sliceName;
+        this.sliceId = sliceId;
         this.allocBandwidth = allocBandwidth;
         this.remainedBandwidth = allocBandwidth;
         this.dbaAlg = dbaAlg;
@@ -88,6 +89,10 @@ public class SliceInstance extends BandwidthModifier{
 
     public String getSliceName() {
         return sliceName;
+    }
+
+    public int getSliceId() {
+        return sliceId;
     }
     @Override
     public String toString() {

@@ -8,6 +8,10 @@ public class C {
     public static int MAX_BW_50G = BandwidthUtil.getKilobytesFrom(50, BW_UNIT.GB);
     public static String DEFAULT_SLICE_NAME = "default";
 
+    public enum USED {
+        YES,
+        NO
+    }
     public enum BW_UNIT {
         MB,
         GB
@@ -52,5 +56,6 @@ public class C {
 
         DUPLICATE,
         ENTRY_NOT_FOUND,
+        FULL_ENTRY,
     }
 }

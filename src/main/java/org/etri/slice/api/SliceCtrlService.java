@@ -16,6 +16,7 @@
 package org.etri.slice.api;
 
 import org.etri.slice.impl.C;
+import org.etri.slice.impl.OLTDevice;
 import org.etri.slice.impl.SliceInstance;
 import org.onlab.packet.VlanId;
 import org.onosproject.event.ListenerService;
@@ -35,7 +36,7 @@ public interface SliceCtrlService {
     AddSliceResponse addSlice(AddSliceRequest request);
 
     SliceInstance getSliceInstance(String sliceName);
-    List<SliceInstance> getAllSliceInstances();
+    List<SliceInstance> getSliceInstances();
 
     C.RESULTS addOLTDevice(DeviceId deviceId, C.WB_TYPE wbType);
     C.RESULTS addPonPort(DeviceId deviceId, String portName);
@@ -44,4 +45,7 @@ public interface SliceCtrlService {
 
     C.RESULTS provisionSubscriber(ConnectPoint cp);
     C.RESULTS provisionSubscriber(ConnectPoint cp, VlanId cTag, VlanId sTag, Integer tpId);
+
+    // for GUI
+    List<OLTDevice> getOLTDevices();
 }

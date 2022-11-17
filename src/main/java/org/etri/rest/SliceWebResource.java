@@ -15,6 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import java.util.List;
 import java.util.Optional;
 
 import static javax.ws.rs.core.Response.Status.INTERNAL_SERVER_ERROR;
@@ -41,4 +42,16 @@ public class SliceWebResource extends AbstractWebResource {
                 header("Access-Control-Allow-Origin", "*").
                 build();
     }
+
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Path("")
+//    public Response getTopology() {
+//        log.info("getLogicalDevices() called from GUI application");
+//
+//        SliceCtrlService service = get(SliceCtrlService.class);
+//        List<OLTDevice> oltDevices = service.getOLTDevices();
+//
+//
+//    }
 }

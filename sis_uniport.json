@@ -125,22 +125,18 @@
       },
       "sliceprofile": {
       	"integration":{
-	  "cache":{
-	    "enabled":true,
-	    "maxsize":40,
-	    "ttl":"PT1m"
-	  }
-	},
-	"entries":[
-	  {
-	    "id": "R_SLICE_D",
-	    "deviceId": "DUMMY_DEV_ID",
-	    "portId": "DUMMY_PORT_ID",
-	    "tConts": "1, 2, 3, 4",
-	    "cir": 10000,
-	    "dba": "SR_DBA"
-	  }
-	]
+          "cache":{
+            "enabled":true,
+            "maxsize":40,
+            "ttl":"PT1m"
+          }
+	    },
+        "entries":[
+          {
+            "id": "R_SLICE_D",
+            "tConts": "0"
+          }
+        ]
       }      
     }
   }
