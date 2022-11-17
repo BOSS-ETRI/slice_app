@@ -1935,12 +1935,12 @@ public final class ONOSSliceService {
     int getSliceId();
 
     /**
-     * <code>string deviceId = 3;</code>
+     * <code>string device_id = 3;</code>
      * @return The deviceId.
      */
     java.lang.String getDeviceId();
     /**
-     * <code>string deviceId = 3;</code>
+     * <code>string device_id = 3;</code>
      * @return The bytes for deviceId.
      */
     com.google.protobuf.ByteString
@@ -2213,10 +2213,10 @@ public final class ONOSSliceService {
       return sliceId_;
     }
 
-    public static final int DEVICEID_FIELD_NUMBER = 3;
+    public static final int DEVICE_ID_FIELD_NUMBER = 3;
     private volatile java.lang.Object deviceId_;
     /**
-     * <code>string deviceId = 3;</code>
+     * <code>string device_id = 3;</code>
      * @return The deviceId.
      */
     @java.lang.Override
@@ -2233,7 +2233,7 @@ public final class ONOSSliceService {
       }
     }
     /**
-     * <code>string deviceId = 3;</code>
+     * <code>string device_id = 3;</code>
      * @return The bytes for deviceId.
      */
     @java.lang.Override
@@ -2503,7 +2503,7 @@ public final class ONOSSliceService {
       hash = (53 * hash) + getSliceName().hashCode();
       hash = (37 * hash) + SLICE_ID_FIELD_NUMBER;
       hash = (53 * hash) + getSliceId();
-      hash = (37 * hash) + DEVICEID_FIELD_NUMBER;
+      hash = (37 * hash) + DEVICE_ID_FIELD_NUMBER;
       hash = (53 * hash) + getDeviceId().hashCode();
       hash = (37 * hash) + PORT_NAME_FIELD_NUMBER;
       hash = (53 * hash) + getPortName().hashCode();
@@ -2942,7 +2942,7 @@ public final class ONOSSliceService {
 
       private java.lang.Object deviceId_ = "";
       /**
-       * <code>string deviceId = 3;</code>
+       * <code>string device_id = 3;</code>
        * @return The deviceId.
        */
       public java.lang.String getDeviceId() {
@@ -2958,7 +2958,7 @@ public final class ONOSSliceService {
         }
       }
       /**
-       * <code>string deviceId = 3;</code>
+       * <code>string device_id = 3;</code>
        * @return The bytes for deviceId.
        */
       public com.google.protobuf.ByteString
@@ -2975,7 +2975,7 @@ public final class ONOSSliceService {
         }
       }
       /**
-       * <code>string deviceId = 3;</code>
+       * <code>string device_id = 3;</code>
        * @param value The deviceId to set.
        * @return This builder for chaining.
        */
@@ -2990,7 +2990,7 @@ public final class ONOSSliceService {
         return this;
       }
       /**
-       * <code>string deviceId = 3;</code>
+       * <code>string device_id = 3;</code>
        * @return This builder for chaining.
        */
       public Builder clearDeviceId() {
@@ -3000,7 +3000,7 @@ public final class ONOSSliceService {
         return this;
       }
       /**
-       * <code>string deviceId = 3;</code>
+       * <code>string device_id = 3;</code>
        * @param value The bytes for deviceId to set.
        * @return This builder for chaining.
        */
@@ -7705,36 +7705,36 @@ public final class ONOSSliceService {
                     "E\n\007UniTags\022\021\n\tpon_c_tag\030\001 \001(\t\022\025\n\runi_por" +
                     "t_name\030\002 \001(\t\022\020\n\010dba_type\030\003 \001(\t\"4\n\016Bandwi" +
                     "dthInfos\022\n\n\002rf\030\001 \001(\r\022\n\n\002ra\030\002 \001(\r\022\n\n\002rs\030\003" +
-                    " \001(\r\"\324\001\n\017AddSliceRequest\022\022\n\nslice_name\030\001" +
-                    " \001(\t\022\020\n\010slice_id\030\002 \001(\r\022\020\n\010deviceId\030\003 \001(\t" +
-                    "\022\021\n\tport_name\030\004 \001(\t\022\'\n\004tags\030\005 \001(\0132\031.onos" +
-                    "sliceservice.UniTags\0221\n\007bwInfos\030\006 \001(\0132 ." +
-                    "onossliceservice.BandwidthInfos\022\032\n\022traff" +
-                    "ic_containers\030\007 \003(\r\"\025\n\023DeviceStatusReque" +
-                    "st\"\020\n\016GetETCDRequest\"\"\n\020AddSliceResponse" +
-                    "\022\016\n\006result\030\001 \001(\t\"P\n\nPortStatus\022\022\n\nidenti" +
-                    "fier\030\001 \001(\t\022.\n\006status\030\002 \001(\0162\036.onosslicese" +
-                    "rvice.DeviceStatus\"\270\001\n\024DeviceStatusRespo" +
-                    "nse\022\022\n\nidentifier\030\001 \001(\t\022*\n\004type\030\002 \001(\0162\034." +
-                    "onossliceservice.DeviceType\022.\n\006status\030\003 " +
-                    "\001(\0162\036.onossliceservice.DeviceStatus\0220\n\np" +
-                    "ortStatus\030\004 \003(\0132\034.onossliceservice.PortS" +
-                    "tatus\"\"\n\017GetETCDResponse\022\017\n\007results\030\001 \001(" +
-                    "\t*3\n\007DbaType\022\023\n\017DBA_TYPE_SR_DBA\020\000\022\023\n\017DBA" +
-                    "_TYPE_CO_DBA\020\001* \n\014DeviceStatus\022\006\n\002UP\020\000\022\010" +
-                    "\n\004DOWN\020\001*K\n\nDeviceType\022\r\n\tWB_OLT_1G\020\000\022\016\n" +
-                    "\nWB_OLT_10G\020\001\022\016\n\nWB_OLT_25G\020\002\022\016\n\nWB_OLT_" +
-                    "50G\020\0032\226\002\n\014SliceService\022S\n\010AddSlice\022!.ono" +
-                    "ssliceservice.AddSliceRequest\032\".onosslic" +
-                    "eservice.AddSliceResponse\"\000\022_\n\014DeviceRep" +
-                    "ort\022%.onossliceservice.DeviceStatusReque" +
-                    "st\032&.onossliceservice.DeviceStatusRespon" +
-                    "se0\001\022P\n\007GetETCD\022 .onossliceservice.GetET" +
-                    "CDRequest\032!.onossliceservice.GetETCDResp" +
-                    "onse\"\000Bp\n\037org.etri.onosslice.sliceservic" +
-                    "eB\020ONOSSliceServiceZ8github.com/opencord" +
-                    "/voltha-protos/v4/go/onossliceservice\210\001\001" +
-                    "b\006proto3"
+                    " \001(\r\"\325\001\n\017AddSliceRequest\022\022\n\nslice_name\030\001" +
+                    " \001(\t\022\020\n\010slice_id\030\002 \001(\r\022\021\n\tdevice_id\030\003 \001(" +
+                    "\t\022\021\n\tport_name\030\004 \001(\t\022\'\n\004tags\030\005 \001(\0132\031.ono" +
+                    "ssliceservice.UniTags\0221\n\007bwInfos\030\006 \001(\0132 " +
+                    ".onossliceservice.BandwidthInfos\022\032\n\022traf" +
+                    "fic_containers\030\007 \003(\r\"\025\n\023DeviceStatusRequ" +
+                    "est\"\020\n\016GetETCDRequest\"\"\n\020AddSliceRespons" +
+                    "e\022\016\n\006result\030\001 \001(\t\"P\n\nPortStatus\022\022\n\nident" +
+                    "ifier\030\001 \001(\t\022.\n\006status\030\002 \001(\0162\036.onosslices" +
+                    "ervice.DeviceStatus\"\270\001\n\024DeviceStatusResp" +
+                    "onse\022\022\n\nidentifier\030\001 \001(\t\022*\n\004type\030\002 \001(\0162\034" +
+                    ".onossliceservice.DeviceType\022.\n\006status\030\003" +
+                    " \001(\0162\036.onossliceservice.DeviceStatus\0220\n\n" +
+                    "portStatus\030\004 \003(\0132\034.onossliceservice.Port" +
+                    "Status\"\"\n\017GetETCDResponse\022\017\n\007results\030\001 \001" +
+                    "(\t*3\n\007DbaType\022\023\n\017DBA_TYPE_SR_DBA\020\000\022\023\n\017DB" +
+                    "A_TYPE_CO_DBA\020\001* \n\014DeviceStatus\022\006\n\002UP\020\000\022" +
+                    "\010\n\004DOWN\020\001*K\n\nDeviceType\022\r\n\tWB_OLT_1G\020\000\022\016" +
+                    "\n\nWB_OLT_10G\020\001\022\016\n\nWB_OLT_25G\020\002\022\016\n\nWB_OLT" +
+                    "_50G\020\0032\226\002\n\014SliceService\022S\n\010AddSlice\022!.on" +
+                    "ossliceservice.AddSliceRequest\032\".onossli" +
+                    "ceservice.AddSliceResponse\"\000\022_\n\014DeviceRe" +
+                    "port\022%.onossliceservice.DeviceStatusRequ" +
+                    "est\032&.onossliceservice.DeviceStatusRespo" +
+                    "nse0\001\022P\n\007GetETCD\022 .onossliceservice.GetE" +
+                    "TCDRequest\032!.onossliceservice.GetETCDRes" +
+                    "ponse\"\000Bp\n\037org.etri.onosslice.sliceservi" +
+                    "ceB\020ONOSSliceServiceZ8github.com/opencor" +
+                    "d/voltha-protos/v4/go/onossliceservice\210\001" +
+                    "\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
             .internalBuildGeneratedFileFrom(descriptorData,
