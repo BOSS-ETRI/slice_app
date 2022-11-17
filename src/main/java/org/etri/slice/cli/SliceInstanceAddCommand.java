@@ -32,7 +32,7 @@ public class SliceInstanceAddCommand extends AbstractShellCommand {
 	@Argument(index = 6, name = "surplus-bw", required = true, multiValued = false)
 	private int surplusBW = 0;
 
-	@Argument(index = 5, name = "dba", required = true, multiValued = false)
+	@Argument(index = 7, name = "dba", required = true, multiValued = false)
 	private C.DBA_ALG dba = null;
 
 	@Override
