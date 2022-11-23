@@ -257,9 +257,9 @@ public class Slice implements SliceCtrlService {
                         fixedBandwidth+assuredBandwidth, dba
                 );
 
-        SliceProfileInformation spi = sliceService.get(sliceName);
-
         if( result == SUCCESS ) {
+            SliceProfileInformation spi = sliceService.get(sliceName);
+
             // send request to VOLTHA
             AddSliceRequest.Builder reqBuilder = AddSliceRequest.newBuilder()
                     .setSliceName(sliceName)
@@ -277,15 +277,15 @@ public class Slice implements SliceCtrlService {
                             .build());
 
             String tConts = spi.trafficContainers();
-            ListIterator<String> it = Arrays.asList(tConts.split(",", -1)).listIterator();
-            while( it.hasNext() ) {
-                reqBuilder.setTrafficContainers(
-                        it.nextIndex(), Integer.parseInt(it.next())
-                );
+            if(tConts != null) {
+                ListIterator<String> it = Arrays.asList(tConts.split(",", -1)).listIterator();
+                while (it.hasNext()) {
+                    reqBuilder.addTrafficContainers(Integer.parseInt(it.next()));
+                }
             }
 
             AddSliceRequest request = reqBuilder.build();
-            AddSliceResponse response = client.AddSlice(request);
+//            AddSliceResponse response = client.AddSlice(request);
         }
 
         return result;
