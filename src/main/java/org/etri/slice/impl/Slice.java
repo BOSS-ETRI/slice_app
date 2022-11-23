@@ -285,7 +285,7 @@ public class Slice implements SliceCtrlService {
             }
 
             AddSliceRequest request = reqBuilder.build();
-//            AddSliceResponse response = client.AddSlice(request);
+            AddSliceResponse response = client.AddSlice(request);
         }
 
         return result;
