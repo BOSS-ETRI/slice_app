@@ -24,6 +24,9 @@ import org.onosproject.cfg.ComponentConfigService;
 import org.onosproject.core.CoreService;
 import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest;
 import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse;
+import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupRequest;
+import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupResponse;
+import org.etri.onosslice.sliceservice.ONOSSliceService.ResultType;
 import org.onosproject.net.*;
 
 import java.util.*;
@@ -51,6 +54,7 @@ import org.onosproject.net.device.DeviceService;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
+import static org.etri.slice.impl.C.RESULTS.FAIL;
 import static org.etri.slice.impl.C.RESULTS.SUCCESS;
 import static org.etri.slice.impl.OsgiPropertyConstants.DEFAULT_BP_ID_DEFAULT;
 import static org.etri.slice.impl.OsgiPropertyConstants.DEFAULT_MCAST_SERVICE_NAME_DEFAULT;
@@ -209,8 +213,8 @@ public class Slice implements SliceCtrlService {
     	return response;
     }
 
-    public SliceInstance getSliceInstance(String sliceName) {
-        return manager.getSliceInstance(sliceName);
+    public SliceInstance getSliceInstance(String groupName, String sliceName) {
+        return manager.getSliceInstance(groupName, sliceName);
     }
 
     public List<SliceInstance> getSliceInstances() {
@@ -246,14 +250,40 @@ public class Slice implements SliceCtrlService {
     }
 
     @Override
+    public C.RESULTS addSliceGroup(String groupName, DeviceId deviceId, String ponPortName, int totalBandwidth) {
+        C.RESULTS result = manager.addSliceGroup(
+                groupName, deviceId, ponPortName, totalBandwidth
+        );
+
+        if( result == SUCCESS ) {
+            SliceGroup sliceGroup = manager.getSliceGroup(groupName);
+
+            AddSliceGroupRequest.Builder reqBuilder = AddSliceGroupRequest.newBuilder()
+                    .setSliceId(sliceGroup.getSliceId())
+                    .setDeviceId(sliceGroup.getDeviceId())
+                    .setPortName(sliceGroup.getPonPort().getPortName())
+                    .setTotalBandwidth(sliceGroup.getAllocatedBandwidth());
+
+            AddSliceGroupResponse response = client.AddSliceGroup(reqBuilder.build());
+
+            if( response.getType() == ResultType.FAIL ) {
+                return FAIL;
+            }
+
+            return SUCCESS;
+        }
+
+        return result;
+    }
+
+    @Override
     public C.RESULTS addSliceInstance(
-            String sliceName, DeviceId deviceId,
-            String ponPortName, String uniPortName,
+            String groupName,
+            String sliceName, String uniPortName,
             int fixedBandwidth, int assuredBandwidth, int surplusBandwidth, C.DBA_ALG dba) {
         C.RESULTS result =
                 manager.addSliceInstance(
-                        sliceName, deviceId,
-                        ponPortName, uniPortName,
+                        groupName, sliceName, uniPortName,
                         fixedBandwidth+assuredBandwidth, dba
                 );
 
@@ -263,9 +293,9 @@ public class Slice implements SliceCtrlService {
             // send request to VOLTHA
             AddSliceRequest.Builder reqBuilder = AddSliceRequest.newBuilder()
                     .setSliceName(sliceName)
-                    .setDeviceId(deviceId.toString())
-                    .setSliceId(manager.getSliceInstance(sliceName).getSliceId())
-                    .setPortName(ponPortName)
+                    .setDeviceId(manager.getSliceGroup(groupName).getDeviceId().toString())
+                    .setSliceId(manager.getSliceGroup(groupName).getSliceId())
+                    .setPortName(manager.getSliceGroup(groupName).getPonPort().getPortName())
                     .setTags(UniTags.newBuilder()
                             .setUniPortName(uniPortName)
                             .setDbaType(dba.toString())
@@ -286,6 +316,12 @@ public class Slice implements SliceCtrlService {
 
             AddSliceRequest request = reqBuilder.build();
             AddSliceResponse response = client.AddSlice(request);
+
+            if( response.getType() == ResultType.FAIL ) {
+                return FAIL;
+            }
+
+            return SUCCESS;
         }
 
         return result;
@@ -293,10 +329,9 @@ public class Slice implements SliceCtrlService {
 
     @Override
     public C.RESULTS updateBWOfSliceInstance(
-            String sliceName, DeviceId deviceId,
-            String ponPortName, int reqBandwidth) {
+            String groupName, String sliceName, int reqBandwidth) {
         C.RESULTS result = manager.updateAllocatedBandwidth(
-                sliceName, deviceId, ponPortName, reqBandwidth
+                groupName, sliceName, reqBandwidth
         );
 
         return result;

@@ -34,14 +34,15 @@ import java.util.List;
 public interface SliceCtrlService {
     SliceProfileInformation provisionSlice(String sliceName);
     AddSliceResponse addSlice(AddSliceRequest request);
-
-    SliceInstance getSliceInstance(String sliceName);
+//
+    SliceInstance getSliceInstance(String groupName, String sliceName);
     List<SliceInstance> getSliceInstances();
 
     C.RESULTS addOLTDevice(DeviceId deviceId, C.WB_TYPE wbType);
     C.RESULTS addPonPort(DeviceId deviceId, String portName);
-    C.RESULTS addSliceInstance(String sliceName, DeviceId deviceId, String ponPortName, String uniPortName, int fixedBandwidth, int assuredBandwidth, int surplusBandwidth, C.DBA_ALG dba);
-    C.RESULTS updateBWOfSliceInstance(String sliceName, DeviceId deviceId, String ponPortName, int reqBandwidth);
+    C.RESULTS addSliceGroup(String groupName, DeviceId deviceId, String ponPortName, int totalBandwidth);
+    C.RESULTS addSliceInstance(String groupName, String sliceName, String uniPortName, int fixedBandwidth, int assuredBandwidth, int surplusBandwidth, C.DBA_ALG dba);
+    C.RESULTS updateBWOfSliceInstance(String groupName, String sliceName, int reqBandwidth);
 
     C.RESULTS provisionSubscriber(ConnectPoint cp);
     C.RESULTS provisionSubscriber(ConnectPoint cp, VlanId cTag, VlanId sTag, Integer tpId);

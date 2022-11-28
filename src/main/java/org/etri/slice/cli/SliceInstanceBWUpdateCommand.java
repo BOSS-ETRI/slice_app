@@ -11,20 +11,11 @@ import org.onosproject.net.DeviceId;
 @Service
 @Command(scope="boss", name="update-slice-bandwidth", description="Update Bandwidth of a Slice Instance")
 public class SliceInstanceBWUpdateCommand extends AbstractShellCommand {
-
-    @Argument(index = 0, name = "sliceName", required = true, multiValued = false)
+    @Argument(index = 0, name = "groupName", required = true, multiValued = false)
+    private String groupName = null;
+    @Argument(index = 1, name = "sliceName", required = true, multiValued = false)
     private String sliceName = null;
-
-    @Argument(index = 1, name = "deviceId", required = true, multiValued = false)
-    private String deviceId = null;
-
-    @Argument(index = 2, name = "ponPortName", required = true, multiValued = false)
-    private String ponPortName = null;
-
-    @Argument(index = 3, name = "uniPortName", required = true, multiValued = false)
-    private String uniPortName = null;
-
-    @Argument(index = 4, name = "bandwidth", required = true, multiValued = false)
+    @Argument(index = 2, name = "bandwidth", required = true, multiValued = false)
     private int bandwidth = 0;
 
 
@@ -32,9 +23,8 @@ public class SliceInstanceBWUpdateCommand extends AbstractShellCommand {
     protected void doExecute() throws Exception {
         SliceCtrlService service = get(SliceCtrlService.class);
 
-        DeviceId device = DeviceId.deviceId(deviceId);
         C.RESULTS result = service.updateBWOfSliceInstance(
-                sliceName, device, ponPortName, bandwidth
+                groupName, sliceName, bandwidth
         );
 
         switch (result) {

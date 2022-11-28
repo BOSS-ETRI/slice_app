@@ -52,4 +52,8 @@ public class OLTDevice {
 
         return null;
     }
+
+    public String getDeviceId() {
+        return deviceId.toString();
+    }
 }

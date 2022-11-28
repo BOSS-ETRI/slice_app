@@ -26,16 +26,12 @@ public class SliceInstance extends BandwidthModifier{
     private List<String> subscriberIds;
     private ConcurrentMap<String, Integer> bandwidthBySubscribers;
 
-    public SliceInstance(String sliceName, int sliceId,
-                         OLTDevice deviceId, PonPort ponPort, String uniPort,
+    public SliceInstance(String sliceName, String uniPort,
                          int allocBandwidth, C.DBA_ALG dbaAlg) {
         this.sliceName = sliceName;
-        this.sliceId = sliceId;
         this.allocBandwidth = allocBandwidth;
         this.remainedBandwidth = allocBandwidth;
         this.dbaAlg = dbaAlg;
-        this.deviceId = deviceId;
-        this.ponPort = ponPort;
         this.uniPort = uniPort;
 
         subscriberIds = new LinkedList<>();
@@ -91,16 +87,11 @@ public class SliceInstance extends BandwidthModifier{
         return sliceName;
     }
 
-    public int getSliceId() {
-        return sliceId;
-    }
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("SliceInstance{");
         sb.append("sliceName=").append(sliceName);
         sb.append(", dbaAlg=").append(dbaAlg);
-        sb.append(", deviceId=").append(deviceId);
-        sb.append(", ponPort=").append(ponPort);
         sb.append(", uniPort=").append(uniPort);
         sb.append(", subscriberIds=").append(subscriberIds);
         sb.append(", bandwidthBySubscribers=").append(bandwidthBySubscribers);

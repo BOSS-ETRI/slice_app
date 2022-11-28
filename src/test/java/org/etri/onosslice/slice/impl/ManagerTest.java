@@ -26,10 +26,10 @@ public class ManagerTest {
 
         DeviceId devId = DeviceId.deviceId("test-device");
         C.RESULTS result = manager.addOLTDevice(devId, OLT_10G);
-        Assert.assertEquals(result, SUCCESS);
+        Assert.assertEquals(SUCCESS, result);
 
         result = manager.addOLTDevice(devId, OLT_10G);
-        Assert.assertEquals(result, DUPLICATE);
+        Assert.assertEquals(DUPLICATE, result);
     }
 
     @Test
@@ -38,56 +38,130 @@ public class ManagerTest {
 
         DeviceId devId = DeviceId.deviceId("test-device");
         C.RESULTS result = manager.addOLTDevice(devId, OLT_10G);
-        Assert.assertEquals(result, SUCCESS);
+        Assert.assertEquals(SUCCESS, result);
 
         DeviceId devId2 = DeviceId.deviceId("test-device2");
         result = manager.addPonPort(devId, "pon-pont1");
-        Assert.assertEquals(result, SUCCESS);
+        Assert.assertEquals(SUCCESS, result);
 
         result = manager.addPonPort(devId, "pon-pont1");
-        Assert.assertEquals(result, DUPLICATE);
+        Assert.assertEquals(DUPLICATE, result);
 
         result = manager.addPonPort(devId2, "pon-port1");
-        Assert.assertEquals(result, ENTRY_NOT_FOUND);
+        Assert.assertEquals(ENTRY_NOT_FOUND, result);
     }
 
     @Test
-    public void testSliceInstanceAdd() {
+    public void testSliceGroupAdd() {
         Manager manager = new Manager(7);
 
         DeviceId devId = DeviceId.deviceId("test-device");
         String ponPortName = "pon-port1";
 
-        C.RESULTS result = manager.addSliceInstance("R1", devId, ponPortName, "uni-port1", getKilobytesFrom(1, GB), CO_DBA);
-        Assert.assertEquals(result, ENTRY_NOT_FOUND);
+        C.RESULTS result = manager.addSliceGroup("G1", devId, ponPortName, getKilobytesFrom(1, GB));
+        Assert.assertEquals(ENTRY_NOT_FOUND, result);
 
         manager.addOLTDevice(devId, OLT_10G);
-        result = manager.addSliceInstance("R1", devId, ponPortName, "uni-port1", getKilobytesFrom(1, GB), CO_DBA);
-        Assert.assertEquals(result, ENTRY_NOT_FOUND);
+        result = manager.addSliceGroup("G1", devId, ponPortName, getKilobytesFrom(1, GB));
+        Assert.assertEquals(ENTRY_NOT_FOUND, result);
 
         manager.addPonPort(devId, ponPortName);
-        result = manager.addSliceInstance("R1", devId, ponPortName, "uni-port1", getKilobytesFrom(1, GB), CO_DBA);
-        Assert.assertEquals(result, SUCCESS);
+        result = manager.addSliceGroup("G1", devId, ponPortName, getKilobytesFrom(1, GB));
+        Assert.assertEquals(SUCCESS, result);
 
-        result = manager.addSliceInstance("R1", devId, ponPortName, "uni-port1", getKilobytesFrom(1, GB), CO_DBA);
-        Assert.assertEquals(result, DUPLICATE);
+        result = manager.addSliceGroup("G1", devId, ponPortName, getKilobytesFrom(1, GB));
+        Assert.assertEquals(DUPLICATE, result);
     }
 
     @Test
-    public void testSliceIdMax() {
+    public void testSliceGroupAddMaxIds() {
+        Manager manager = new Manager(2);
+
+        DeviceId devId = DeviceId.deviceId("test-device");
+        String ponPortName = "pon-port1";
+        manager.addOLTDevice(devId, OLT_10G);
+        manager.addPonPort(devId, ponPortName);
+
+        C.RESULTS result = manager.addSliceGroup("G1", devId, ponPortName, getKilobytesFrom(1, GB));
+        Assert.assertEquals(SUCCESS, result);
+
+        result = manager.addSliceGroup("G2", devId, ponPortName, getKilobytesFrom(1, GB));
+        Assert.assertEquals(SUCCESS, result);
+
+        result = manager.addSliceGroup("G3", devId, ponPortName, getKilobytesFrom(1, GB));
+        Assert.assertEquals(FULL_ENTRY, result);
+    }
+
+    @Test
+    public void testSliceGroupAddMax() {
+        Manager manager = new Manager(2);
+
+        DeviceId devId = DeviceId.deviceId("test-device");
+        String ponPortName = "pon-port1";
+        manager.addOLTDevice(devId, OLT_10G);
+        manager.addPonPort(devId, ponPortName);
+
+        C.RESULTS result = manager.addSliceGroup("G1", devId, ponPortName, getKilobytesFrom(1, GB));
+        Assert.assertEquals(SUCCESS, result);
+
+        result = manager.addSliceGroup("G2", devId, ponPortName, getKilobytesFrom(1, GB));
+        Assert.assertEquals(SUCCESS, result);
+
+        result = manager.addSliceGroup("G3", devId, ponPortName, getKilobytesFrom(1, GB));
+        Assert.assertEquals(FULL_ENTRY, result);
+    }
+
+    @Test
+    public void testSliceGroupAddMaxBw() {
+        Manager manager = new Manager(2);
+
+        DeviceId devId = DeviceId.deviceId("test-device");
+        String ponPortName = "pon-port1";
+        manager.addOLTDevice(devId, OLT_10G);
+        manager.addPonPort(devId, ponPortName);
+
+        C.RESULTS result = manager.addSliceGroup("G1", devId, ponPortName, getKilobytesFrom(10, GB));
+        Assert.assertEquals(SUCCESS, result);
+
+        result = manager.addSliceGroup("G2", devId, ponPortName, getKilobytesFrom(1, GB));
+        Assert.assertEquals(WRONG_INPUT, result);
+    }
+
+    @Test
+    public void testSliceInstanceAdd() {
         Manager manager = new Manager(1);
 
         DeviceId devId = DeviceId.deviceId("test-device");
         String ponPortName = "pon-port1";
-
         manager.addOLTDevice(devId, OLT_10G);
         manager.addPonPort(devId, ponPortName);
 
-        C.RESULTS result = manager.addSliceInstance("R1", devId, ponPortName, "uni-port1", getKilobytesFrom(1, GB), CO_DBA);
-        Assert.assertEquals(result, SUCCESS);
+        C.RESULTS result = manager.addSliceGroup("G1", devId, ponPortName, getKilobytesFrom(3, GB));
+        Assert.assertEquals(SUCCESS, result);
 
+        result = manager.addSliceInstance("G1", "M1", "uni-port1", getKilobytesFrom(1, GB), CO_DBA);
+        Assert.assertEquals(SUCCESS, result);
+
+        result = manager.addSliceInstance("G1", "M2", "uni-port2", getKilobytesFrom(2, GB), CO_DBA);
+        Assert.assertEquals(SUCCESS, result);
+    }
+
+    @Test
+    public void testSliceInstanceAddMaxBw() {
+        Manager manager = new Manager(1);
+
+        DeviceId devId = DeviceId.deviceId("test-device");
+        String ponPortName = "pon-port1";
+        manager.addOLTDevice(devId, OLT_10G);
         manager.addPonPort(devId, ponPortName);
-        result = manager.addSliceInstance("R2", devId, ponPortName, "uni-port1", getKilobytesFrom(1, GB), CO_DBA);
-        Assert.assertEquals(result, FULL_ENTRY);
+
+        C.RESULTS result = manager.addSliceGroup("G1", devId, ponPortName, getKilobytesFrom(3, GB));
+        Assert.assertEquals(SUCCESS, result);
+
+        result = manager.addSliceInstance("G1", "M1", "uni-port1", getKilobytesFrom(3, GB), CO_DBA);
+        Assert.assertEquals(SUCCESS, result);
+
+        result = manager.addSliceInstance("G1", "M2", "uni-port2", getKilobytesFrom(1, GB), CO_DBA);
+        Assert.assertEquals(WRONG_INPUT, result);
     }
 }

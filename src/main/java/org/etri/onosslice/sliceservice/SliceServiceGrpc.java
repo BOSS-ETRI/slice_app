@@ -27,6 +27,38 @@ public final class SliceServiceGrpc {
   public static final String SERVICE_NAME = "onossliceservice.SliceService";
 
   // Static method descriptors that strictly reflect the proto.
+  private static volatile io.grpc.MethodDescriptor<org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupRequest,
+          org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupResponse> getAddSliceGroupMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+          fullMethodName = SERVICE_NAME + '/' + "AddSliceGroup",
+          requestType = org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupRequest.class,
+          responseType = org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupResponse.class,
+          methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupRequest,
+          org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupResponse> getAddSliceGroupMethod() {
+    io.grpc.MethodDescriptor<org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupRequest, org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupResponse> getAddSliceGroupMethod;
+    if ((getAddSliceGroupMethod = SliceServiceGrpc.getAddSliceGroupMethod) == null) {
+      synchronized (SliceServiceGrpc.class) {
+        if ((getAddSliceGroupMethod = SliceServiceGrpc.getAddSliceGroupMethod) == null) {
+          SliceServiceGrpc.getAddSliceGroupMethod = getAddSliceGroupMethod =
+                  io.grpc.MethodDescriptor.<org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupRequest, org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupResponse>newBuilder()
+                          .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+                          .setFullMethodName(generateFullMethodName(
+                                  "onossliceservice.SliceService", "AddSliceGroup"))
+                          .setSampledToLocalTracing(true)
+                          .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                                  org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupRequest.getDefaultInstance()))
+                          .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                                  org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupResponse.getDefaultInstance()))
+                          .setSchemaDescriptor(new SliceServiceMethodDescriptorSupplier("AddSliceGroup"))
+                          .build();
+        }
+      }
+    }
+    return getAddSliceGroupMethod;
+  }
+
   private static volatile io.grpc.MethodDescriptor<org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest,
           org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse> getAddSliceMethod;
 
@@ -152,6 +184,13 @@ public final class SliceServiceGrpc {
 
     /**
      */
+    public void addSliceGroup(org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupRequest request,
+                              io.grpc.stub.StreamObserver<org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getAddSliceGroupMethod(), responseObserver);
+    }
+
+    /**
+     */
     public void addSlice(org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest request,
                          io.grpc.stub.StreamObserver<org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getAddSliceMethod(), responseObserver);
@@ -173,6 +212,13 @@ public final class SliceServiceGrpc {
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
+              .addMethod(
+                      getAddSliceGroupMethod(),
+                      asyncUnaryCall(
+                              new MethodHandlers<
+                                      org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupRequest,
+                                      org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupResponse>(
+                                      this, METHODID_ADD_SLICE_GROUP)))
               .addMethod(
                       getAddSliceMethod(),
                       asyncUnaryCall(
@@ -214,6 +260,14 @@ public final class SliceServiceGrpc {
     protected SliceServiceStub build(io.grpc.Channel channel,
                                      io.grpc.CallOptions callOptions) {
       return new SliceServiceStub(channel, callOptions);
+    }
+
+    /**
+     */
+    public void addSliceGroup(org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupRequest request,
+                              io.grpc.stub.StreamObserver<org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupResponse> responseObserver) {
+      asyncUnaryCall(
+              getChannel().newCall(getAddSliceGroupMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -261,6 +315,13 @@ public final class SliceServiceGrpc {
 
     /**
      */
+    public org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupResponse addSliceGroup(org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupRequest request) {
+      return blockingUnaryCall(
+              getChannel(), getAddSliceGroupMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
     public org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse addSlice(org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest request) {
       return blockingUnaryCall(
               getChannel(), getAddSliceMethod(), getCallOptions(), request);
@@ -302,6 +363,14 @@ public final class SliceServiceGrpc {
 
     /**
      */
+    public com.google.common.util.concurrent.ListenableFuture<org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupResponse> addSliceGroup(
+            org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupRequest request) {
+      return futureUnaryCall(
+              getChannel().newCall(getAddSliceGroupMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
     public com.google.common.util.concurrent.ListenableFuture<org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse> addSlice(
             org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest request) {
       return futureUnaryCall(
@@ -317,9 +386,10 @@ public final class SliceServiceGrpc {
     }
   }
 
-  private static final int METHODID_ADD_SLICE = 0;
-  private static final int METHODID_DEVICE_REPORT = 1;
-  private static final int METHODID_GET_ETCD = 2;
+  private static final int METHODID_ADD_SLICE_GROUP = 0;
+  private static final int METHODID_ADD_SLICE = 1;
+  private static final int METHODID_DEVICE_REPORT = 2;
+  private static final int METHODID_GET_ETCD = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
           io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -338,6 +408,10 @@ public final class SliceServiceGrpc {
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
+        case METHODID_ADD_SLICE_GROUP:
+          serviceImpl.addSliceGroup((org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupRequest) request,
+                  (io.grpc.stub.StreamObserver<org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupResponse>) responseObserver);
+          break;
         case METHODID_ADD_SLICE:
           serviceImpl.addSlice((org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest) request,
                   (io.grpc.stub.StreamObserver<org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse>) responseObserver);
@@ -411,6 +485,7 @@ public final class SliceServiceGrpc {
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
                   .setSchemaDescriptor(new SliceServiceFileDescriptorSupplier())
+                  .addMethod(getAddSliceGroupMethod())
                   .addMethod(getAddSliceMethod())
                   .addMethod(getDeviceReportMethod())
                   .addMethod(getGetETCDMethod())

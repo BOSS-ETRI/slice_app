@@ -57,5 +57,6 @@ public class C {
         DUPLICATE,
         ENTRY_NOT_FOUND,
         FULL_ENTRY,
+        FAIL,
     }
 }

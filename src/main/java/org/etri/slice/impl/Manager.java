@@ -5,6 +5,7 @@ import org.onosproject.net.DeviceId;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.IntStream;
 
@@ -15,6 +16,7 @@ import static org.etri.slice.impl.C.RESULTS.*;
 public class Manager {
     private int maxSlices;
     private int numberOfSlices;
+    private ConcurrentHashMap<String, SliceGroup> sliceGroups;
     private ConcurrentHashMap<String, SliceInstance> sliceInstances;
     private ConcurrentHashMap<DeviceId, OLTDevice> oltDevices;
     private ConcurrentHashMap<String, PonPort> ponPorts;
@@ -23,6 +25,7 @@ public class Manager {
     public Manager(int maxSlices) {
         this.maxSlices = maxSlices;
         numberOfSlices = 0;
+        sliceGroups = new ConcurrentHashMap<>();
         sliceInstances = new ConcurrentHashMap<>();
         oltDevices = new ConcurrentHashMap<>();
         ponPorts = new ConcurrentHashMap<>();
@@ -45,6 +48,8 @@ public class Manager {
                         sliceIds.put(id, C.USED.YES);
                         numberOfSlices = numberOfSlices + 1;
                     }
+
+                    break;
                 }
             }
         }
@@ -76,10 +81,8 @@ public class Manager {
         return SUCCESS;
     }
 
-    public C.RESULTS addSliceInstance(String sliceName,
-                                      DeviceId deviceId, String ponPortName, String uniPort,
-                                      int allocBandwidth, C.DBA_ALG dbaAlg) {
-        if( sliceInstances.containsKey(sliceName) ) return DUPLICATE;
+    public C.RESULTS addSliceGroup(String groupName, DeviceId deviceId, String ponPortName, int totalBandwidth) {
+        if( sliceGroups.containsKey(groupName) ) return DUPLICATE;
         if( !oltDevices.containsKey(deviceId) ) return ENTRY_NOT_FOUND;
         if( oltDevices.get(deviceId).getPonPort(ponPortName) == null ) return ENTRY_NOT_FOUND;
 
@@ -89,32 +92,50 @@ public class Manager {
 
         if( sliceId == -1 ) return FULL_ENTRY;
 
-        if( ponPort.updateRemainedBandwidth(ADD, allocBandwidth) == SUCCESS ) {
-            SliceInstance newInstance = new SliceInstance(sliceName,
+        if( ponPort.updateRemainedBandwidth(ADD, totalBandwidth) == SUCCESS ) {
+            SliceGroup newGroup = new SliceGroup(
+                    groupName,
                     sliceId,
                     oltDevice,
                     ponPort,
-                    uniPort,
-                    allocBandwidth,
-                    dbaAlg
+                    totalBandwidth
             );
-            sliceInstances.put(sliceName, newInstance);
+            sliceGroups.put(groupName, newGroup);
             return SUCCESS;
         }
 
         return WRONG_INPUT;
     }
 
-    public C.RESULTS updateAllocatedBandwidth(String sliceName,
-                                              DeviceId deviceId, String ponPortName,
+    public C.RESULTS addSliceInstance(String groupName, String sliceName, String uniPort,
+                                      int allocBandwidth, C.DBA_ALG dbaAlg) {
+        if( !sliceGroups.containsKey(groupName) ) return ENTRY_NOT_FOUND;
+        if( sliceInstances.containsKey(sliceName) ) return DUPLICATE;
+
+        SliceGroup sliceGroup = sliceGroups.get(groupName);
+
+        if( sliceGroup.updateRemainedBandwidth(ADD, allocBandwidth) == SUCCESS ) {
+            SliceInstance newInstance = new SliceInstance(sliceName,
+                    uniPort,
+                    allocBandwidth,
+                    dbaAlg
+            );
+            sliceInstances.put(sliceName, newInstance);
+            sliceGroup.addSliceInstance(sliceName, newInstance);
+            return SUCCESS;
+        }
+
+        return WRONG_INPUT;
+    }
+
+    public C.RESULTS updateAllocatedBandwidth(String groupName, String sliceName,
                                               int newAllocBandwidth) {
-        if( !oltDevices.containsKey(deviceId) ) return ENTRY_NOT_FOUND;
-        if( oltDevices.get(deviceId).getPonPort(ponPortName) == null ) return ENTRY_NOT_FOUND;
+        if( !sliceGroups.containsKey(groupName) ) return ENTRY_NOT_FOUND;
         if( !sliceInstances.containsKey(sliceName) ) return ENTRY_NOT_FOUND;
 
-        OLTDevice oltDevice = oltDevices.get(deviceId);
-        PonPort ponPort = oltDevice.getPonPort(ponPortName);
-        SliceInstance sliceInstance = sliceInstances.get(sliceName);
+        SliceGroup sliceGroup = sliceGroups.get(groupName);
+        PonPort ponPort = sliceGroup.getPonPort();
+        SliceInstance sliceInstance = sliceGroup.getSliceInstance(sliceName);
 
         int maxAllowableBandwidth =
                 ponPort.getRemainedBandwidth() + sliceInstance.getAllocatedBandwidth();
@@ -129,9 +150,23 @@ public class Manager {
         return SUCCESS;
     }
 
+    public SliceInstance getSliceInstance(String groupName, String sliceName) {
+//        return sliceInstances.get(sliceName);
+        if( sliceGroups.containsKey(groupName) ) {
+             return sliceGroups.get(groupName).getSliceInstance(sliceName);
+        }
+
+        return null;
+    }
+
     public SliceInstance getSliceInstance(String sliceName) {
         return sliceInstances.get(sliceName);
     }
+
+    public SliceGroup getSliceGroup(String sliceGroup) {
+        return this.sliceGroups.get(sliceGroup);
+    }
+
     public List<String> getSliceInstances() {
         return (List<String>) sliceInstances.keys();
     }
