@@ -49,4 +49,5 @@ public interface SliceCtrlService {
 
     // for GUI
     List<OLTDevice> getOLTDevices();
+    String getTopology();
 }

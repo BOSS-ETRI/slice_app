@@ -43,15 +43,17 @@ public class SliceWebResource extends AbstractWebResource {
                 build();
     }
 
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Path("")
-//    public Response getTopology() {
-//        log.info("getLogicalDevices() called from GUI application");
-//
-//        SliceCtrlService service = get(SliceCtrlService.class);
-//        List<OLTDevice> oltDevices = service.getOLTDevices();
-//
-//
-//    }
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("")
+    public Response getTopology() {
+        log.info("getLogicalDevices() called from GUI application");
+
+        SliceCtrlService service = get(SliceCtrlService.class);
+        String topologyJson = service.getTopology();
+
+        return Response.ok(topologyJson)
+                .header("Access-Control-Allow-Origin", "*")
+                .build();
+    }
 }

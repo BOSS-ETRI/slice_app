@@ -6,6 +6,8 @@ import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest;
 import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse;
 import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupResponse;
 import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupRequest;
+import org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDResponse;
+import org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDRequest;
 import org.etri.onosslice.sliceservice.SliceServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.internal.DnsNameResolverProvider;
@@ -33,6 +35,10 @@ public class volthaMgmtGrpcClient {
 
 	public AddSliceGroupResponse AddSliceGroup(AddSliceGroupRequest request) {
 		return core.addSliceGroup(request);
+	}
+
+	public GetETCDResponse GetETCD(GetETCDRequest request) {
+		return core.getETCD(request);
 	}
 
 	public void RequestDeviceStatus(Manager manager) {

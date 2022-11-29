@@ -26,6 +26,7 @@ import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest;
 import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse;
 import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupRequest;
 import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceGroupResponse;
+import org.etri.onosslice.sliceservice.ONOSSliceService.GetETCDRequest;
 import org.etri.onosslice.sliceservice.ONOSSliceService.ResultType;
 import org.onosproject.net.*;
 
@@ -228,17 +229,6 @@ public class Slice implements SliceCtrlService {
         return sliceInstances;
     }
 
-    public List<OLTDevice> getOLTDevices() {
-        List<DeviceId> deviceIds = manager.getOLTDeviceIds();
-        List<OLTDevice> oltDevices = new LinkedList<>();
-
-        for( DeviceId deviceId : deviceIds ) {
-            oltDevices.add(manager.getOLTDevice(deviceId));
-        }
-
-        return oltDevices;
-    }
-
     @Override
     public C.RESULTS addOLTDevice(DeviceId deviceId, C.WB_TYPE wbType) {
         return manager.addOLTDevice(deviceId, wbType);
@@ -421,5 +411,23 @@ public class Slice implements SliceCtrlService {
     @Override
     public C.RESULTS provisionSubscriber(ConnectPoint cp, VlanId cTag, VlanId sTag, Integer tpId) {
         return null;
+    }
+
+
+    // for GUI
+    public List<OLTDevice> getOLTDevices() {
+        List<DeviceId> deviceIds = manager.getOLTDeviceIds();
+        List<OLTDevice> oltDevices = new LinkedList<>();
+
+        for( DeviceId deviceId : deviceIds ) {
+            oltDevices.add(manager.getOLTDevice(deviceId));
+        }
+
+        return oltDevices;
+    }
+
+    public String getTopology() {
+        GetETCDRequest reqBuilder = GetETCDRequest.newBuilder().build();
+        return client.GetETCD(reqBuilder).getResults();
     }
 }
