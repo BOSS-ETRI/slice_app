@@ -1,6 +1,8 @@
 package org.etri.rest;
 
+import com.google.gson.Gson;
 import org.etri.slice.api.SliceCtrlService;
+import org.etri.slice.impl.gui.PhysicalInfo;
 import org.onosproject.cli.AbstractShellCommand;
 import org.onosproject.rest.AbstractWebResource;
 import org.slf4j.Logger;
@@ -45,15 +47,29 @@ public class SliceWebResource extends AbstractWebResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("")
+    @Path("topology")
     public Response getTopology() {
-        log.info("getLogicalDevices() called from GUI application");
+        log.info("getTopology() called from GUI application");
 
         SliceCtrlService service = get(SliceCtrlService.class);
-        String topologyJson = service.getTopology();
+        List<PhysicalInfo> physicalInfos = service.getTopology();
 
-        return Response.ok(topologyJson)
+        return Response.ok(new Gson().toJson(physicalInfos))
                 .header("Access-Control-Allow-Origin", "*")
                 .build();
     }
+
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Path("slices")
+//    public Response getSlices() {
+//        log.info("getSlices() called from GUI application");
+//
+//        SliceCtrlService service = get(SliceCtrlService.class);
+//        List<SliceInstance> sliceInstances = service.getSliceInstances();
+//
+//        return Response.ok(new Gson().toJson(physicalInfos))
+//                .header("Access-Control-Allow-Origin", "*")
+//                .build();
+//    }
 }

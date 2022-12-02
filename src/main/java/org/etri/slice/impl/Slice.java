@@ -15,10 +15,12 @@
  */
 package org.etri.slice.impl;
 
+import com.google.gson.Gson;
 import org.etri.onosslice.sliceservice.ONOSSliceService;
 import org.etri.onosslice.sliceservice.ONOSSliceService.UniTags;
 import org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos;
 import org.etri.sis.*;
+import org.etri.slice.impl.gui.PhysicalInfo;
 import org.onlab.packet.VlanId;
 import org.onosproject.cfg.ComponentConfigService;
 import org.onosproject.core.CoreService;
@@ -55,8 +57,7 @@ import org.onosproject.net.device.DeviceService;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
-import static org.etri.slice.impl.C.RESULTS.FAIL;
-import static org.etri.slice.impl.C.RESULTS.SUCCESS;
+import static org.etri.slice.impl.C.RESULTS.*;
 import static org.etri.slice.impl.OsgiPropertyConstants.DEFAULT_BP_ID_DEFAULT;
 import static org.etri.slice.impl.OsgiPropertyConstants.DEFAULT_MCAST_SERVICE_NAME_DEFAULT;
 import static org.etri.slice.impl.OsgiPropertyConstants.EAPOL_DELETE_RETRY_MAX_ATTEMPS_DEFAULT;
@@ -343,20 +344,20 @@ public class Slice implements SliceCtrlService {
                 .filter(a -> a.supplicantConnectPoint().port().equals(cp.port()))
                 .collect(Collectors.toList());
 
-        AuthenticationRecord targetAuth = authentications.get(0);
-
-        if (targetAuth == null) {
-            log.info("There is no (%s) Connect Point found", cp);
-            return C.RESULTS.ENTRY_NOT_FOUND;
+        if (authentications.size() == 0) {
+            log.info("There is no " + cp + " Connect Point found");
+            return ENTRY_NOT_FOUND;
         }
+
+        AuthenticationRecord targetAuth = authentications.get(0);
 
         String portName = deviceService.getPort(targetAuth.supplicantConnectPoint()).
                 annotations().value(AnnotationKeys.PORT_NAME);
         SubscriberAndDeviceInformation subscriber = subsService.get(portName);
 
         if (subscriber == null) {
-            log.error("Subscriber information not found in sis for port {%s}", portName);
-            return C.RESULTS.ENTRY_NOT_FOUND;
+            log.error("Subscriber information not found in sis for port " + portName);
+            return ENTRY_NOT_FOUND;
         }
 
         log.info(portName);
@@ -372,7 +373,7 @@ public class Slice implements SliceCtrlService {
         upBandwidthProfile = uti.getUpstreamBandwidthProfile();
 
         if( upSliceProfile == null || upBandwidthProfile == null) {
-            return C.RESULTS.ENTRY_NOT_FOUND;
+            return ENTRY_NOT_FOUND;
         }
 
         log.info(upSliceProfile);
@@ -382,7 +383,7 @@ public class Slice implements SliceCtrlService {
         SliceProfileInformation spi = sliceService.get(upSliceProfile);
 
         if( bpi == null || spi == null ) {
-            return C.RESULTS.ENTRY_NOT_FOUND;
+            return ENTRY_NOT_FOUND;
         }
 
         log.info(bpi.toString());
@@ -393,19 +394,19 @@ public class Slice implements SliceCtrlService {
 
         if (sliceInstance == null) {
             log.info("Slice instance(" + upSliceProfile + ") has not been created yet");
-            return C.RESULTS.ENTRY_NOT_FOUND;
+            return ENTRY_NOT_FOUND;
         }
 
         C.RESULTS result = sliceInstance.updateRemainedBandwidth(C.BW_UPDATE_OP.ADD, (int)reqCir);
-        if (result == C.RESULTS.INSUFFICIENT_BANDWIDTH) {
+        if (result == INSUFFICIENT_BANDWIDTH) {
             log.info("Bandwidth is insufficient in the slice instance (" + upSliceProfile + ")");
-            return C.RESULTS.INSUFFICIENT_BANDWIDTH;
+            return INSUFFICIENT_BANDWIDTH;
         }
 
         sliceInstance.addSubscriber(portName, (int)reqCir);
 
         accessDeviceService.provisionSubscriber(cp);
-        return null;
+        return SUCCESS;
     }
 
     @Override
@@ -426,8 +427,51 @@ public class Slice implements SliceCtrlService {
         return oltDevices;
     }
 
-    public String getTopology() {
+    public List<PhysicalInfo> getTopology() {
         GetETCDRequest reqBuilder = GetETCDRequest.newBuilder().build();
-        return client.GetETCD(reqBuilder).getResults();
+        String topologyJson = client.GetETCD(reqBuilder).getResults();
+
+        if( topologyJson == "null" ) {
+            return null;
+        }
+
+        System.out.println("hello");
+        System.out.println(topologyJson);
+
+        Gson gson = new Gson();
+        PhysicalInfo[] physicalInfoArray = gson.fromJson(topologyJson, PhysicalInfo[].class);
+        for(int i=0; i<physicalInfoArray.length; i++) {
+            System.out.println(physicalInfoArray[i]);
+        }
+        List<PhysicalInfo> copyPhysicalInfos = Arrays.asList(physicalInfoArray);
+        List<PhysicalInfo> result = new ArrayList<>();
+
+        for(PhysicalInfo info : copyPhysicalInfos) {
+            String OfMacAddress = info.getOLTId();
+            info.ParentId = manager.getOLTDeviceName(OfMacAddress);
+            info.DeviceType = manager.getOLTDevice(OfMacAddress).getDeviceType();
+            info.DeviceId = manager.getEmptyONUName(info.DeviceId, true);
+            info.DeviceIds.add(info.DeviceId);
+
+            if(result.isEmpty()) {
+                result.add(info);
+            }
+            else {
+                for(PhysicalInfo topology : result) {
+                    if(!topology.equals(info)) {
+                        result.add(info);
+                    }
+                }
+            }
+
+            for(PhysicalInfo topology : result) {
+                if(topology.equalOLTDifferentONU(info)) {
+                    topology.DeviceIds.add(info.DeviceId);
+                }
+            }
+
+        }
+
+        return result;
     }
 }

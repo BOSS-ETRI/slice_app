@@ -5,6 +5,7 @@ import org.apache.karaf.shell.api.action.Command;
 import org.apache.karaf.shell.api.action.Completion;
 import org.apache.karaf.shell.api.action.lifecycle.Service;
 import org.etri.slice.api.SliceCtrlService;
+import org.etri.slice.impl.C;
 import org.onosproject.cli.AbstractShellCommand;
 import org.onosproject.cli.net.DeviceIdCompleter;
 import org.onosproject.net.ConnectPoint;
@@ -32,6 +33,20 @@ public class SubscriberAddCommand extends AbstractShellCommand {
         PortNumber port = PortNumber.portNumber(strPort);
         ConnectPoint connectPoint = new ConnectPoint(deviceId, port);
 
-        service.provisionSubscriber(connectPoint);
+        C.RESULTS result = service.provisionSubscriber(connectPoint);
+
+        switch(result) {
+            case SUCCESS:
+                System.out.println("Successfully installed the subscriber");
+                break;
+
+            case ENTRY_NOT_FOUND:
+                System.out.println("Some entries are missing from (AAA, SADIS, SIS)");
+                break;
+
+            case INSUFFICIENT_BANDWIDTH:
+                System.out.println("Designated slice instance doesn't have sufficient remaining bandwidth for this subscriber");
+                break;
+        }
     }
 }

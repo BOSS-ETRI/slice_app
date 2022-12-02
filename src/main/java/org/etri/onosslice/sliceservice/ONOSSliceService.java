@@ -359,6 +359,10 @@ public final class ONOSSliceService {
      * <code>WB_OLT_50G = 3;</code>
      */
     WB_OLT_50G(3),
+    /**
+     * <code>ONU = 4;</code>
+     */
+    ONU(4),
     UNRECOGNIZED(-1),
     ;
 
@@ -378,6 +382,10 @@ public final class ONOSSliceService {
      * <code>WB_OLT_50G = 3;</code>
      */
     public static final int WB_OLT_50G_VALUE = 3;
+    /**
+     * <code>ONU = 4;</code>
+     */
+    public static final int ONU_VALUE = 4;
 
 
     public final int getNumber() {
@@ -408,6 +416,7 @@ public final class ONOSSliceService {
         case 1: return WB_OLT_10G;
         case 2: return WB_OLT_25G;
         case 3: return WB_OLT_50G;
+        case 4: return ONU;
         default: return null;
       }
     }
@@ -462,6 +471,132 @@ public final class ONOSSliceService {
     }
 
     // @@protoc_insertion_point(enum_scope:onossliceservice.DeviceType)
+  }
+
+  /**
+   * Protobuf enum {@code onossliceservice.PortType}
+   */
+  public enum PortType
+          implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>PONPORT = 0;</code>
+     */
+    PONPORT(0),
+    /**
+     * <code>UNIPORT = 1;</code>
+     */
+    UNIPORT(1),
+    /**
+     * <code>NNIPORT = 2;</code>
+     */
+    NNIPORT(2),
+    /**
+     * <code>ANIPORT = 3;</code>
+     */
+    ANIPORT(3),
+    UNRECOGNIZED(-1),
+    ;
+
+    /**
+     * <code>PONPORT = 0;</code>
+     */
+    public static final int PONPORT_VALUE = 0;
+    /**
+     * <code>UNIPORT = 1;</code>
+     */
+    public static final int UNIPORT_VALUE = 1;
+    /**
+     * <code>NNIPORT = 2;</code>
+     */
+    public static final int NNIPORT_VALUE = 2;
+    /**
+     * <code>ANIPORT = 3;</code>
+     */
+    public static final int ANIPORT_VALUE = 3;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+                "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static PortType valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static PortType forNumber(int value) {
+      switch (value) {
+        case 0: return PONPORT;
+        case 1: return UNIPORT;
+        case 2: return NNIPORT;
+        case 3: return ANIPORT;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<PortType>
+    internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+            PortType> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<PortType>() {
+              public PortType findValueByNumber(int number) {
+                return PortType.forNumber(number);
+              }
+            };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+    getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+                "Can't get the descriptor of an unrecognized enum value.");
+      }
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+    getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+    getDescriptor() {
+      return org.etri.onosslice.sliceservice.ONOSSliceService.getDescriptor().getEnumTypes().get(4);
+    }
+
+    private static final PortType[] VALUES = values();
+
+    public static PortType valueOf(
+            com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+                "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private PortType(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:onossliceservice.PortType)
   }
 
   public interface UniTagsOrBuilder extends
@@ -6638,12 +6773,23 @@ public final class ONOSSliceService {
     getIdentifierBytes();
 
     /**
-     * <code>.onossliceservice.DeviceStatus status = 2;</code>
+     * <code>.onossliceservice.PortType port_type = 2;</code>
+     * @return The enum numeric value on the wire for portType.
+     */
+    int getPortTypeValue();
+    /**
+     * <code>.onossliceservice.PortType port_type = 2;</code>
+     * @return The portType.
+     */
+    org.etri.onosslice.sliceservice.ONOSSliceService.PortType getPortType();
+
+    /**
+     * <code>.onossliceservice.DeviceStatus status = 3;</code>
      * @return The enum numeric value on the wire for status.
      */
     int getStatusValue();
     /**
-     * <code>.onossliceservice.DeviceStatus status = 2;</code>
+     * <code>.onossliceservice.DeviceStatus status = 3;</code>
      * @return The status.
      */
     org.etri.onosslice.sliceservice.ONOSSliceService.DeviceStatus getStatus();
@@ -6662,6 +6808,7 @@ public final class ONOSSliceService {
     }
     private PortStatus() {
       identifier_ = "";
+      portType_ = 0;
       status_ = 0;
     }
 
@@ -6702,6 +6849,12 @@ public final class ONOSSliceService {
               break;
             }
             case 16: {
+              int rawValue = input.readEnum();
+
+              portType_ = rawValue;
+              break;
+            }
+            case 24: {
               int rawValue = input.readEnum();
 
               status_ = rawValue;
@@ -6777,17 +6930,36 @@ public final class ONOSSliceService {
       }
     }
 
-    public static final int STATUS_FIELD_NUMBER = 2;
+    public static final int PORT_TYPE_FIELD_NUMBER = 2;
+    private int portType_;
+    /**
+     * <code>.onossliceservice.PortType port_type = 2;</code>
+     * @return The enum numeric value on the wire for portType.
+     */
+    @java.lang.Override public int getPortTypeValue() {
+      return portType_;
+    }
+    /**
+     * <code>.onossliceservice.PortType port_type = 2;</code>
+     * @return The portType.
+     */
+    @java.lang.Override public org.etri.onosslice.sliceservice.ONOSSliceService.PortType getPortType() {
+      @SuppressWarnings("deprecation")
+      org.etri.onosslice.sliceservice.ONOSSliceService.PortType result = org.etri.onosslice.sliceservice.ONOSSliceService.PortType.valueOf(portType_);
+      return result == null ? org.etri.onosslice.sliceservice.ONOSSliceService.PortType.UNRECOGNIZED : result;
+    }
+
+    public static final int STATUS_FIELD_NUMBER = 3;
     private int status_;
     /**
-     * <code>.onossliceservice.DeviceStatus status = 2;</code>
+     * <code>.onossliceservice.DeviceStatus status = 3;</code>
      * @return The enum numeric value on the wire for status.
      */
     @java.lang.Override public int getStatusValue() {
       return status_;
     }
     /**
-     * <code>.onossliceservice.DeviceStatus status = 2;</code>
+     * <code>.onossliceservice.DeviceStatus status = 3;</code>
      * @return The status.
      */
     @java.lang.Override public org.etri.onosslice.sliceservice.ONOSSliceService.DeviceStatus getStatus() {
@@ -6813,8 +6985,11 @@ public final class ONOSSliceService {
       if (!getIdentifierBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, identifier_);
       }
+      if (portType_ != org.etri.onosslice.sliceservice.ONOSSliceService.PortType.PONPORT.getNumber()) {
+        output.writeEnum(2, portType_);
+      }
       if (status_ != org.etri.onosslice.sliceservice.ONOSSliceService.DeviceStatus.UP.getNumber()) {
-        output.writeEnum(2, status_);
+        output.writeEnum(3, status_);
       }
       unknownFields.writeTo(output);
     }
@@ -6828,9 +7003,13 @@ public final class ONOSSliceService {
       if (!getIdentifierBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, identifier_);
       }
+      if (portType_ != org.etri.onosslice.sliceservice.ONOSSliceService.PortType.PONPORT.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+                .computeEnumSize(2, portType_);
+      }
       if (status_ != org.etri.onosslice.sliceservice.ONOSSliceService.DeviceStatus.UP.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-                .computeEnumSize(2, status_);
+                .computeEnumSize(3, status_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -6849,6 +7028,7 @@ public final class ONOSSliceService {
 
       if (!getIdentifier()
               .equals(other.getIdentifier())) return false;
+      if (portType_ != other.portType_) return false;
       if (status_ != other.status_) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
@@ -6863,6 +7043,8 @@ public final class ONOSSliceService {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + IDENTIFIER_FIELD_NUMBER;
       hash = (53 * hash) + getIdentifier().hashCode();
+      hash = (37 * hash) + PORT_TYPE_FIELD_NUMBER;
+      hash = (53 * hash) + portType_;
       hash = (37 * hash) + STATUS_FIELD_NUMBER;
       hash = (53 * hash) + status_;
       hash = (29 * hash) + unknownFields.hashCode();
@@ -7000,6 +7182,8 @@ public final class ONOSSliceService {
         super.clear();
         identifier_ = "";
 
+        portType_ = 0;
+
         status_ = 0;
 
         return this;
@@ -7029,6 +7213,7 @@ public final class ONOSSliceService {
       public org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus buildPartial() {
         org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus result = new org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus(this);
         result.identifier_ = identifier_;
+        result.portType_ = portType_;
         result.status_ = status_;
         onBuilt();
         return result;
@@ -7081,6 +7266,9 @@ public final class ONOSSliceService {
         if (!other.getIdentifier().isEmpty()) {
           identifier_ = other.identifier_;
           onChanged();
+        }
+        if (other.portType_ != 0) {
+          setPortTypeValue(other.getPortTypeValue());
         }
         if (other.status_ != 0) {
           setStatusValue(other.getStatusValue());
@@ -7190,16 +7378,70 @@ public final class ONOSSliceService {
         return this;
       }
 
+      private int portType_ = 0;
+      /**
+       * <code>.onossliceservice.PortType port_type = 2;</code>
+       * @return The enum numeric value on the wire for portType.
+       */
+      @java.lang.Override public int getPortTypeValue() {
+        return portType_;
+      }
+      /**
+       * <code>.onossliceservice.PortType port_type = 2;</code>
+       * @param value The enum numeric value on the wire for portType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPortTypeValue(int value) {
+
+        portType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.onossliceservice.PortType port_type = 2;</code>
+       * @return The portType.
+       */
+      @java.lang.Override
+      public org.etri.onosslice.sliceservice.ONOSSliceService.PortType getPortType() {
+        @SuppressWarnings("deprecation")
+        org.etri.onosslice.sliceservice.ONOSSliceService.PortType result = org.etri.onosslice.sliceservice.ONOSSliceService.PortType.valueOf(portType_);
+        return result == null ? org.etri.onosslice.sliceservice.ONOSSliceService.PortType.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.onossliceservice.PortType port_type = 2;</code>
+       * @param value The portType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPortType(org.etri.onosslice.sliceservice.ONOSSliceService.PortType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+
+        portType_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.onossliceservice.PortType port_type = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPortType() {
+
+        portType_ = 0;
+        onChanged();
+        return this;
+      }
+
       private int status_ = 0;
       /**
-       * <code>.onossliceservice.DeviceStatus status = 2;</code>
+       * <code>.onossliceservice.DeviceStatus status = 3;</code>
        * @return The enum numeric value on the wire for status.
        */
       @java.lang.Override public int getStatusValue() {
         return status_;
       }
       /**
-       * <code>.onossliceservice.DeviceStatus status = 2;</code>
+       * <code>.onossliceservice.DeviceStatus status = 3;</code>
        * @param value The enum numeric value on the wire for status to set.
        * @return This builder for chaining.
        */
@@ -7210,7 +7452,7 @@ public final class ONOSSliceService {
         return this;
       }
       /**
-       * <code>.onossliceservice.DeviceStatus status = 2;</code>
+       * <code>.onossliceservice.DeviceStatus status = 3;</code>
        * @return The status.
        */
       @java.lang.Override
@@ -7220,7 +7462,7 @@ public final class ONOSSliceService {
         return result == null ? org.etri.onosslice.sliceservice.ONOSSliceService.DeviceStatus.UNRECOGNIZED : result;
       }
       /**
-       * <code>.onossliceservice.DeviceStatus status = 2;</code>
+       * <code>.onossliceservice.DeviceStatus status = 3;</code>
        * @param value The status to set.
        * @return This builder for chaining.
        */
@@ -7234,7 +7476,7 @@ public final class ONOSSliceService {
         return this;
       }
       /**
-       * <code>.onossliceservice.DeviceStatus status = 2;</code>
+       * <code>.onossliceservice.DeviceStatus status = 3;</code>
        * @return This builder for chaining.
        */
       public Builder clearStatus() {
@@ -7313,47 +7555,59 @@ public final class ONOSSliceService {
     getIdentifierBytes();
 
     /**
-     * <code>.onossliceservice.DeviceType type = 2;</code>
+     * <code>string parent_id = 2;</code>
+     * @return The parentId.
+     */
+    java.lang.String getParentId();
+    /**
+     * <code>string parent_id = 2;</code>
+     * @return The bytes for parentId.
+     */
+    com.google.protobuf.ByteString
+    getParentIdBytes();
+
+    /**
+     * <code>.onossliceservice.DeviceType type = 3;</code>
      * @return The enum numeric value on the wire for type.
      */
     int getTypeValue();
     /**
-     * <code>.onossliceservice.DeviceType type = 2;</code>
+     * <code>.onossliceservice.DeviceType type = 3;</code>
      * @return The type.
      */
     org.etri.onosslice.sliceservice.ONOSSliceService.DeviceType getType();
 
     /**
-     * <code>.onossliceservice.DeviceStatus status = 3;</code>
+     * <code>.onossliceservice.DeviceStatus status = 4;</code>
      * @return The enum numeric value on the wire for status.
      */
     int getStatusValue();
     /**
-     * <code>.onossliceservice.DeviceStatus status = 3;</code>
+     * <code>.onossliceservice.DeviceStatus status = 4;</code>
      * @return The status.
      */
     org.etri.onosslice.sliceservice.ONOSSliceService.DeviceStatus getStatus();
 
     /**
-     * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+     * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
      */
     java.util.List<org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus>
     getPortStatusList();
     /**
-     * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+     * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
      */
     org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus getPortStatus(int index);
     /**
-     * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+     * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
      */
     int getPortStatusCount();
     /**
-     * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+     * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
      */
     java.util.List<? extends org.etri.onosslice.sliceservice.ONOSSliceService.PortStatusOrBuilder>
     getPortStatusOrBuilderList();
     /**
-     * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+     * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
      */
     org.etri.onosslice.sliceservice.ONOSSliceService.PortStatusOrBuilder getPortStatusOrBuilder(
             int index);
@@ -7372,6 +7626,7 @@ public final class ONOSSliceService {
     }
     private DeviceStatusResponse() {
       identifier_ = "";
+      parentId_ = "";
       type_ = 0;
       status_ = 0;
       portStatus_ = java.util.Collections.emptyList();
@@ -7414,19 +7669,25 @@ public final class ONOSSliceService {
               identifier_ = s;
               break;
             }
-            case 16: {
-              int rawValue = input.readEnum();
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
 
-              type_ = rawValue;
+              parentId_ = s;
               break;
             }
             case 24: {
               int rawValue = input.readEnum();
 
+              type_ = rawValue;
+              break;
+            }
+            case 32: {
+              int rawValue = input.readEnum();
+
               status_ = rawValue;
               break;
             }
-            case 34: {
+            case 42: {
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 portStatus_ = new java.util.ArrayList<org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus>();
                 mutable_bitField0_ |= 0x00000001;
@@ -7508,17 +7769,55 @@ public final class ONOSSliceService {
       }
     }
 
-    public static final int TYPE_FIELD_NUMBER = 2;
+    public static final int PARENT_ID_FIELD_NUMBER = 2;
+    private volatile java.lang.Object parentId_;
+    /**
+     * <code>string parent_id = 2;</code>
+     * @return The parentId.
+     */
+    @java.lang.Override
+    public java.lang.String getParentId() {
+      java.lang.Object ref = parentId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        parentId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string parent_id = 2;</code>
+     * @return The bytes for parentId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+    getParentIdBytes() {
+      java.lang.Object ref = parentId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b =
+                com.google.protobuf.ByteString.copyFromUtf8(
+                        (java.lang.String) ref);
+        parentId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int TYPE_FIELD_NUMBER = 3;
     private int type_;
     /**
-     * <code>.onossliceservice.DeviceType type = 2;</code>
+     * <code>.onossliceservice.DeviceType type = 3;</code>
      * @return The enum numeric value on the wire for type.
      */
     @java.lang.Override public int getTypeValue() {
       return type_;
     }
     /**
-     * <code>.onossliceservice.DeviceType type = 2;</code>
+     * <code>.onossliceservice.DeviceType type = 3;</code>
      * @return The type.
      */
     @java.lang.Override public org.etri.onosslice.sliceservice.ONOSSliceService.DeviceType getType() {
@@ -7527,17 +7826,17 @@ public final class ONOSSliceService {
       return result == null ? org.etri.onosslice.sliceservice.ONOSSliceService.DeviceType.UNRECOGNIZED : result;
     }
 
-    public static final int STATUS_FIELD_NUMBER = 3;
+    public static final int STATUS_FIELD_NUMBER = 4;
     private int status_;
     /**
-     * <code>.onossliceservice.DeviceStatus status = 3;</code>
+     * <code>.onossliceservice.DeviceStatus status = 4;</code>
      * @return The enum numeric value on the wire for status.
      */
     @java.lang.Override public int getStatusValue() {
       return status_;
     }
     /**
-     * <code>.onossliceservice.DeviceStatus status = 3;</code>
+     * <code>.onossliceservice.DeviceStatus status = 4;</code>
      * @return The status.
      */
     @java.lang.Override public org.etri.onosslice.sliceservice.ONOSSliceService.DeviceStatus getStatus() {
@@ -7546,17 +7845,17 @@ public final class ONOSSliceService {
       return result == null ? org.etri.onosslice.sliceservice.ONOSSliceService.DeviceStatus.UNRECOGNIZED : result;
     }
 
-    public static final int PORTSTATUS_FIELD_NUMBER = 4;
+    public static final int PORTSTATUS_FIELD_NUMBER = 5;
     private java.util.List<org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus> portStatus_;
     /**
-     * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+     * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
      */
     @java.lang.Override
     public java.util.List<org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus> getPortStatusList() {
       return portStatus_;
     }
     /**
-     * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+     * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
      */
     @java.lang.Override
     public java.util.List<? extends org.etri.onosslice.sliceservice.ONOSSliceService.PortStatusOrBuilder>
@@ -7564,21 +7863,21 @@ public final class ONOSSliceService {
       return portStatus_;
     }
     /**
-     * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+     * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
      */
     @java.lang.Override
     public int getPortStatusCount() {
       return portStatus_.size();
     }
     /**
-     * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+     * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
      */
     @java.lang.Override
     public org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus getPortStatus(int index) {
       return portStatus_.get(index);
     }
     /**
-     * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+     * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
      */
     @java.lang.Override
     public org.etri.onosslice.sliceservice.ONOSSliceService.PortStatusOrBuilder getPortStatusOrBuilder(
@@ -7603,14 +7902,17 @@ public final class ONOSSliceService {
       if (!getIdentifierBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, identifier_);
       }
+      if (!getParentIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, parentId_);
+      }
       if (type_ != org.etri.onosslice.sliceservice.ONOSSliceService.DeviceType.WB_OLT_1G.getNumber()) {
-        output.writeEnum(2, type_);
+        output.writeEnum(3, type_);
       }
       if (status_ != org.etri.onosslice.sliceservice.ONOSSliceService.DeviceStatus.UP.getNumber()) {
-        output.writeEnum(3, status_);
+        output.writeEnum(4, status_);
       }
       for (int i = 0; i < portStatus_.size(); i++) {
-        output.writeMessage(4, portStatus_.get(i));
+        output.writeMessage(5, portStatus_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -7624,17 +7926,20 @@ public final class ONOSSliceService {
       if (!getIdentifierBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, identifier_);
       }
+      if (!getParentIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, parentId_);
+      }
       if (type_ != org.etri.onosslice.sliceservice.ONOSSliceService.DeviceType.WB_OLT_1G.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-                .computeEnumSize(2, type_);
+                .computeEnumSize(3, type_);
       }
       if (status_ != org.etri.onosslice.sliceservice.ONOSSliceService.DeviceStatus.UP.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-                .computeEnumSize(3, status_);
+                .computeEnumSize(4, status_);
       }
       for (int i = 0; i < portStatus_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-                .computeMessageSize(4, portStatus_.get(i));
+                .computeMessageSize(5, portStatus_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -7653,6 +7958,8 @@ public final class ONOSSliceService {
 
       if (!getIdentifier()
               .equals(other.getIdentifier())) return false;
+      if (!getParentId()
+              .equals(other.getParentId())) return false;
       if (type_ != other.type_) return false;
       if (status_ != other.status_) return false;
       if (!getPortStatusList()
@@ -7670,6 +7977,8 @@ public final class ONOSSliceService {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + IDENTIFIER_FIELD_NUMBER;
       hash = (53 * hash) + getIdentifier().hashCode();
+      hash = (37 * hash) + PARENT_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getParentId().hashCode();
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
       hash = (53 * hash) + type_;
       hash = (37 * hash) + STATUS_FIELD_NUMBER;
@@ -7814,6 +8123,8 @@ public final class ONOSSliceService {
         super.clear();
         identifier_ = "";
 
+        parentId_ = "";
+
         type_ = 0;
 
         status_ = 0;
@@ -7852,6 +8163,7 @@ public final class ONOSSliceService {
         org.etri.onosslice.sliceservice.ONOSSliceService.DeviceStatusResponse result = new org.etri.onosslice.sliceservice.ONOSSliceService.DeviceStatusResponse(this);
         int from_bitField0_ = bitField0_;
         result.identifier_ = identifier_;
+        result.parentId_ = parentId_;
         result.type_ = type_;
         result.status_ = status_;
         if (portStatusBuilder_ == null) {
@@ -7913,6 +8225,10 @@ public final class ONOSSliceService {
         if (other == org.etri.onosslice.sliceservice.ONOSSliceService.DeviceStatusResponse.getDefaultInstance()) return this;
         if (!other.getIdentifier().isEmpty()) {
           identifier_ = other.identifier_;
+          onChanged();
+        }
+        if (!other.getParentId().isEmpty()) {
+          parentId_ = other.parentId_;
           onChanged();
         }
         if (other.type_ != 0) {
@@ -8053,16 +8369,92 @@ public final class ONOSSliceService {
         return this;
       }
 
+      private java.lang.Object parentId_ = "";
+      /**
+       * <code>string parent_id = 2;</code>
+       * @return The parentId.
+       */
+      public java.lang.String getParentId() {
+        java.lang.Object ref = parentId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+                  (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          parentId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string parent_id = 2;</code>
+       * @return The bytes for parentId.
+       */
+      public com.google.protobuf.ByteString
+      getParentIdBytes() {
+        java.lang.Object ref = parentId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b =
+                  com.google.protobuf.ByteString.copyFromUtf8(
+                          (java.lang.String) ref);
+          parentId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string parent_id = 2;</code>
+       * @param value The parentId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setParentId(
+              java.lang.String value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+
+        parentId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string parent_id = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearParentId() {
+
+        parentId_ = getDefaultInstance().getParentId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string parent_id = 2;</code>
+       * @param value The bytes for parentId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setParentIdBytes(
+              com.google.protobuf.ByteString value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        checkByteStringIsUtf8(value);
+
+        parentId_ = value;
+        onChanged();
+        return this;
+      }
+
       private int type_ = 0;
       /**
-       * <code>.onossliceservice.DeviceType type = 2;</code>
+       * <code>.onossliceservice.DeviceType type = 3;</code>
        * @return The enum numeric value on the wire for type.
        */
       @java.lang.Override public int getTypeValue() {
         return type_;
       }
       /**
-       * <code>.onossliceservice.DeviceType type = 2;</code>
+       * <code>.onossliceservice.DeviceType type = 3;</code>
        * @param value The enum numeric value on the wire for type to set.
        * @return This builder for chaining.
        */
@@ -8073,7 +8465,7 @@ public final class ONOSSliceService {
         return this;
       }
       /**
-       * <code>.onossliceservice.DeviceType type = 2;</code>
+       * <code>.onossliceservice.DeviceType type = 3;</code>
        * @return The type.
        */
       @java.lang.Override
@@ -8083,7 +8475,7 @@ public final class ONOSSliceService {
         return result == null ? org.etri.onosslice.sliceservice.ONOSSliceService.DeviceType.UNRECOGNIZED : result;
       }
       /**
-       * <code>.onossliceservice.DeviceType type = 2;</code>
+       * <code>.onossliceservice.DeviceType type = 3;</code>
        * @param value The type to set.
        * @return This builder for chaining.
        */
@@ -8097,7 +8489,7 @@ public final class ONOSSliceService {
         return this;
       }
       /**
-       * <code>.onossliceservice.DeviceType type = 2;</code>
+       * <code>.onossliceservice.DeviceType type = 3;</code>
        * @return This builder for chaining.
        */
       public Builder clearType() {
@@ -8109,14 +8501,14 @@ public final class ONOSSliceService {
 
       private int status_ = 0;
       /**
-       * <code>.onossliceservice.DeviceStatus status = 3;</code>
+       * <code>.onossliceservice.DeviceStatus status = 4;</code>
        * @return The enum numeric value on the wire for status.
        */
       @java.lang.Override public int getStatusValue() {
         return status_;
       }
       /**
-       * <code>.onossliceservice.DeviceStatus status = 3;</code>
+       * <code>.onossliceservice.DeviceStatus status = 4;</code>
        * @param value The enum numeric value on the wire for status to set.
        * @return This builder for chaining.
        */
@@ -8127,7 +8519,7 @@ public final class ONOSSliceService {
         return this;
       }
       /**
-       * <code>.onossliceservice.DeviceStatus status = 3;</code>
+       * <code>.onossliceservice.DeviceStatus status = 4;</code>
        * @return The status.
        */
       @java.lang.Override
@@ -8137,7 +8529,7 @@ public final class ONOSSliceService {
         return result == null ? org.etri.onosslice.sliceservice.ONOSSliceService.DeviceStatus.UNRECOGNIZED : result;
       }
       /**
-       * <code>.onossliceservice.DeviceStatus status = 3;</code>
+       * <code>.onossliceservice.DeviceStatus status = 4;</code>
        * @param value The status to set.
        * @return This builder for chaining.
        */
@@ -8151,7 +8543,7 @@ public final class ONOSSliceService {
         return this;
       }
       /**
-       * <code>.onossliceservice.DeviceStatus status = 3;</code>
+       * <code>.onossliceservice.DeviceStatus status = 4;</code>
        * @return This builder for chaining.
        */
       public Builder clearStatus() {
@@ -8174,7 +8566,7 @@ public final class ONOSSliceService {
               org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus, org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus.Builder, org.etri.onosslice.sliceservice.ONOSSliceService.PortStatusOrBuilder> portStatusBuilder_;
 
       /**
-       * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+       * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
        */
       public java.util.List<org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus> getPortStatusList() {
         if (portStatusBuilder_ == null) {
@@ -8184,7 +8576,7 @@ public final class ONOSSliceService {
         }
       }
       /**
-       * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+       * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
        */
       public int getPortStatusCount() {
         if (portStatusBuilder_ == null) {
@@ -8194,7 +8586,7 @@ public final class ONOSSliceService {
         }
       }
       /**
-       * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+       * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
        */
       public org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus getPortStatus(int index) {
         if (portStatusBuilder_ == null) {
@@ -8204,7 +8596,7 @@ public final class ONOSSliceService {
         }
       }
       /**
-       * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+       * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
        */
       public Builder setPortStatus(
               int index, org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus value) {
@@ -8221,7 +8613,7 @@ public final class ONOSSliceService {
         return this;
       }
       /**
-       * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+       * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
        */
       public Builder setPortStatus(
               int index, org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus.Builder builderForValue) {
@@ -8235,7 +8627,7 @@ public final class ONOSSliceService {
         return this;
       }
       /**
-       * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+       * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
        */
       public Builder addPortStatus(org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus value) {
         if (portStatusBuilder_ == null) {
@@ -8251,7 +8643,7 @@ public final class ONOSSliceService {
         return this;
       }
       /**
-       * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+       * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
        */
       public Builder addPortStatus(
               int index, org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus value) {
@@ -8268,7 +8660,7 @@ public final class ONOSSliceService {
         return this;
       }
       /**
-       * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+       * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
        */
       public Builder addPortStatus(
               org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus.Builder builderForValue) {
@@ -8282,7 +8674,7 @@ public final class ONOSSliceService {
         return this;
       }
       /**
-       * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+       * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
        */
       public Builder addPortStatus(
               int index, org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus.Builder builderForValue) {
@@ -8296,7 +8688,7 @@ public final class ONOSSliceService {
         return this;
       }
       /**
-       * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+       * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
        */
       public Builder addAllPortStatus(
               java.lang.Iterable<? extends org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus> values) {
@@ -8311,7 +8703,7 @@ public final class ONOSSliceService {
         return this;
       }
       /**
-       * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+       * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
        */
       public Builder clearPortStatus() {
         if (portStatusBuilder_ == null) {
@@ -8324,7 +8716,7 @@ public final class ONOSSliceService {
         return this;
       }
       /**
-       * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+       * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
        */
       public Builder removePortStatus(int index) {
         if (portStatusBuilder_ == null) {
@@ -8337,14 +8729,14 @@ public final class ONOSSliceService {
         return this;
       }
       /**
-       * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+       * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
        */
       public org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus.Builder getPortStatusBuilder(
               int index) {
         return getPortStatusFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+       * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
        */
       public org.etri.onosslice.sliceservice.ONOSSliceService.PortStatusOrBuilder getPortStatusOrBuilder(
               int index) {
@@ -8354,7 +8746,7 @@ public final class ONOSSliceService {
         }
       }
       /**
-       * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+       * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
        */
       public java.util.List<? extends org.etri.onosslice.sliceservice.ONOSSliceService.PortStatusOrBuilder>
       getPortStatusOrBuilderList() {
@@ -8365,14 +8757,14 @@ public final class ONOSSliceService {
         }
       }
       /**
-       * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+       * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
        */
       public org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus.Builder addPortStatusBuilder() {
         return getPortStatusFieldBuilder().addBuilder(
                 org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus.getDefaultInstance());
       }
       /**
-       * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+       * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
        */
       public org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus.Builder addPortStatusBuilder(
               int index) {
@@ -8380,7 +8772,7 @@ public final class ONOSSliceService {
                 index, org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus.getDefaultInstance());
       }
       /**
-       * <code>repeated .onossliceservice.PortStatus portStatus = 4;</code>
+       * <code>repeated .onossliceservice.PortStatus portStatus = 5;</code>
        */
       public java.util.List<org.etri.onosslice.sliceservice.ONOSSliceService.PortStatus.Builder>
       getPortStatusBuilderList() {
@@ -9654,33 +10046,37 @@ public final class ONOSSliceService {
                     "\001 \001(\0162\034.onossliceservice.ResultType\022\016\n\006r" +
                     "esult\030\002 \001(\t\"N\n\020AddSliceResponse\022*\n\004type\030" +
                     "\001 \001(\0162\034.onossliceservice.ResultType\022\016\n\006r" +
-                    "esult\030\002 \001(\t\"P\n\nPortStatus\022\022\n\nidentifier\030" +
-                    "\001 \001(\t\022.\n\006status\030\002 \001(\0162\036.onossliceservice" +
-                    ".DeviceStatus\"\270\001\n\024DeviceStatusResponse\022\022" +
-                    "\n\nidentifier\030\001 \001(\t\022*\n\004type\030\002 \001(\0162\034.onoss" +
-                    "liceservice.DeviceType\022.\n\006status\030\003 \001(\0162\036" +
-                    ".onossliceservice.DeviceStatus\0220\n\nportSt" +
-                    "atus\030\004 \003(\0132\034.onossliceservice.PortStatus" +
-                    "\"N\n\017GetETCDResponse\022*\n\004type\030\001 \001(\0162\034.onos" +
-                    "sliceservice.ResultType\022\017\n\007results\030\002 \001(\t" +
-                    "*#\n\nResultType\022\010\n\004FAIL\020\000\022\013\n\007SUCCESS\020\001*3\n" +
-                    "\007DbaType\022\023\n\017DBA_TYPE_SR_DBA\020\000\022\023\n\017DBA_TYP" +
-                    "E_CO_DBA\020\001* \n\014DeviceStatus\022\006\n\002UP\020\000\022\010\n\004DO" +
-                    "WN\020\001*K\n\nDeviceType\022\r\n\tWB_OLT_1G\020\000\022\016\n\nWB_" +
-                    "OLT_10G\020\001\022\016\n\nWB_OLT_25G\020\002\022\016\n\nWB_OLT_50G\020" +
-                    "\0032\372\002\n\014SliceService\022b\n\rAddSliceGroup\022&.on" +
-                    "ossliceservice.AddSliceGroupRequest\032\'.on" +
-                    "ossliceservice.AddSliceGroupResponse\"\000\022S" +
-                    "\n\010AddSlice\022!.onossliceservice.AddSliceRe" +
-                    "quest\032\".onossliceservice.AddSliceRespons" +
-                    "e\"\000\022_\n\014DeviceReport\022%.onossliceservice.D" +
-                    "eviceStatusRequest\032&.onossliceservice.De" +
-                    "viceStatusResponse0\001\022P\n\007GetETCD\022 .onossl" +
-                    "iceservice.GetETCDRequest\032!.onossliceser" +
-                    "vice.GetETCDResponse\"\000Bp\n\037org.etri.onoss" +
-                    "lice.sliceserviceB\020ONOSSliceServiceZ8git" +
-                    "hub.com/opencord/voltha-protos/v4/go/ono" +
-                    "ssliceservice\210\001\001b\006proto3"
+                    "esult\030\002 \001(\t\"\177\n\nPortStatus\022\022\n\nidentifier\030" +
+                    "\001 \001(\t\022-\n\tport_type\030\002 \001(\0162\032.onossliceserv" +
+                    "ice.PortType\022.\n\006status\030\003 \001(\0162\036.onosslice" +
+                    "service.DeviceStatus\"\313\001\n\024DeviceStatusRes" +
+                    "ponse\022\022\n\nidentifier\030\001 \001(\t\022\021\n\tparent_id\030\002" +
+                    " \001(\t\022*\n\004type\030\003 \001(\0162\034.onossliceservice.De" +
+                    "viceType\022.\n\006status\030\004 \001(\0162\036.onossliceserv" +
+                    "ice.DeviceStatus\0220\n\nportStatus\030\005 \003(\0132\034.o" +
+                    "nossliceservice.PortStatus\"N\n\017GetETCDRes" +
+                    "ponse\022*\n\004type\030\001 \001(\0162\034.onossliceservice.R" +
+                    "esultType\022\017\n\007results\030\002 \001(\t*#\n\nResultType" +
+                    "\022\010\n\004FAIL\020\000\022\013\n\007SUCCESS\020\001*3\n\007DbaType\022\023\n\017DB" +
+                    "A_TYPE_SR_DBA\020\000\022\023\n\017DBA_TYPE_CO_DBA\020\001* \n\014" +
+                    "DeviceStatus\022\006\n\002UP\020\000\022\010\n\004DOWN\020\001*T\n\nDevice" +
+                    "Type\022\r\n\tWB_OLT_1G\020\000\022\016\n\nWB_OLT_10G\020\001\022\016\n\nW" +
+                    "B_OLT_25G\020\002\022\016\n\nWB_OLT_50G\020\003\022\007\n\003ONU\020\004*>\n\010" +
+                    "PortType\022\013\n\007PONPORT\020\000\022\013\n\007UNIPORT\020\001\022\013\n\007NN" +
+                    "IPORT\020\002\022\013\n\007ANIPORT\020\0032\372\002\n\014SliceService\022b\n" +
+                    "\rAddSliceGroup\022&.onossliceservice.AddSli" +
+                    "ceGroupRequest\032\'.onossliceservice.AddSli" +
+                    "ceGroupResponse\"\000\022S\n\010AddSlice\022!.onosslic" +
+                    "eservice.AddSliceRequest\032\".onossliceserv" +
+                    "ice.AddSliceResponse\"\000\022_\n\014DeviceReport\022%" +
+                    ".onossliceservice.DeviceStatusRequest\032&." +
+                    "onossliceservice.DeviceStatusResponse0\001\022" +
+                    "P\n\007GetETCD\022 .onossliceservice.GetETCDReq" +
+                    "uest\032!.onossliceservice.GetETCDResponse\"" +
+                    "\000Bp\n\037org.etri.onosslice.sliceserviceB\020ON" +
+                    "OSSliceServiceZ8github.com/opencord/volt" +
+                    "ha-protos/v4/go/onossliceservice\210\001\001b\006pro" +
+                    "to3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
             .internalBuildGeneratedFileFrom(descriptorData,
@@ -9739,13 +10135,13 @@ public final class ONOSSliceService {
     internal_static_onossliceservice_PortStatus_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
             internal_static_onossliceservice_PortStatus_descriptor,
-            new java.lang.String[] { "Identifier", "Status", });
+            new java.lang.String[] { "Identifier", "PortType", "Status", });
     internal_static_onossliceservice_DeviceStatusResponse_descriptor =
             getDescriptor().getMessageTypes().get(9);
     internal_static_onossliceservice_DeviceStatusResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
             internal_static_onossliceservice_DeviceStatusResponse_descriptor,
-            new java.lang.String[] { "Identifier", "Type", "Status", "PortStatus", });
+            new java.lang.String[] { "Identifier", "ParentId", "Type", "Status", "PortStatus", });
     internal_static_onossliceservice_GetETCDResponse_descriptor =
             getDescriptor().getMessageTypes().get(10);
     internal_static_onossliceservice_GetETCDResponse_fieldAccessorTable = new

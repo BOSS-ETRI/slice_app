@@ -11,12 +11,14 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class OLTDevice {
     private DeviceId deviceId;
     private C.WB_TYPE wbType;
+    private String name;
     private ConcurrentHashMap<String, PonPort> ports; // port Name, PortManager
 
     private final Logger log = getLogger(getClass());
-    public OLTDevice(DeviceId oltDeviceId, C.WB_TYPE wbType) {
+    public OLTDevice(DeviceId oltDeviceId, C.WB_TYPE wbType, String name) {
         this.deviceId = oltDeviceId;
         this.wbType = wbType;
+        this.name = name;
         this.ports = new ConcurrentHashMap<>();
     }
 
@@ -56,4 +58,6 @@ public class OLTDevice {
     public String getDeviceId() {
         return deviceId.toString();
     }
+    public String getDeviceType() { return wbType.toString(); }
+    public String getName() {return name;}
 }

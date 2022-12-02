@@ -14,26 +14,110 @@ import static org.etri.slice.impl.C.BW_UPDATE_OP.ADD;
 import static org.etri.slice.impl.C.RESULTS.*;
 
 public class Manager {
+    public static int MAX_OLT_NUMBERS = 1000;
+    public static int MAX_ONU_NUMBERS = 10000;
     private int maxSlices;
+    private int maxOlts;
+    private int maxOnus;
     private int numberOfSlices;
+    private int numberOfOLTs;
+    private int numberOfONUs;
     private ConcurrentHashMap<String, SliceGroup> sliceGroups;
     private ConcurrentHashMap<String, SliceInstance> sliceInstances;
     private ConcurrentHashMap<DeviceId, OLTDevice> oltDevices;
+    private ConcurrentHashMap<DeviceId, Integer> onuDevices;
     private ConcurrentHashMap<String, PonPort> ponPorts;
     private ConcurrentHashMap<Integer, C.USED> sliceIds;
+    private ConcurrentHashMap<Integer, C.USED> oltIds;
+    private ConcurrentHashMap<Integer, C.USED> onuIds;
 
     public Manager(int maxSlices) {
         this.maxSlices = maxSlices;
+        this.maxOlts = MAX_OLT_NUMBERS;
+        this.maxOnus = MAX_ONU_NUMBERS;
+
         numberOfSlices = 0;
+        numberOfOLTs = 0;
+        numberOfONUs = 0;
         sliceGroups = new ConcurrentHashMap<>();
         sliceInstances = new ConcurrentHashMap<>();
         oltDevices = new ConcurrentHashMap<>();
+        onuDevices = new ConcurrentHashMap<>();
         ponPorts = new ConcurrentHashMap<>();
         sliceIds = new ConcurrentHashMap<>();
+        oltIds = new ConcurrentHashMap<>();
+        onuIds = new ConcurrentHashMap<>();
 
         for( int n = 0; n < maxSlices; n++ ) {
             sliceIds.putIfAbsent(n, C.USED.NO);
         }
+
+        for( int n = 0; n < maxOlts; n++ ) {
+            oltIds.putIfAbsent(n, C.USED.NO);
+        }
+
+        for( int n = 0; n < maxOnus; n++ ) {
+            onuIds.putIfAbsent(n, C.USED.NO);
+        }
+    }
+
+    private int getEmptyONUId(boolean mark) {
+        int onuId = -1;
+
+        if( numberOfONUs < maxOnus ) {
+            for (Integer id : onuIds.keySet()) {
+                if (onuIds.get(id) == C.USED.NO) {
+                    onuId = id;
+
+                    if (mark) {
+                        onuIds.put(id, C.USED.YES);
+                        numberOfONUs = numberOfONUs + 1;
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        return onuId;
+    }
+
+    public String getEmptyONUName(String onuSerialNum, boolean mark) {
+        DeviceId deviceId = DeviceId.deviceId(onuSerialNum);
+
+        if( onuDevices.containsKey(deviceId) ) {
+            return "ONU-" + onuDevices.get(deviceId);
+        }
+
+        int onuId = getEmptyONUId(mark);
+        onuDevices.put(deviceId, onuId);
+        return "ONU-" + onuId;
+    }
+
+    private int getEmptyOLTId(boolean mark) {
+        int oltId = -1;
+
+        if( numberOfOLTs < maxOlts ) {
+            for (Integer id : oltIds.keySet()) {
+                if (oltIds.get(id) == C.USED.NO) {
+                    oltId = id;
+
+                    if (mark) {
+                        oltIds.put(id, C.USED.YES);
+                        numberOfOLTs = numberOfOLTs + 1;
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        return oltId;
+    }
+
+    private String getEmptyOLTName(boolean mark) {
+        int oltId = getEmptyOLTId(mark);
+        return "OLT-" + oltId;
     }
 
     public int getEmptySliceId(boolean mark) {
@@ -65,7 +149,7 @@ public class Manager {
     public C.RESULTS addOLTDevice(DeviceId deviceId, C.WB_TYPE wbType) {
         if( oltDevices.containsKey(deviceId) ) return DUPLICATE;
 
-        OLTDevice newDevice = new OLTDevice(deviceId, wbType);
+        OLTDevice newDevice = new OLTDevice(deviceId, wbType, getEmptyOLTName(true));
         oltDevices.put(deviceId, newDevice);
 
         return SUCCESS;
@@ -172,6 +256,17 @@ public class Manager {
     }
     public List<DeviceId> getOLTDeviceIds() { return (List<DeviceId>) oltDevices.keys(); }
     public OLTDevice getOLTDevice(DeviceId deviceId) { return oltDevices.get(deviceId); }
+    public OLTDevice getOLTDevice(String macAddress) {
+        DeviceId deviceId = DeviceId.deviceId(macAddress);
+        return oltDevices.get(deviceId);
+    }
+    public String getOLTDeviceName(String macAddress) {
+        DeviceId deviceId = DeviceId.deviceId(macAddress);
+        if( !oltDevices.containsKey(deviceId) ) {
+            return null;
+        }
+        return oltDevices.get(deviceId).getName();
+    }
 
     public List<String> getPonPortNames() { return (List<String>) ponPorts.keys(); }
     public PonPort getPonPort(String ponPortName) { return ponPorts.get(ponPortName); }

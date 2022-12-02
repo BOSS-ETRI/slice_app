@@ -18,6 +18,7 @@ package org.etri.slice.api;
 import org.etri.slice.impl.C;
 import org.etri.slice.impl.OLTDevice;
 import org.etri.slice.impl.SliceInstance;
+import org.etri.slice.impl.gui.PhysicalInfo;
 import org.onlab.packet.VlanId;
 import org.onosproject.event.ListenerService;
 import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest;
@@ -49,5 +50,5 @@ public interface SliceCtrlService {
 
     // for GUI
     List<OLTDevice> getOLTDevices();
-    String getTopology();
+    List<PhysicalInfo> getTopology();
 }

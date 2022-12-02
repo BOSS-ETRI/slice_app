@@ -22,7 +22,7 @@ public class OLTDeviceTest {
     @Test
     public void test10DevicePortAdd() {
         DeviceId devId = DeviceId.deviceId("test-device");
-        OLTDevice devManager = new OLTDevice(devId, OLT_10G);
+        OLTDevice devManager = new OLTDevice(devId, OLT_10G, "olt-1");
 
         devManager.addPonPort("port-1");
         devManager.addPonPort("port-2");
@@ -39,7 +39,7 @@ public class OLTDeviceTest {
     @Test
     public void test25DevicePortAdd() {
         DeviceId devId = DeviceId.deviceId("test-device");
-        OLTDevice devManager = new OLTDevice(devId, OLT_25G);
+        OLTDevice devManager = new OLTDevice(devId, OLT_25G, "olt-1");
 
         devManager.addPonPort("port-1");
         devManager.addPonPort("port-2");
@@ -57,8 +57,8 @@ public class OLTDeviceTest {
     public void testTwoDevicesPortAdd() {
         DeviceId devId1 = DeviceId.deviceId("test-device1");
         DeviceId devId2 = DeviceId.deviceId("test-device2");
-        OLTDevice devManager1 = new OLTDevice(devId1, OLT_10G);
-        OLTDevice devManager2 = new OLTDevice(devId2, OLT_25G);
+        OLTDevice devManager1 = new OLTDevice(devId1, OLT_10G, "olt-1");
+        OLTDevice devManager2 = new OLTDevice(devId2, OLT_25G, "olt-2");
 
         devManager1.addPonPort("port-1");
         devManager2.addPonPort("port-2");
