@@ -76,27 +76,47 @@ public class DeviceReportStreamObserver implements StreamObserver<DeviceStatusRe
 
     @Override
     public void onNext(DeviceStatusResponse report) {
-        String oltId = report.getIdentifier();
-        WB_TYPE oltType = getWhitboxType(report.getType());
+        String id = report.getIdentifier();
+        WB_TYPE type = getWhitboxType(report.getType());
         DeviceStatus status = report.getStatus();
+        String parentId = report.getParentId();
+
+        log.info("{");
+        log.info("id=" + id);
+        log.info(", type=" + type);
+        log.info(", status=" + status);
+        log.info(", parentId=" + parentId);
+
+        log.info(", ports=[");
+        if( report.getPortStatusList() != null ) {
+            for( PortStatus portStatus : report.getPortStatusList() ) {
+                log.info("{");
+                log.info("id=" + portStatus.getIdentifier());
+                log.info("status=" + portStatus.getStatus());
+                log.info("type=" + portStatus.getPortType());
+                log.info("},");
+            }
+        }
+        log.info("}]");
+        log.info("}");
 
         switch(status) {
             case UP:
                 // "0000" is appended due to ONF policy
                 // check ONF's vOLT CLI use case for volt-add-subscriber command
                 // essentially oltId is going to be "0000" + mac address of the device
-                oltId = "0000" + oltId;
-                DeviceId devId = DeviceId.deviceId(oltId);
-                RESULTS result = manager.addOLTDevice(devId, oltType);
-
-                if( result == RESULTS.DUPLICATE ) {
-                    log.info("OLT Device(" + oltId + ") is already in the list");
-                }
-                else {
-                    log.info("OLT Device(" + oltId + ") is successfully added to the list");
-                    List<PortStatus> portStatuses = report.getPortStatusList();
-                    addPorts(manager, devId, portStatuses);
-                }
+//                oltId = "0000" + oltId;
+//                DeviceId devId = DeviceId.deviceId(oltId);
+//                RESULTS result = manager.addOLTDevice(devId, oltType);
+//
+//                if( result == RESULTS.DUPLICATE ) {
+//                    log.info("OLT Device(" + oltId + ") is already in the list");
+//                }
+//                else {
+//                    log.info("OLT Device(" + oltId + ") is successfully added to the list");
+//                    List<PortStatus> portStatuses = report.getPortStatusList();
+//                    addPorts(manager, devId, portStatuses);
+//                }
                 break;
 
             case DOWN:
