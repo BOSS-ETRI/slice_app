@@ -42,6 +42,9 @@ public class DeviceReportStreamObserver implements StreamObserver<DeviceStatusRe
             case WB_OLT_50G:
                 type = WB_TYPE.OLT_50G;
                 break;
+            case ONU:
+                type = WB_TYPE.ONU;
+                break;
         }
 
         return type;

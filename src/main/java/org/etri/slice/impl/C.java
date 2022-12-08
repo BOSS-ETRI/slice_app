@@ -31,7 +31,8 @@ public class C {
         OLT_1G,
         OLT_10G,
         OLT_25G,
-        OLT_50G
+        OLT_50G,
+        ONU
     }
     public enum PORT_TYPE {
         PORT_1G,
