@@ -17,10 +17,12 @@ package org.etri.slice.api;
 
 import org.etri.slice.impl.C;
 import org.etri.slice.impl.OLTDevice;
+import org.etri.slice.impl.SliceGroup;
 import org.etri.slice.impl.SliceInstance;
 import org.etri.slice.impl.gui.PhysicalInfo;
+import org.etri.slice.impl.gui.SliceInstanceInfo;
+import org.etri.slice.impl.gui.SubscriberInfo;
 import org.onlab.packet.VlanId;
-import org.onosproject.event.ListenerService;
 import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceRequest;
 import org.etri.onosslice.sliceservice.ONOSSliceService.AddSliceResponse;
 import org.etri.sis.SliceProfileInformation;
@@ -36,9 +38,6 @@ public interface SliceCtrlService {
     SliceProfileInformation provisionSlice(String sliceName);
     AddSliceResponse addSlice(AddSliceRequest request);
 //
-    SliceInstance getSliceInstance(String groupName, String sliceName);
-    List<SliceInstance> getSliceInstances();
-
     C.RESULTS addOLTDevice(DeviceId deviceId, C.WB_TYPE wbType);
     C.RESULTS addPonPort(DeviceId deviceId, String portName);
     C.RESULTS addSliceGroup(String groupName, DeviceId deviceId, String ponPortName, int totalBandwidth);
@@ -48,7 +47,16 @@ public interface SliceCtrlService {
     C.RESULTS provisionSubscriber(ConnectPoint cp);
     C.RESULTS provisionSubscriber(ConnectPoint cp, VlanId cTag, VlanId sTag, Integer tpId);
 
+    // for CLI
+    SliceInstance getSliceInstance(String groupName, String sliceName);
+    List<SliceInstance> getSliceInstances();
+    SliceGroup getSliceGroup(String groupName);
+    String getTrafficContainers(String sliceName);
+
     // for GUI
     List<OLTDevice> getOLTDevices();
-    List<PhysicalInfo> getTopology();
+    List<PhysicalInfo> getPhysicalInfo();
+    List<PhysicalInfo> removeDuplatePhysicalInfo(List<PhysicalInfo> physicalInfos);
+    List<SliceInstanceInfo> getSliceInstanceInfo(List<PhysicalInfo> physicalInfos);
+    List<SubscriberInfo> getSubscriberInfo(List<SliceInstanceInfo> sliceInstanceInfos);
 }

@@ -3,6 +3,7 @@ package org.etri.slice.impl;
 import org.onosproject.net.Device;
 import org.onosproject.net.DeviceId;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -199,7 +200,9 @@ public class Manager {
         SliceGroup sliceGroup = sliceGroups.get(groupName);
 
         if( sliceGroup.updateRemainedBandwidth(ADD, allocBandwidth) == SUCCESS ) {
-            SliceInstance newInstance = new SliceInstance(sliceName,
+            SliceInstance newInstance = new SliceInstance(
+                    sliceGroup,
+                    sliceName,
                     uniPort,
                     allocBandwidth,
                     dbaAlg
@@ -252,9 +255,9 @@ public class Manager {
     }
 
     public List<String> getSliceInstances() {
-        return (List<String>) sliceInstances.keys();
+        return new ArrayList<>(sliceInstances.keySet());
     }
-    public List<DeviceId> getOLTDeviceIds() { return (List<DeviceId>) oltDevices.keys(); }
+    public List<DeviceId> getOLTDeviceIds() { return new ArrayList<>(oltDevices.keySet()); }
     public OLTDevice getOLTDevice(DeviceId deviceId) { return oltDevices.get(deviceId); }
     public OLTDevice getOLTDevice(String macAddress) {
         DeviceId deviceId = DeviceId.deviceId(macAddress);

@@ -16,11 +16,12 @@
 package org.etri.slice.impl;
 
 import com.google.gson.Gson;
-import org.etri.onosslice.sliceservice.ONOSSliceService;
 import org.etri.onosslice.sliceservice.ONOSSliceService.UniTags;
 import org.etri.onosslice.sliceservice.ONOSSliceService.BandwidthInfos;
 import org.etri.sis.*;
 import org.etri.slice.impl.gui.PhysicalInfo;
+import org.etri.slice.impl.gui.SliceInstanceInfo;
+import org.etri.slice.impl.gui.SubscriberInfo;
 import org.onlab.packet.VlanId;
 import org.onosproject.cfg.ComponentConfigService;
 import org.onosproject.core.CoreService;
@@ -38,8 +39,6 @@ import org.onosproject.utils.Comparators;
 import org.opencord.aaa.AuthenticationService;
 import org.opencord.aaa.AuthenticationRecord;
 import org.opencord.olt.AccessDeviceService;
-import org.opencord.olt.AccessDevicePort;
-import org.opencord.olt.ServiceKey;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -54,7 +53,6 @@ import org.slf4j.LoggerFactory;
 import org.etri.slice.api.SliceCtrlService;
 import org.onosproject.net.device.DeviceService;
 
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import static org.etri.slice.impl.C.RESULTS.*;
@@ -215,6 +213,9 @@ public class Slice implements SliceCtrlService {
     	return response;
     }
 
+    public SliceGroup getSliceGroup(String groupName) {
+        return manager.getSliceGroup(groupName);
+    }
     public SliceInstance getSliceInstance(String groupName, String sliceName) {
         return manager.getSliceInstance(groupName, sliceName);
     }
@@ -228,6 +229,11 @@ public class Slice implements SliceCtrlService {
         }
 
         return sliceInstances;
+    }
+
+    public String getTrafficContainers(String sliceName) {
+        SliceProfileInformation spi = sliceService.get(sliceName);
+        return spi.trafficContainers();
     }
 
     @Override
@@ -397,15 +403,18 @@ public class Slice implements SliceCtrlService {
             return ENTRY_NOT_FOUND;
         }
 
-        C.RESULTS result = sliceInstance.updateRemainedBandwidth(C.BW_UPDATE_OP.ADD, (int)reqCir);
-        if (result == INSUFFICIENT_BANDWIDTH) {
-            log.info("Bandwidth is insufficient in the slice instance (" + upSliceProfile + ")");
-            return INSUFFICIENT_BANDWIDTH;
+        C.RESULTS result = sliceInstance.addSubscriber(portName, (int)reqCir);
+        if( result != SUCCESS ) {
+            return result;
         }
 
-        sliceInstance.addSubscriber(portName, (int)reqCir);
+//        result = sliceInstance.updateRemainedBandwidth(C.BW_UPDATE_OP.ADD, (int)reqCir);
+//        if (result != SUCCESS ) {
+//            return result;
+//        }
 
         accessDeviceService.provisionSubscriber(cp);
+
         return SUCCESS;
     }
 
@@ -427,28 +436,33 @@ public class Slice implements SliceCtrlService {
         return oltDevices;
     }
 
-    public List<PhysicalInfo> getTopology() {
+    public List<PhysicalInfo> getPhysicalInfo() {
         GetETCDRequest reqBuilder = GetETCDRequest.newBuilder().build();
-        String topologyJson = client.GetETCD(reqBuilder).getResults();
+        String physicalInfoJson = client.GetETCD(reqBuilder).getResults();
 
-        if( topologyJson == "null" ) {
+        if( physicalInfoJson == "null" ) {
             return null;
         }
 
         System.out.println("hello");
-        System.out.println(topologyJson);
+        System.out.println(physicalInfoJson);
 
         Gson gson = new Gson();
-        PhysicalInfo[] physicalInfoArray = gson.fromJson(topologyJson, PhysicalInfo[].class);
+        PhysicalInfo[] physicalInfoArray = gson.fromJson(physicalInfoJson, PhysicalInfo[].class);
         for(int i=0; i<physicalInfoArray.length; i++) {
             System.out.println(physicalInfoArray[i]);
         }
-        List<PhysicalInfo> copyPhysicalInfos = Arrays.asList(physicalInfoArray);
+        return Arrays.asList(physicalInfoArray);
+    }
+    public List<PhysicalInfo> removeDuplatePhysicalInfo(List<PhysicalInfo> physicalInfos) {
         List<PhysicalInfo> result = new ArrayList<>();
 
-        for(PhysicalInfo info : copyPhysicalInfos) {
+        for(PhysicalInfo info : physicalInfos) {
             String OfMacAddress = info.getOLTId();
             info.ParentId = manager.getOLTDeviceName(OfMacAddress);
+            if (manager.getOLTDevice(OfMacAddress) == null) {
+                continue;
+            }
             info.DeviceType = manager.getOLTDevice(OfMacAddress).getDeviceType();
             info.DeviceId = manager.getEmptyONUName(info.DeviceId, true);
             info.DeviceIds.add(info.DeviceId);
@@ -471,6 +485,87 @@ public class Slice implements SliceCtrlService {
             }
 
         }
+
+        return result;
+    }
+
+    public List<SliceInstanceInfo> getSliceInstanceInfo(List<PhysicalInfo> physicalInfos) {
+        List<SliceInstanceInfo> result = new ArrayList<>();
+
+        for(PhysicalInfo physicalInfo : physicalInfos) {
+            for( String sliceName : manager.getSliceInstances()) {
+                SliceInstance sliceInstance = manager.getSliceInstance(sliceName);
+
+                if(sliceInstance != null ) {
+                    String uniPortNameInSlice = sliceInstance.getUniPortName();
+                    String uniPortNameInPhyInfo = Integer.toString(physicalInfo.PortNum);
+
+                    if( uniPortNameInSlice.equals(uniPortNameInPhyInfo) ) {
+                        SliceProfileInformation spi = sliceService.get(sliceName);
+                        SliceInstanceInfo sliceInstanceInfo = new SliceInstanceInfo();
+
+                        sliceInstanceInfo.SliceName = sliceInstance.getName();
+                        sliceInstanceInfo.DBAType = sliceInstance.getDBAType();
+                        sliceInstanceInfo.OLTId = manager.getOLTDeviceName(sliceInstance.getOLTId());
+                        sliceInstanceInfo.PonPort = sliceInstance.getPonPortName();
+                        sliceInstanceInfo.ONUId = physicalInfo.DeviceId;
+                        sliceInstanceInfo.UniPort = sliceInstance.getUniPortName();
+                        sliceInstanceInfo.tConts = spi.trafficContainers();
+                        sliceInstanceInfo.AllocBandwidth = sliceInstance.getAllocatedBandwidth();
+                        sliceInstanceInfo.RemainedBandwidth = sliceInstance.getRemainedBandwidth();
+                        result.add(sliceInstanceInfo);
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public List<SubscriberInfo> getSubscriberInfo(List<SliceInstanceInfo> sliceInstanceInfos) {
+        List<SubscriberInfo> result = new ArrayList<>();
+
+        sliceInstanceInfos.forEach(sliceInstanceInfo -> {
+            String sliceName = sliceInstanceInfo.SliceName;
+            List<String> subscribers = manager.getSliceInstance(sliceName).getSubscribers();
+
+            subscribers.forEach(subscriber -> {
+                SubscriberInfo subscriberInfo = new SubscriberInfo();
+                subscriberInfo.SubscriberId = subscriber;
+                subscriberInfo.SliceName = sliceInstanceInfo.SliceName;
+                subscriberInfo.DBAType = sliceInstanceInfo.DBAType;
+                subscriberInfo.OLTId = sliceInstanceInfo.OLTId;
+                subscriberInfo.PonPort = sliceInstanceInfo.PonPort;
+                subscriberInfo.ONUId = sliceInstanceInfo.ONUId;
+                subscriberInfo.UniPort = sliceInstanceInfo.UniPort;
+
+                SubscriberAndDeviceInformation subscriberProfile = subsService.get(subscriber);
+                if( subscriberProfile != null ) {
+                    String upBandwidthProfile = null;
+
+                    if( subscriberProfile.uniTagList() != null && subscriberProfile.uniTagList().size() > 0) {
+                        UniTagInformation uti = subscriberProfile.uniTagList().get(0);
+                        subscriberInfo.PonCTag = uti.getPonCTag().toString();
+                        subscriberInfo.PonSTag = uti.getPonSTag().toString();
+
+                        upBandwidthProfile = uti.getUpstreamBandwidthProfile();
+                    }
+
+                    if( upBandwidthProfile != null ) {
+                        BandwidthProfileInformation bpi = bpService.get(upBandwidthProfile);
+
+                        if( bpi != null ) {
+                            subscriberInfo.CIR = bpi.committedInformationRate();
+                            subscriberInfo.CBS = bpi.committedBurstSize();
+                            subscriberInfo.PIR = bpi.peakInformationRate();
+                            subscriberInfo.PBS = bpi.peakBurstSize();
+                        }
+                    }
+                }
+
+                result.add(subscriberInfo);
+            });
+        });
 
         return result;
     }

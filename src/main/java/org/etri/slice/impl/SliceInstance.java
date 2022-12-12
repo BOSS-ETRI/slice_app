@@ -1,12 +1,7 @@
 package org.etri.slice.impl;
 
-import io.netty.util.internal.ConcurrentSet;
-import org.onosproject.net.DeviceId;
-
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -20,14 +15,17 @@ public class SliceInstance extends BandwidthModifier{
     private int sliceId;
     private C.DBA_ALG dbaAlg;
 
+    private SliceGroup sliceGroup;
+
     private OLTDevice deviceId;
     private PonPort ponPort;
     private String uniPort;
     private List<String> subscriberIds;
     private ConcurrentMap<String, Integer> bandwidthBySubscribers;
 
-    public SliceInstance(String sliceName, String uniPort,
+    public SliceInstance(SliceGroup sliceGroup, String sliceName, String uniPort,
                          int allocBandwidth, C.DBA_ALG dbaAlg) {
+        this.sliceGroup = sliceGroup;
         this.sliceName = sliceName;
         this.allocBandwidth = allocBandwidth;
         this.remainedBandwidth = allocBandwidth;
@@ -83,9 +81,16 @@ public class SliceInstance extends BandwidthModifier{
         return false;
     }
 
-    public String getSliceName() {
+    public String getGroupName() { return sliceGroup.getName(); }
+    public String getName() {
         return sliceName;
     }
+    public String getUniPortName() { return uniPort; }
+    public String getDBAType() { return dbaAlg.toString(); }
+    public String getOLTId() { return sliceGroup.getDeviceId(); }
+    public String getPonPortName() { return sliceGroup.getPonPort().getPortName(); }
+    public String getSubscribersStr() { return subscriberIds.toString(); }
+    public List<String> getSubscribers() { return subscriberIds; }
 
     @Override
     public String toString() {

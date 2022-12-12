@@ -3,6 +3,7 @@ package org.etri.slice.impl;
 import org.onosproject.net.Device;
 import org.onosproject.net.DeviceId;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,6 +35,9 @@ public class SliceGroup extends BandwidthModifier{
     public SliceInstance getSliceInstance(String sliceName) {
         return this.sliceInstances.get(sliceName);
     }
+    public List<SliceInstance> getSliceInstances() {
+        return new ArrayList<>(this.sliceInstances.values());
+    }
 
     public PonPort getPonPort() {
         return this.ponPort;
@@ -46,4 +50,5 @@ public class SliceGroup extends BandwidthModifier{
     public String getDeviceId() {
         return this.deviceId.getDeviceId();
     }
+    public String getName() { return this.groupName; }
 }

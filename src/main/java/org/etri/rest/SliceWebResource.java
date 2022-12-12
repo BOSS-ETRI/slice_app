@@ -3,26 +3,21 @@ package org.etri.rest;
 import com.google.gson.Gson;
 import org.etri.slice.api.SliceCtrlService;
 import org.etri.slice.impl.gui.PhysicalInfo;
-import org.onosproject.cli.AbstractShellCommand;
+import org.etri.slice.impl.gui.SliceInstanceInfo;
+import org.etri.slice.impl.gui.SubscriberInfo;
+import org.etri.slice.impl.gui.TopologyInfo;
 import org.onosproject.rest.AbstractWebResource;
 import org.slf4j.Logger;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import java.util.List;
-import java.util.Optional;
 
-import static javax.ws.rs.core.Response.Status.INTERNAL_SERVER_ERROR;
 import static org.slf4j.LoggerFactory.getLogger;
-import org.etri.slice.impl.*;
 
 /**
  * OLT REST APIs.
@@ -51,25 +46,22 @@ public class SliceWebResource extends AbstractWebResource {
     public Response getTopology() {
         log.info("getTopology() called from GUI application");
 
-        SliceCtrlService service = get(SliceCtrlService.class);
-        List<PhysicalInfo> physicalInfos = service.getTopology();
+        TopologyInfo topologyInfo = new TopologyInfo();
 
-        return Response.ok(new Gson().toJson(physicalInfos))
+        SliceCtrlService service = get(SliceCtrlService.class);
+        List<PhysicalInfo> physicalInfos = service.getPhysicalInfo();
+        topologyInfo.physicalInfo = service.removeDuplatePhysicalInfo(physicalInfos);
+
+        List<SliceInstanceInfo> sliceInstanceInfos = service.getSliceInstanceInfo(physicalInfos);
+        topologyInfo.sliceInstanceInfo = sliceInstanceInfos;
+
+        List<SubscriberInfo> subscriberInfos = service.getSubscriberInfo(sliceInstanceInfos);
+        topologyInfo.subscriberInfo = subscriberInfos;
+
+        log.info(new Gson().toJson(topologyInfo));
+
+        return Response.ok(new Gson().toJson(topologyInfo))
                 .header("Access-Control-Allow-Origin", "*")
                 .build();
     }
-
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Path("slices")
-//    public Response getSlices() {
-//        log.info("getSlices() called from GUI application");
-//
-//        SliceCtrlService service = get(SliceCtrlService.class);
-//        List<SliceInstance> sliceInstances = service.getSliceInstances();
-//
-//        return Response.ok(new Gson().toJson(physicalInfos))
-//                .header("Access-Control-Allow-Origin", "*")
-//                .build();
-//    }
 }
