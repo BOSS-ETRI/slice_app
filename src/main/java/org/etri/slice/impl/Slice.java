@@ -471,11 +471,15 @@ public class Slice implements SliceCtrlService {
                 result.add(info);
             }
             else {
+		List<PhysicalInfo> subResult = new ArrayList<>();
+
                 for(PhysicalInfo topology : result) {
                     if(!topology.equals(info)) {
-                        result.add(info);
+			subResult.add(info);
                     }
                 }
+
+		result.addAll(subResult);
             }
 
             for(PhysicalInfo topology : result) {
